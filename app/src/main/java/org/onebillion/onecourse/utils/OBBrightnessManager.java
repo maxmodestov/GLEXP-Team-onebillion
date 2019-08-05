@@ -28,32 +28,32 @@ public class OBBrightnessManager
 
     public static void setBrightness (final float value)
     {
-        OBUtils.runOnMainThread(new OBUtils.RunLambda()
-        {
-            @Override
-            public void run () throws Exception
-            {
-                try
-                {
-//                    MainActivity.log("setBrightness (has write settings permission --> " + OBSystemsManager.sharedManager.hasWriteSettingsPermission() + ")");
-                    int valueForSettings = Math.round(value * 255);
-                    if (OBSystemsManager.sharedManager.hasWriteSettingsPermission())
-                    {
-                        Settings.System.putInt(MainActivity.mainActivity.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, valueForSettings);
-                        Settings.System.putInt(MainActivity.mainActivity.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
-                        WindowManager.LayoutParams layoutpars = MainActivity.mainActivity.getWindow().getAttributes();
-                        layoutpars.screenBrightness = value;
-                        MainActivity.mainActivity.getWindow().setAttributes(layoutpars);
-                        OBSystemsManager.sharedManager.refreshStatus();
-                        MainActivity.log("Brightness has been set to: " + value + " --> " + valueForSettings);
-                    }
-                }
-                catch (Exception e)
-                {
-//                    e.printStackTrace();
-                }
-            }
-        });
+//        OBUtils.runOnMainThread(new OBUtils.RunLambda()
+//        {
+//            @Override
+//            public void run () throws Exception
+//            {
+//                try
+//                {
+////                    MainActivity.log("setBrightness (has write settings permission --> " + OBSystemsManager.sharedManager.hasWriteSettingsPermission() + ")");
+//                    int valueForSettings = Math.round(value * 255);
+//                    if (OBSystemsManager.sharedManager.hasWriteSettingsPermission())
+//                    {
+//                        Settings.System.putInt(MainActivity.mainActivity.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, valueForSettings);
+//                        Settings.System.putInt(MainActivity.mainActivity.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
+//                        WindowManager.LayoutParams layoutpars = MainActivity.mainActivity.getWindow().getAttributes();
+//                        layoutpars.screenBrightness = value;
+//                        MainActivity.mainActivity.getWindow().setAttributes(layoutpars);
+//                        OBSystemsManager.sharedManager.refreshStatus();
+//                        MainActivity.log("Brightness has been set to: " + value + " --> " + valueForSettings);
+//                    }
+//                }
+//                catch (Exception e)
+//                {
+////                    e.printStackTrace();
+//                }
+//            }
+//        });
     }
 
     public float maxBrightness ()
@@ -264,32 +264,32 @@ public class OBBrightnessManager
 
     public void disableBrightnessAdjustment ()
     {
-        OBUtils.runOnMainThread(new OBUtils.RunLambda()
-        {
-            @Override
-            public void run () throws Exception
-            {
-                MainActivity.log("OBBrightnessManager.disabling brightness adjustment");
-                MainActivity.mainActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                MainActivity.mainActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-                if (OBSystemsManager.sharedManager.hasWriteSettingsPermission())
-                {
-                    int valueForSettings = Math.round(maxBrightness() * 255);
-                    Settings.System.putInt(MainActivity.mainActivity.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, valueForSettings);
-                    Settings.System.putInt(MainActivity.mainActivity.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
-                    Settings.System.putInt(MainActivity.mainActivity.getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, getScreenMaxTimeout());
-                    WindowManager.LayoutParams layoutpars = MainActivity.mainActivity.getWindow().getAttributes();
-                    layoutpars.screenBrightness = maxBrightness();
-                    MainActivity.mainActivity.getWindow().setAttributes(layoutpars);
-                    OBSystemsManager.sharedManager.refreshStatus();
-                    suspended = true;
-                }
-                else
-                {
-                    MainActivity.log("OBBrightnessManager.does not have write settings permission. unable to revert changes for brightness management");
-                }
-            }
-        });
+//        OBUtils.runOnMainThread(new OBUtils.RunLambda()
+//        {
+//            @Override
+//            public void run () throws Exception
+//            {
+//                MainActivity.log("OBBrightnessManager.disabling brightness adjustment");
+//                MainActivity.mainActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+//                MainActivity.mainActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+//                if (OBSystemsManager.sharedManager.hasWriteSettingsPermission())
+//                {
+//                    int valueForSettings = Math.round(maxBrightness() * 255);
+//                    Settings.System.putInt(MainActivity.mainActivity.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, valueForSettings);
+//                    Settings.System.putInt(MainActivity.mainActivity.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
+//                    Settings.System.putInt(MainActivity.mainActivity.getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, getScreenMaxTimeout());
+//                    WindowManager.LayoutParams layoutpars = MainActivity.mainActivity.getWindow().getAttributes();
+//                    layoutpars.screenBrightness = maxBrightness();
+//                    MainActivity.mainActivity.getWindow().setAttributes(layoutpars);
+//                    OBSystemsManager.sharedManager.refreshStatus();
+//                    suspended = true;
+//                }
+//                else
+//                {
+//                    MainActivity.log("OBBrightnessManager.does not have write settings permission. unable to revert changes for brightness management");
+//                }
+//            }
+//        });
     }
 
 
@@ -316,23 +316,23 @@ public class OBBrightnessManager
 
     public void setScreenSleepTimeToMax ()
     {
-        MainActivity.log("OBBrightnessManager.setScreenSleepTimeToMax");
-        //
-        MainActivity.mainActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        MainActivity.mainActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-        //
-        setScreenTimeout(getScreenMaxTimeout());
+//        MainActivity.log("OBBrightnessManager.setScreenSleepTimeToMax");
+//        //
+//        MainActivity.mainActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+//        MainActivity.mainActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+//        //
+//        setScreenTimeout(getScreenMaxTimeout());
     }
 
 
     public void setScreenSleepTimeToMin ()
     {
-        MainActivity.log("OBBrightnessManager.setScreenSleepTimeToMin");
-        //
-        MainActivity.mainActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        MainActivity.mainActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-        //
-        setScreenTimeout(1);
+//        MainActivity.log("OBBrightnessManager.setScreenSleepTimeToMin");
+//        //
+//        MainActivity.mainActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+//        MainActivity.mainActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+//        //
+//        setScreenTimeout(1);
     }
 
 
