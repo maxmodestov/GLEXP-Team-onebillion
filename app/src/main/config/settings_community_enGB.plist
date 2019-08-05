@@ -259,16 +259,16 @@
 
 	<!-- DEBUG -->
 	<key>debug_enabled</key>
-	<string>false</string>
+	<string>true</string>
 	<!--  -->
 	<key>debug_show_test_menu</key>
 	<string>false</string>
 	<!--  -->
 	<key>debug_show_back_arrow</key>
-	<string>false</string>
+	<string>true</string>
 	<!--  -->
 	<key>debug_show_unit_id</key>
-	<string>false</string>
+	<string>true</string>
 	<!--  -->
     <key>debug_jump_to_setup_password</key>
 	<string>obxprize</string>
