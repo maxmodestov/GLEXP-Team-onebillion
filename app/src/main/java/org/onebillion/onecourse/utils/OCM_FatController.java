@@ -1,12 +1,16 @@
 package org.onebillion.onecourse.utils;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.PointF;
 import android.os.Handler;
+import android.text.InputType;
 import android.util.ArrayMap;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import org.onebillion.onecourse.R;
@@ -977,6 +981,12 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
         initDB();
         //
         timeoutHandler = new Handler();
+
+//        runNextMenu();
+        showSelectStartupActivityDialog();
+    }
+
+    private void runNextMenu() {
         // Setup screen
         Boolean usesSetupMenu = OBConfigManager.sharedManager.isSetupMenuEnabled();
         Boolean isSetupComplete = OBPreferenceManager.getBooleanPreference(OBPreferenceManager.PREFERENCES_SETUP_COMPLETE);
@@ -984,55 +994,97 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
         if(trialTimestamp < 0 && currentTimeIsDirty())
             isSetupComplete = false;
         //
-        if (usesSetupMenu && !isSetupComplete)
-        {
-            // before overriding the app_code save it in the preferences to restore after setup is complete
-            testMenuMode = true;
-            menuAppCode = OBConfigManager.sharedManager.getCurrentActivityFolder();
-            OBConfigManager.sharedManager.updateConfigPaths(OBConfigManager.sharedManager.getSetupMenuFolder(), true);
-            //
-            String setupClassName = OBConfigManager.sharedManager.getSetupMenuClassName();
-            if (setupClassName != null)
-            {
-                MainActivity.mainViewController.pushViewControllerWithName(setupClassName, false, true, "menu");
-            }
-        }
-        else
+//        if (usesSetupMenu && !isSetupComplete)
+//        {
+//            runSetupMenu();
+//        }
+//        else
         {
             //
             if (showTestMenu())
             {
-                MainViewController().pushViewControllerWithName("OC_TestMenu", false, false, "menu");
+                runTestMenu();
             }
             else
             {
-                testMenuMode = false;
-                // setup is now complete: continue as usual
-                prepareAlarm();
-                //
-                resetTempData();
-                // restore app_code is it's coming from setup
-                if (menuAppCode != null)
-                {
-                    OBConfigManager.sharedManager.updateConfigPaths(menuAppCode, true);
-                }
-                //
-                String menuClassName = OBConfigManager.sharedManager.getMenuClassName();
-                String appCode = OBConfigManager.sharedManager.getCurrentActivityFolder();
-                //
-                MainActivity.log("OC_FatController:startUp: pushing view controller [%s] [%s]", menuClassName, appCode);
-                //
-                if (menuClassName != null && appCode != null)
-                {
-                    OBBrightnessManager.sharedManager.onContinue();
-                    if (!MainViewController().pushViewControllerWithNameConfig(menuClassName, appCode, false, true, null, true))
-                    {
-                        MainActivity.log("OC_FatController:startUp:unable to load view controller [%s] [%s]", menuClassName, appCode);
-                    }
-                }
+                runMenu();
             }
-
         }
+    }
+
+    private void runSetupMenu() {
+        // before overriding the app_code save it in the preferences to restore after setup is complete
+        testMenuMode = true;
+        menuAppCode = OBConfigManager.sharedManager.getCurrentActivityFolder();
+        OBConfigManager.sharedManager.updateConfigPaths(OBConfigManager.sharedManager.getSetupMenuFolder(), true);
+        //
+        String setupClassName = OBConfigManager.sharedManager.getSetupMenuClassName();
+        MainActivity.log("OCM_FatController setupClassName " + setupClassName);
+        if (setupClassName != null)
+        {
+            MainActivity.mainViewController.pushViewControllerWithName(setupClassName, false, true, "menu");
+        }
+    }
+
+    private void runTestMenu() {
+        MainActivity.log("OCM_FatController shouldShowTestMenu");
+
+        MainViewController().pushViewControllerWithName("OC_TestMenu", false, false, "menu");
+    }
+
+    private void runMenu() {
+        runMenu(OBConfigManager.sharedManager.getMenuClassName());
+    }
+
+    private void runMenu(final String menuClassName) {
+        MainActivity.log("OCM_FatController shouldShowTestMenu else");
+
+        testMenuMode = false;
+        // setup is now complete: continue as usual
+        prepareAlarm();
+        //
+        resetTempData();
+        // restore app_code is it's coming from setup
+        if (menuAppCode != null)
+        {
+            OBConfigManager.sharedManager.updateConfigPaths(menuAppCode, true);
+        }
+        //
+        String appCode = OBConfigManager.sharedManager.getCurrentActivityFolder();
+        //
+        MainActivity.log("OCM_FatController:startUp: pushing view controller [%s] [%s]", menuClassName, appCode);
+        //
+        if (menuClassName != null && appCode != null)
+        {
+            OBBrightnessManager.sharedManager.onContinue();
+            if (!MainViewController().pushViewControllerWithNameConfig(menuClassName, appCode, false, true, null, true))
+            {
+                MainActivity.log("OC_FatController:startUp:unable to load view controller [%s] [%s]", menuClassName, appCode);
+            }
+        }
+    }
+
+    private void showSelectStartupActivityDialog() {
+        showSelectStartupActivityDialog(new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                runMenu();
+            }
+        }, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                runMenu("OC_SimpleListMenu");
+            }
+        });
+    }
+
+    private void showSelectStartupActivityDialog(final DialogInterface.OnClickListener childMenu, final DialogInterface.OnClickListener simpleListMenu) {
+        final AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.mainActivity);
+        alert.setTitle("Select Startup Activity");
+        alert.setPositiveButton("Child Menu", childMenu);
+        alert.setNeutralButton("All Units List", simpleListMenu);
+        alert.setCancelable(false);
+        alert.show();
     }
 
     private void quitToTopMenu()
