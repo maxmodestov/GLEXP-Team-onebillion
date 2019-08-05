@@ -34,6 +34,7 @@ import org.onebillion.onecourse.utils.OBSystemsManager;
 import org.onebillion.onecourse.utils.OBUtils;
 import org.onebillion.onecourse.utils.OBXMLManager;
 import org.onebillion.onecourse.utils.OBXMLNode;
+import org.onebillion.onecourse.utils.TimeProvider;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -256,7 +257,7 @@ public class OC_SimpleListMenu extends OBSectionController
         }
     }
 
-    List<MlUnit> loadUnitXML(String xmlPath)
+    private List<MlUnit> loadUnitXML(String xmlPath)
     {
         List<MlUnit> arr = new ArrayList<>();
         if(xmlPath != null)
@@ -286,10 +287,31 @@ public class OC_SimpleListMenu extends OBSectionController
         return arr;
     }
 
-    void loadUnits()
+    private void loadUnits()
     {
         String mlname = OBConfigManager.sharedManager.getMasterlist();
         masterList = loadUnitXML(String.format("masterlists/%s/units.xml", mlname));
+        removeRepeatExercisesFromUnitsList();
+        removeUnitsBeforeCurrentDay();
+    }
+
+    private void removeRepeatExercisesFromUnitsList() {
+        List<MlUnit> toBeRemoved = new ArrayList<>();
+        for (MlUnit unit: masterList) {
+            if (unit.key.endsWith(".repeat"))
+                toBeRemoved.add(unit);
+        }
+        masterList.removeAll(toBeRemoved);
+    }
+
+    private void removeUnitsBeforeCurrentDay() {
+        final int unitsInADay = 60;
+        int day = TimeProvider.getCurrentDayNumber();
+        int removeDays = day * unitsInADay;
+        if (removeDays >= masterList.size())
+            masterList = new ArrayList<>();
+        else
+            masterList = masterList.subList(removeDays, masterList.size());
     }
 
     public void prepare()
