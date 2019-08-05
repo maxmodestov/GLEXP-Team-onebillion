@@ -26,6 +26,7 @@ import org.onebillion.onecourse.utils.OBUtils;
 import org.onebillion.onecourse.utils.OBXMLManager;
 import org.onebillion.onecourse.utils.OBXMLNode;
 import org.onebillion.onecourse.utils.OB_Maths;
+import org.onebillion.onecourse.utils.TimeProvider;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -151,7 +152,7 @@ public class OC_JMenu extends OC_Menu
         else
             lastEventTime = MainViewController().lastTouchActivity;
         long nextEventTime = lastEventTime + (long)(intervalSecs * 1000);
-        long interval = nextEventTime - System.currentTimeMillis();
+        long interval = nextEventTime - TimeProvider.currentTimeMillis();
         if (interval > 0)
         {
             if (messageCheckRunnable == null)
@@ -186,7 +187,7 @@ public class OC_JMenu extends OC_Menu
             public void onClick(DialogInterface dialog, int id)
             {
                 showingMessage = false;
-                lastMessageShowTime = System.currentTimeMillis();
+                lastMessageShowTime = TimeProvider.currentTimeMillis();
                 scheduleMessageHandler();
             }});
         AlertDialog dialog = builder.create();
@@ -1226,7 +1227,7 @@ public class OC_JMenu extends OC_Menu
                 lastLastPoint.y = lastPoint.y;
                 lastlastMoveEvent = lastMoveEvent;
                 lastPoint.y = pt.y;
-                lastMoveEvent = System.currentTimeMillis();
+                lastMoveEvent = TimeProvider.currentTimeMillis();
             }
         }
         else if(status() == STATUS_DRAGGING)
@@ -1242,7 +1243,7 @@ public class OC_JMenu extends OC_Menu
                 lastLastPoint.y = lastPoint.y;
                 lastlastMoveEvent = lastMoveEvent;
                 lastPoint.y = pt.y;
-                lastMoveEvent = System.currentTimeMillis();
+                lastMoveEvent = TimeProvider.currentTimeMillis();
                 if (highlightedIcon != null)
                 {
                     if (OB_Maths.PointDistance(firstPoint,pt) > 6)
@@ -1417,7 +1418,7 @@ public class OC_JMenu extends OC_Menu
             lastEventTime = lastMessageShowTime;
         else
             lastEventTime = MainViewController().lastTouchActivity;
-        long untouchedInterval = System.currentTimeMillis() - lastEventTime;
+        long untouchedInterval = TimeProvider.currentTimeMillis() - lastEventTime;
         float utsecs = untouchedInterval / 1000f;
         if (utsecs > intervalSecs)
         {

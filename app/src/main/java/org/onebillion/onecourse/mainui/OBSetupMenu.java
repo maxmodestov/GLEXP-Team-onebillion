@@ -65,6 +65,7 @@ import org.apache.commons.net.ntp.TimeInfo;
 import org.onebillion.onecourse.utils.OB_Maths;
 import org.onebillion.onecourse.utils.OCM_FatController;
 import org.onebillion.onecourse.utils.OCM_User;
+import org.onebillion.onecourse.utils.TimeProvider;
 
 
 /**
@@ -309,7 +310,7 @@ public class OBSetupMenu extends OC_SectionController implements TimePickerDialo
         }
         if (date == null)
         {
-            date = new Date(System.currentTimeMillis());
+            date = new Date(TimeProvider.currentTimeMillis());
             fromServerTime = false;
         }
         final Boolean finalFromServerTime = fromServerTime;
@@ -658,7 +659,7 @@ public class OBSetupMenu extends OC_SectionController implements TimePickerDialo
                 //
                 Date currentDate = userSetDate;
                 if (currentDate == null) currentDate = serverDate;
-                if (currentDate == null) currentDate = new Date(System.currentTimeMillis());
+                if (currentDate == null) currentDate = new Date(TimeProvider.currentTimeMillis());
                 //
                 SimpleDateFormat currentDateFormat = new SimpleDateFormat("HH:mm   dd MMMM yyyy");
                 OBPath boxForLabel = (OBPath) currentDateField.propertyValue("box");
@@ -1018,7 +1019,7 @@ public class OBSetupMenu extends OC_SectionController implements TimePickerDialo
             {
                 try
                 {
-                    ((AlarmManager) MainActivity.mainActivity.getSystemService(Context.ALARM_SERVICE)).setTime(when);
+                    TimeProvider.setTime(when);
                 }
                 catch (Exception e)
                 {
@@ -1102,7 +1103,7 @@ public class OBSetupMenu extends OC_SectionController implements TimePickerDialo
     {
         Date currentDate = serverDate;
         if (currentDate == null) currentDate = userSetDate;
-        if (currentDate == null) currentDate = new Date(System.currentTimeMillis());
+        if (currentDate == null) currentDate = new Date(TimeProvider.currentTimeMillis());
         //
         try
         {
@@ -1111,7 +1112,7 @@ public class OBSetupMenu extends OC_SectionController implements TimePickerDialo
             //
             long timeInMillis = c.getTimeInMillis();
             //
-            ((AlarmManager) MainActivity.mainActivity.getSystemService(Context.ALARM_SERVICE)).setTime(timeInMillis);
+            TimeProvider.setTime(timeInMillis);
         }
         catch (Exception e)
         {

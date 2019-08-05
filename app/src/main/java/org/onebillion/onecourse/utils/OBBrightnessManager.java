@@ -20,7 +20,7 @@ public class OBBrightnessManager
     public OBBrightnessManager ()
     {
         sharedManager = this;
-        lastTouchTimeStamp = System.currentTimeMillis();
+        lastTouchTimeStamp = TimeProvider.currentTimeMillis();
         lastBrightness = 0f;
         paused = suspended = false;
     }
@@ -134,10 +134,10 @@ public class OBBrightnessManager
         {
             long interval = getBrightnessCheckInterval();
             //
-            long currentTime = System.currentTimeMillis();
+            long currentTime = TimeProvider.currentTimeMillis();
             long elapsed = currentTime - lastTouchTimeStamp;
             //
-            lastTouchTimeStamp = System.currentTimeMillis();
+            lastTouchTimeStamp = TimeProvider.currentTimeMillis();
             //
             if (elapsed > interval || forceRefresh)
             {
@@ -186,7 +186,7 @@ public class OBBrightnessManager
         }
         //
         long checkIntervalMS = OBConfigManager.sharedManager.getBrightnessCheckIntervalInSeconds() * 1000;
-        long currentTimeStamp = System.currentTimeMillis();
+        long currentTimeStamp = TimeProvider.currentTimeMillis();
         long elapsed = currentTimeStamp - lastTouchTimeStamp;
         String batteryLevelKey = OBSystemsManager.sharedManager.getBatterySettingKeyForCurrentLevel();
         float maxBrightness = OBConfigManager.sharedManager.getBatteryMaxBrightnessForLevel(batteryLevelKey);

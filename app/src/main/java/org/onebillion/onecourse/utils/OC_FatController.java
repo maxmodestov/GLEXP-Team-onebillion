@@ -79,7 +79,7 @@ public class OC_FatController extends OBFatController
 
     public long getCurrentTime()
     {
-        return  System.currentTimeMillis()/1000;
+        return  TimeProvider.currentTimeMillis()/1000;
     }
 
     public void loadMasterListIntoDB()

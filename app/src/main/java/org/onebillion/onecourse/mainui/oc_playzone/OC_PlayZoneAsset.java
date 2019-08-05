@@ -12,6 +12,7 @@ import org.onebillion.onecourse.utils.DBObject;
 import org.onebillion.onecourse.utils.DBSQL;
 import org.onebillion.onecourse.utils.MlUnit;
 import org.onebillion.onecourse.utils.OBUtils;
+import org.onebillion.onecourse.utils.TimeProvider;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -89,7 +90,7 @@ public class OC_PlayZoneAsset extends DBObject
             contentValues.put("thumbnail",thumbnail);
         contentValues.put("userid",userid);
         contentValues.put("deleted",0);
-        contentValues.put("createTime", (long)(System.currentTimeMillis()/1000));
+        contentValues.put("createTime", (long)(TimeProvider.currentTimeMillis()/1000));
 
         return db.doInsertOnTable(DBSQL.TABLE_PLAYZONE_ASSETS,contentValues);
     }

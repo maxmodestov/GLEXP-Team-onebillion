@@ -38,6 +38,7 @@ import org.onebillion.onecourse.utils.OB_Maths;
 import org.onebillion.onecourse.utils.OCM_FatController;
 import org.onebillion.onecourse.utils.OCM_MlUnit;
 import org.onebillion.onecourse.utils.OCM_MlUnitInstance;
+import org.onebillion.onecourse.utils.TimeProvider;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -316,7 +317,7 @@ public class OC_PlayZoneMenu extends OC_Menu
 
         if(status() == STATUS_AWAITING_CLICK && mediaIsPlaying)
         {
-            long time =  System.currentTimeMillis();
+            long time =  TimeProvider.currentTimeMillis();
             if((time-lastTouchTime) < 1000 &&
                     OB_Maths.PointDistance(pt, lastTouchPoint) < applyGraphicScale(TOUCH_TOLERANCE))
             {
@@ -331,7 +332,7 @@ public class OC_PlayZoneMenu extends OC_Menu
             target = null;
             if(iconsScrollMode)
                 mediaIconsGroup.setProperty("animate", true);
-            long time = System.currentTimeMillis();
+            long time = TimeProvider.currentTimeMillis();
             if((time-lastTouchTime) < 1000 &&
                     dragTravelDistance < applyGraphicScale(TOUCH_TOLERANCE))
             {
@@ -439,7 +440,7 @@ public class OC_PlayZoneMenu extends OC_Menu
         {
             public void run() throws Exception
             {
-                lastTouchTime = System.currentTimeMillis();
+                lastTouchTime = TimeProvider.currentTimeMillis();
                 lastTouchPoint = pt;
                 dragTravelDistance = 0;
                 iconsScrollMode = false;
@@ -515,7 +516,7 @@ public class OC_PlayZoneMenu extends OC_Menu
         mediaIconsGroup.setProperty("animate", false);
         mediaIconsGroup.setZPosition(mediaIconsGroup.zPosition() - 10);
         iconsScrollMode = true;
-        lastTouchTime = System.currentTimeMillis();
+        lastTouchTime = TimeProvider.currentTimeMillis();
         lastTouchPoint = OBMisc.copyPoint(mediaIconsGroup.position());
         final long time = setStatus(STATUS_DRAGGING);
         if (!iconsDeleteMode && icon != null)
@@ -551,7 +552,7 @@ public class OC_PlayZoneMenu extends OC_Menu
             iconsScrollMode = false;
             btn.setZPosition(btn.zPosition() - 10);
             prepareForSpeedMeasure(btn);
-            lastTouchTime = System.currentTimeMillis();
+            lastTouchTime = TimeProvider.currentTimeMillis();
             lastTouchPoint = OBMisc.copyPoint(btn.position());
             setStatus(STATUS_DRAGGING);
         }
@@ -608,11 +609,11 @@ public class OC_PlayZoneMenu extends OC_Menu
         long time = setStatus(STATUS_AWAITING_CLICK);
         OBScrollingText scrollableControl = (OBScrollingText) currentMediaLayer.propertyValue("scrollable_text");
         long currentTime, lastLoopTime;
-        currentTime = lastLoopTime = System.currentTimeMillis();
+        currentTime = lastLoopTime = TimeProvider.currentTimeMillis();
         float scrollSpeed = (float)scrollableControl.propertyValue("speedy");
         while(time == statusTime && !_aborting && Math.abs(scrollSpeed) > applyGraphicScale(0.01f))
         {
-            currentTime = System.currentTimeMillis();
+            currentTime = TimeProvider.currentTimeMillis();
             float frameFrac = (currentTime - lastLoopTime)*1.0f/(TICK_VALUE*1000.0f) ;
             moveScrollableText(scrollableControl,frameFrac);
             lastLoopTime = currentTime;
@@ -625,7 +626,7 @@ public class OC_PlayZoneMenu extends OC_Menu
         if(con == null)
             return;
         PointF currentLoc = OBMisc.copyPoint(con.position());
-        long currentTime = System.currentTimeMillis();
+        long currentTime = TimeProvider.currentTimeMillis();
         long lastTime = (long)con.propertyValue("last_action");
         if(currentTime == lastTime)
             return;
@@ -647,7 +648,7 @@ public class OC_PlayZoneMenu extends OC_Menu
         if(con == null)
             return;
 
-        long currentTime = System.currentTimeMillis();
+        long currentTime = TimeProvider.currentTimeMillis();
         long lastTime = (long)con.propertyValue("last_action");
         if(currentTime == lastTime)
             return;
@@ -667,7 +668,7 @@ public class OC_PlayZoneMenu extends OC_Menu
 
     public void prepareForSpeedMeasure(OBControl con)
     {
-        con.setProperty("last_action",System.currentTimeMillis());
+        con.setProperty("last_action",TimeProvider.currentTimeMillis());
         con.setProperty("last_drag",OBMisc.copyPoint(con.position()));
         con.setProperty("speedx",0.0f);
         con.setProperty("speedy",0.0f);
@@ -677,7 +678,7 @@ public class OC_PlayZoneMenu extends OC_Menu
 
     public void prepareForSpeedMeasure(OBScrollingText con)
     {
-        con.setProperty("last_action",System.currentTimeMillis());
+        con.setProperty("last_action",TimeProvider.currentTimeMillis());
         con.setProperty("last_drag",OBMisc.copyPoint(con.position()));
         con.setProperty("last_offset",con.yOffset());
         con.setProperty("speedx",0.0f);
@@ -710,7 +711,7 @@ public class OC_PlayZoneMenu extends OC_Menu
     {
         prepareForSpeedMeasure(mediaIconsGroup);
         animateFloat= true;
-        lastFloatLoopTick =  System.currentTimeMillis();
+        lastFloatLoopTick =  TimeProvider.currentTimeMillis();
         OBAnimationGroup ag = new OBAnimationGroup();
         OBAnim anim = new OBAnimBlock()
         {
@@ -724,7 +725,7 @@ public class OC_PlayZoneMenu extends OC_Menu
 
         for(OBControl button : menuButtons)
         {
-            button.setProperty("squish_time",System.currentTimeMillis());
+            button.setProperty("squish_time",TimeProvider.currentTimeMillis());
             button.setProperty("squish_angle",(float)Math.toRadians(OB_Maths.randomInt(1, 360)));
             if(reloadMoves)
                 setControlSpeed(button,randomBubbleSpeed(),randomBubbleSpeed());
@@ -742,7 +743,7 @@ public class OC_PlayZoneMenu extends OC_Menu
 
     public void floatLoop()
     {
-        long currentTime = System.currentTimeMillis();
+        long currentTime = TimeProvider.currentTimeMillis();
         float frameFrac = (currentTime - lastFloatLoopTick)/(TICK_VALUE*1000.0f);
         for(OBControl button : menuButtons)
         {
@@ -766,7 +767,7 @@ public class OC_PlayZoneMenu extends OC_Menu
         float startAngle = (float)Math.toRadians(5);
         float endAngle = (float)Math.toRadians(-5);
         long shakeTime = 700;
-        float frac = OB_Maths.clamp01(((System.currentTimeMillis()- iconShakeStartTime ) % shakeTime)*1.0f/shakeTime);
+        float frac = OB_Maths.clamp01(((TimeProvider.currentTimeMillis()- iconShakeStartTime ) % shakeTime)*1.0f/shakeTime);
         float currentAngle = startAngle;
         float midFrac = 0;
         if(frac <= 0.5)
@@ -1138,7 +1139,7 @@ public class OC_PlayZoneMenu extends OC_Menu
             icon.objectDict.get("cross").show();
         }
         unlockScreen();
-        iconShakeStartTime = System.currentTimeMillis();
+        iconShakeStartTime = TimeProvider.currentTimeMillis();
     }
 
     public void stopIconShake()

@@ -1,6 +1,5 @@
 package org.onebillion.onecourse.mainui.oc_community;
 
-import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -35,7 +34,6 @@ import org.onebillion.onecourse.controls.OBPath;
 import org.onebillion.onecourse.controls.OBPresenter;
 import org.onebillion.onecourse.mainui.MainActivity;
 import org.onebillion.onecourse.mainui.OBSectionController;
-import org.onebillion.onecourse.mainui.OBSetupMenu;
 import org.onebillion.onecourse.mainui.OC_Menu;
 import org.onebillion.onecourse.utils.OBAnalytics;
 import org.onebillion.onecourse.utils.OBAnalyticsManager;
@@ -53,6 +51,8 @@ import org.onebillion.onecourse.utils.OCM_FatController;
 import org.onebillion.onecourse.utils.OCM_FatReceiver;
 import org.onebillion.onecourse.utils.OCM_MlUnit;
 import org.onebillion.onecourse.utils.OCM_MlUnitInstance;
+import org.onebillion.onecourse.utils.DayPickerPopup;
+import org.onebillion.onecourse.utils.TimeProvider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,7 +60,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by michal on 03/08/2017.
@@ -1842,7 +1841,8 @@ public class OCM_ChildMenu extends OC_Menu implements OCM_FatReceiver, TimePicke
                 {
                     if (OBConfigManager.sharedManager.isCommunityModeOverrideEnabled())
                     {
-                        showPasswordCheckDialog();
+                        DayPickerPopup.showDialog();
+                        //showPasswordCheckDialog();
                     }
                     secretBoxTouchIndex = 0;
                 }
@@ -2001,7 +2001,7 @@ public class OCM_ChildMenu extends OC_Menu implements OCM_FatReceiver, TimePicke
         {
             try
             {
-                ((AlarmManager) MainActivity.mainActivity.getSystemService(Context.ALARM_SERVICE)).setTime(when);
+                TimeProvider.setTime(when);
             }
             catch (Exception e)
             {

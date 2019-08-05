@@ -80,7 +80,7 @@ public class OBVideoRecorder
         {
             recording = true;
 
-            timeRecordingStart = timeLastSound = timeFirstSound = System.currentTimeMillis();
+            timeRecordingStart = timeLastSound = timeFirstSound = TimeProvider.currentTimeMillis();
             mediaRecorder.start();
             if(audioLength > 0)
             {
@@ -150,7 +150,7 @@ public class OBVideoRecorder
     {
         if(recording && !sectionController.get()._aborting)
         {
-            long currentTime = System.currentTimeMillis();
+            long currentTime = TimeProvider.currentTimeMillis();
             int val = getAverangePower();
             // Log.d(this.getClass().getName(), String.format("Power: %d",val));
             if(val > voiceThreshold)

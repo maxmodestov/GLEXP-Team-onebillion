@@ -24,6 +24,7 @@ import org.onebillion.onecourse.utils.OBUtils;
 import org.onebillion.onecourse.utils.OBXMLManager;
 import org.onebillion.onecourse.utils.OBXMLNode;
 import org.onebillion.onecourse.utils.OB_Maths;
+import org.onebillion.onecourse.utils.TimeProvider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -292,7 +293,7 @@ public class OC_BubbleWrap extends OC_SectionController
                     popLoop();
             }
         };
-        lastPopLoopTick = System.currentTimeMillis();
+        lastPopLoopTick = TimeProvider.currentTimeMillis();
         ag.applyAnimations(Arrays.asList(anim),100,false,OBAnim.ANIM_LINEAR,-1,null,this);
         registerAnimationGroup(ag,"poploop");
     }
@@ -307,7 +308,7 @@ public class OC_BubbleWrap extends OC_SectionController
     {
         float TICK_VALUE = 0.0025f;
         float POP_SPEED = 0.01f;
-        long currentTime = System.currentTimeMillis();
+        long currentTime = TimeProvider.currentTimeMillis();
         float frameFrac =(currentTime - lastPopLoopTick) /(TICK_VALUE*1000.0f);
         boolean popComplete = true;
         for(List<OBGroup> arr : currentPopArray)

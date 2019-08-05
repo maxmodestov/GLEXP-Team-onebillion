@@ -45,6 +45,7 @@ import org.onebillion.onecourse.utils.OCM_FatController;
 import org.onebillion.onecourse.utils.OCM_MlUnit;
 import org.onebillion.onecourse.utils.OCM_MlUnitInstance;
 import org.onebillion.onecourse.utils.ScrollingHelper;
+import org.onebillion.onecourse.utils.TimeProvider;
 
 /**
  * Created by michal on 13/03/2017.
@@ -344,7 +345,7 @@ public class OC_Library extends OC_Menu
             float width = icon.width() * 0.5f;
             PointF startPos = OBMisc.copyPoint(bookLine.position());
             float frac = 0;
-            long starttime = System.currentTimeMillis();
+            long starttime = TimeProvider.currentTimeMillis();
             float duration = 0.35f * Math.abs(dist) / width;
             if (duration <= 0)
                 return;
@@ -353,7 +354,7 @@ public class OC_Library extends OC_Menu
 
             while (time == (long) bookLine.propertyValue("time") && frac < 1)
             {
-                frac = (System.currentTimeMillis() - starttime) / (duration * 1000);
+                frac = (TimeProvider.currentTimeMillis() - starttime) / (duration * 1000);
                 frac = OB_Maths.easein(frac);
                 lockScreen();
                 bookLine.setPosition(startPos.x - dist * frac, bookLine.position().y);
@@ -367,7 +368,7 @@ public class OC_Library extends OC_Menu
 
     public void measureGroupSpeed(OBGroup bookLine)
     {
-        long time = System.currentTimeMillis();
+        long time = TimeProvider.currentTimeMillis();
         long lastTime = (long)bookLine.propertyValue("last_scroll");
         float lastScrollSpeed = (float)bookLine.propertyValue("scrollSpeed");
         PointF lastPosition = (PointF)bookLine.propertyValue("last_loc") ;

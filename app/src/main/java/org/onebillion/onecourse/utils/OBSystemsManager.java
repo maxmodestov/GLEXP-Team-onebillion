@@ -1297,7 +1297,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
         String value_string = OBPreferenceManager.getStringPreference("lastBackupTimeStamp");
         if (value_string == null) return true;
         long value = Long.parseLong(value_string);
-        long currentTime = System.currentTimeMillis() / 1000;
+        long currentTime = TimeProvider.currentTimeMillis() / 1000;
         long elapsed = currentTime - value;
         boolean result = elapsed > OBConfigManager.sharedManager.getBackupIntervalInMinutes() * 60;
         MainActivity.log("OBSystemsManager.isBackupRequired --> " + result);
@@ -1469,7 +1469,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
                         if (result)
                         {
                             MainActivity.log("OBSystemsManager.backup_uploadDatabase_ftp updating lastBackupTimeStamp");
-                            long currentTime = System.currentTimeMillis() / 1000;
+                            long currentTime = TimeProvider.currentTimeMillis() / 1000;
                             OBPreferenceManager.setPreference("lastBackupTimeStamp", String.format("%d", currentTime));
                             //
                             OBUtils.runOnMainThread(new OBUtils.RunLambda()
@@ -1582,7 +1582,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
                 httpUrlConnection.disconnect();
                 //
                 MainActivity.log("OBSystemsManager.backup_uploadDatabase_php updating lastBackupTimeStamp");
-                long currentTime = System.currentTimeMillis() / 1000;
+                long currentTime = TimeProvider.currentTimeMillis() / 1000;
                 OBPreferenceManager.setPreference("lastBackupTimeStamp", String.format("%d", currentTime));
                 //
                 MainActivity.log("OBSystemsManager.backup_uploadDatabase_php disconnecting from wifi");
@@ -1721,7 +1721,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
         {
             try
             {
-                ((AlarmManager) context.getSystemService(Context.ALARM_SERVICE)).setTime(when);
+                TimeProvider.setTime(when);
             } catch (Exception e)
             {
                 MainActivity.log("Exception caught while trying to set the Date");
@@ -1744,7 +1744,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
         {
             try
             {
-                ((AlarmManager) context.getSystemService(Context.ALARM_SERVICE)).setTime(when);
+                TimeProvider.setTime(when);
             } catch (Exception e)
             {
                 MainActivity.log("Exception caught while trying to set the Time");
@@ -1855,7 +1855,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
     {
         try
         {
-            ((AlarmManager) MainActivity.mainActivity.getSystemService(Context.ALARM_SERVICE)).setTime(timestamp);
+            TimeProvider.setTime(timestamp);
         } catch (Exception e)
         {
             MainActivity.log("OBSystemManager:setSystemTime: Exception caught while trying to set the Date");

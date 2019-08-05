@@ -34,6 +34,7 @@ import org.onebillion.onecourse.utils.OBFatController;
 import org.onebillion.onecourse.utils.OBUtils;
 import org.onebillion.onecourse.utils.OB_Maths;
 import org.onebillion.onecourse.utils.OCM_FatController;
+import org.onebillion.onecourse.utils.TimeProvider;
 
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -660,7 +661,7 @@ public class OC_PlayZoneTypewrite extends OC_SectionController
     {
         touchDownX = pt.x;
         touchDownY = pt.y;
-        touchDownTime = System.currentTimeMillis();
+        touchDownTime = TimeProvider.currentTimeMillis();
         if(status() == STATUS_AWAITING_CLICK  && !keyboardLocked)
         {
             if(textBoxGroup.frame().contains(pt.x, pt.y))
@@ -670,7 +671,7 @@ public class OC_PlayZoneTypewrite extends OC_SectionController
                 dragStartTouchY = pt.y;
                 dragStartTextOffset = textBox.yOffset();
                 lastAmt = dragStartTextOffset;
-                lastAmtTime = System.currentTimeMillis() / 1000f;
+                lastAmtTime = TimeProvider.currentTimeMillis() / 1000f;
                 dragSpeed = 0;
                 OBControl cursor = objectDict.get("cursor");
                 if (cursor != null)
@@ -782,7 +783,7 @@ public class OC_PlayZoneTypewrite extends OC_SectionController
             if(textBoxGroup.frame().contains(pt.x, pt.y))
             {
                 lastAmt = textBox.yOffset();
-                double thisTime = System.currentTimeMillis() / 1000.0;
+                double thisTime = TimeProvider.currentTimeMillis() / 1000.0;
                 lockScreen();
                 float yMoved = pt.y - dragStartTouchY;
                 float amt = dragStartTextOffset + yMoved;
@@ -801,7 +802,7 @@ public class OC_PlayZoneTypewrite extends OC_SectionController
             return false;
         if(textBoxGroup.frame().contains(pt.x, pt.y))
         {
-            if (System.currentTimeMillis() - touchDownTime > 500)
+            if (TimeProvider.currentTimeMillis() - touchDownTime > 500)
                 return false;
             if (OB_Maths.PointDistance(pt.x,pt.y,touchDownX,touchDownY) > applyGraphicScale(25))
                 return false;

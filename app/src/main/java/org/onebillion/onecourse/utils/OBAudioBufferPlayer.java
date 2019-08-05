@@ -608,7 +608,7 @@ public class OBAudioBufferPlayer extends OBGeneralAudioPlayer
         if (isPlaying())
             stopPlaying();
         playWhenReady = true;
-        playToken = System.currentTimeMillis();
+        playToken = TimeProvider.currentTimeMillis();
         prepare(afd);
     }
 

@@ -39,9 +39,7 @@ import org.onebillion.onecourse.controls.OBControl;
 import org.onebillion.onecourse.controls.OBGroup;
 import org.onebillion.onecourse.glstuff.OBGLView;
 import org.onebillion.onecourse.glstuff.OBRenderer;
-import org.onebillion.onecourse.utils.OBAnalytics;
 import org.onebillion.onecourse.utils.OBAnalyticsManager;
-import org.onebillion.onecourse.utils.OBAnalyticsManagerOnline;
 import org.onebillion.onecourse.utils.OBAudioManager;
 import org.onebillion.onecourse.utils.OBConfigManager;
 import org.onebillion.onecourse.utils.OBFatController;
@@ -140,12 +138,12 @@ public class MainActivity extends Activity
         return arm;
     }
 
-
     @Override
-    protected void onCreate (Bundle savedInstanceState)
+    protected void onCreate (final Bundle savedInstanceState)
     {
         MainActivity.log("MainActivity.onCreate");
-        //
+        mainActivity = this;
+
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         systemsManager = new OBSystemsManager(this);

@@ -28,6 +28,7 @@ import org.onebillion.onecourse.utils.OBUtils;
 import org.onebillion.onecourse.utils.OBXMLManager;
 import org.onebillion.onecourse.utils.OBXMLNode;
 import org.onebillion.onecourse.utils.OB_Maths;
+import org.onebillion.onecourse.utils.TimeProvider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -695,7 +696,7 @@ public class OC_VideoPlayback extends OC_SectionController
         //
         //OBAnalyticsManager.sharedManager.playZoneVideoWatched(videoID);
         if(shouldCollectMiscData())
-            watchedVideos.put(System.currentTimeMillis()/1000,videoID);
+            watchedVideos.put(TimeProvider.currentTimeMillis()/1000,videoID);
         //
         String movieName = OBUtils.stringByAppendingPathComponent(movieFolder, movie);
         OBControl placeHolder = objectDict.get("video_video");
@@ -924,7 +925,7 @@ public class OC_VideoPlayback extends OC_SectionController
             lastLastPoint.x = lastPoint.x;
             lastlastMoveEvent = lastMoveEvent;
             lastPoint.x = pt.x;
-            lastMoveEvent = System.currentTimeMillis();
+            lastMoveEvent = TimeProvider.currentTimeMillis();
         }
     }
 

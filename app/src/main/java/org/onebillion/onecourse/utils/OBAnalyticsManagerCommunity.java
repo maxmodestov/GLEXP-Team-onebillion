@@ -90,7 +90,7 @@ public class OBAnalyticsManagerCommunity extends OBAnalyticsManager
     {
         if (!OBConfigManager.sharedManager.isAnalyticsEnabled()) return;
         //
-        long currentTime = System.currentTimeMillis();
+        long currentTime = TimeProvider.currentTimeMillis();
         JSONObject parameters = new JSONObject(properties);
         //
         DBSQL db = null;

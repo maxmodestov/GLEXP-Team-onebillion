@@ -73,7 +73,7 @@ public class OBAnalyticsManagerOnline extends OBAnalyticsManager
     @Override
     public void uploadData()
     {
-        lastDataUploadTimestamp = System.currentTimeMillis();
+        lastDataUploadTimestamp = TimeProvider.currentTimeMillis();
         //
         MainActivity.log("OBAnalyticsManagerOnline.uploadData.disabling airplane mode");
         OBConnectionManager.sharedManager.connectToNetwork_setAirplaneMode(false, new OBUtils.RunLambdaWithSuccess()
@@ -146,7 +146,7 @@ public class OBAnalyticsManagerOnline extends OBAnalyticsManager
             }
         });
         //
-        long currentTime = System.currentTimeMillis();
+        long currentTime = TimeProvider.currentTimeMillis();
         // TODO: move the time frame for uploads to the config (1hour)
         if (currentTime - lastDataUploadTimestamp > 1000 * 60 * 60 * 1)
         {

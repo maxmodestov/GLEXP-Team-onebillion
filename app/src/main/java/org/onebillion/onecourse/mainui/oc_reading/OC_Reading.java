@@ -23,6 +23,7 @@ import org.onebillion.onecourse.utils.OBXMLManager;
 import org.onebillion.onecourse.utils.OBXMLNode;
 import org.onebillion.onecourse.utils.OBUtils;
 import org.onebillion.onecourse.utils.OB_Maths;
+import org.onebillion.onecourse.utils.TimeProvider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -421,7 +422,7 @@ public class OC_Reading extends OC_SectionController
     {
         if (_aborting)
             return;
-        collectNextAppearanceTime = System.currentTimeMillis();
+        collectNextAppearanceTime = TimeProvider.currentTimeMillis();
         lockScreen();
         showNextArrow(show);
         if (show)
@@ -994,7 +995,7 @@ public class OC_Reading extends OC_SectionController
     {
         if (!_aborting && !MainViewController().navigating && status()!= STATUS_FINISHING)
         {
-            long currTime = System.currentTimeMillis();
+            long currTime = TimeProvider.currentTimeMillis();
             collectNextButtonPressDuration = (currTime - collectNextAppearanceTime) / 1000f;
             final Class c = this.getClass();
             setStatus(STATUS_FINISHING);

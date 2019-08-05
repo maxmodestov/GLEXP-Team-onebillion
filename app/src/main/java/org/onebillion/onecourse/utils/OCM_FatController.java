@@ -8,9 +8,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.PointF;
 import android.os.Handler;
-import android.text.InputType;
 import android.util.ArrayMap;
-import android.widget.EditText;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.onebillion.onecourse.R;
@@ -25,7 +24,6 @@ import org.onebillion.onecourse.mainui.oc_playzone.OC_PlayZoneAsset;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.sql.Array;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -318,7 +316,8 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
      */
     public boolean currentTimeIsDirty()
     {
-        return timestampIsDirty(System.currentTimeMillis());
+//        return false;
+        return timestampIsDirty(TimeProvider.currentTimeMillis());
     }
 
     public boolean timestampIsDirty(long timestampMillis)
@@ -341,22 +340,24 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
      */
     public long getCurrentTime()
     {
-        return  System.currentTimeMillis()/1000;
+        return  TimeProvider.currentTimeMillis()/1000;
     }
 
     public int getCurrentDay()
     {
-        if(startDate == null)
-            return 1;
+        return TimeProvider.getCurrentDayNumber();
 
-        if(!currentTimeIsDirty())
-        {
-            return getDaysSinceStartDate();
-        }
-        else
-        {
-            return currentSessionDay;
-        }
+//        if(startDate == null)
+//            return 1;
+//
+//        if(!currentTimeIsDirty())
+//        {
+//            return getDaysSinceStartDate();
+//        }
+//        else
+//        {
+//            return currentSessionDay;
+//        }
     }
 
     /**
@@ -945,8 +946,22 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
     }
 
     @Override
-    public void startUp()
-    {
+    public void startUp() {
+        DayPickerPopup.showDialog(new DayPickerPopup.OnCloseListener() {
+            @Override
+            public void onClose() {
+                OBUtils.runOnMainThread(new OBUtils.RunLambda() {
+                    @Override
+                    public void run() {
+
+                        proceedStartingUp();
+                    }
+                });
+            }
+        });
+    }
+
+    void proceedStartingUp() {
         // initial setup
         //DBSQL.deleteDB();
         unitInstancesList = new ArrayList<>();
@@ -1081,7 +1096,7 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
     private void showSelectStartupActivityDialog(final DialogInterface.OnClickListener childMenu, final DialogInterface.OnClickListener simpleListMenu) {
         final AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.mainActivity);
         alert.setTitle("Select Startup Activity");
-        alert.setPositiveButton("Child Menu", childMenu);
+        alert.setPositiveButton("Proceed", childMenu);
         alert.setNeutralButton("All Units List", simpleListMenu);
         alert.setCancelable(false);
         alert.show();
@@ -2173,6 +2188,8 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
         {
             e.printStackTrace();
         }
+
+        currentSessionDay = TimeProvider.getCurrentDayNumber();
     }
 
     /**
@@ -2285,6 +2302,9 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
             currentSessionDay = getDaysSinceStartDate();
         }
 
+        currentSessionDay = TimeProvider.getCurrentDayNumber();
+        Log.d("OCM_FatController", "prepareNewSessionInDB: currentSessionDay " + currentSessionDay);
+
         ContentValues contentValues = new ContentValues();
         contentValues.put("userid", userid);
         contentValues.put("sessionid", sessionid);
@@ -2312,6 +2332,7 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
 
     public boolean startCurrentSession()
     {
+        Log.d("OCM_FatController", "startCurrentSession: ready to start " + currentSessionReadyToStart());
         if(!currentSessionReadyToStart())
             return false;
 
@@ -2327,6 +2348,9 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
             ContentValues contentValues = new ContentValues();
             contentValues.put("startTime",currentSessionStartTime);
             contentValues.put("workTime",currentSessionWorkTime);
+            Log.d("OCM_FatController", "currentTimeIsDirty: " + currentTimeIsDirty());
+            Log.d("OCM_FatController", "currentSessionDay: " + currentSessionDay);
+            Log.d("OCM_FatController", "getCurrentDay: " + getCurrentDay());
             if(!currentTimeIsDirty() && currentSessionDay != getCurrentDay())
             {
                 currentSessionDay = getCurrentDay();
@@ -2389,7 +2413,7 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
                 int days = getDaysSinceTimestamp(setupTimestamp);
                 if (Math.abs(days) < 14)
                 {
-                    trialTimestamp = OBUtils.timestampForDateOnly(System.currentTimeMillis());
+                    trialTimestamp = OBUtils.timestampForDateOnly(TimeProvider.currentTimeMillis());
                 }
                 else
                 {
@@ -2403,26 +2427,35 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
         return false;
     }
 
-    public void loadStartDate()
-    {
-        long trialTimestamp = OBPreferenceManager.getLongPreference(OBPreferenceManager.PREFERENCES_TRIAL_START_TIMESTAMP);
-        if (trialTimestamp > 0)
-        {
-            startDate = new Date(trialTimestamp);
-        }
+    public void loadStartDate() {
+        startDate = new Date(System.currentTimeMillis());
+    }
+
+//    public void loadStartDate()
+//    {
+//        long trialTimestamp = OBPreferenceManager.getLongPreference(OBPreferenceManager.PREFERENCES_TRIAL_START_TIMESTAMP);
+//        if (trialTimestamp > 0)
+//        {
+//            startDate = new Date(trialTimestamp);
+//        }
+//    }
+
+    public long getSetupStartTimestamp() {
+        Date date = Date.valueOf("2017-10-01");
+        return date.getTime();
     }
 
 
-    public long getSetupStartTimestamp()
-    {
-        long setupTimestamp = OBPreferenceManager.getLongPreference(OBPreferenceManager.PREFERENCES_SETUP_START_TIMESTAMP);
-        if (setupTimestamp < 0)
-        {
-            Date date = Date.valueOf("2017-10-01");
-            setupTimestamp = date.getTime();
-        }
-        return setupTimestamp;
-    }
+//    public long getSetupStartTimestamp()
+//    {
+//        long setupTimestamp = OBPreferenceManager.getLongPreference(OBPreferenceManager.PREFERENCES_SETUP_START_TIMESTAMP);
+//        if (setupTimestamp < 0)
+//        {
+//            Date date = Date.valueOf("2017-10-01");
+//            setupTimestamp = date.getTime();
+//        }
+//        return setupTimestamp;
+//    }
 
 
     /*

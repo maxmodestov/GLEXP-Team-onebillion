@@ -25,6 +25,7 @@ import org.onebillion.onecourse.utils.OBConfigManager;
 import org.onebillion.onecourse.utils.OBSystemsManager;
 import org.onebillion.onecourse.utils.OB_Maths;
 import org.onebillion.onecourse.utils.OBUtils;
+import org.onebillion.onecourse.utils.TimeProvider;
 
 public class OBMainViewController extends OBViewController
 {
@@ -180,7 +181,7 @@ public class OBMainViewController extends OBViewController
 
     public void setTouchTime()
     {
-        lastTouchActivity = System.currentTimeMillis();
+        lastTouchActivity = TimeProvider.currentTimeMillis();
     }
     public void touchDownAtPoint (float x, float y, OBGLView v)
     {
