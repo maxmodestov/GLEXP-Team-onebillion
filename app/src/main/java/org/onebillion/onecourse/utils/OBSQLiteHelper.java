@@ -46,9 +46,13 @@ public class OBSQLiteHelper extends SQLiteOpenHelper
     public static OBSQLiteHelper getSqlHelper ()
     {
         if (sqlHelper == null)
-            sqlHelper = new OBSQLiteHelper(MainActivity.mainActivity);
+            createHelper();
 
         return sqlHelper;
+    }
+
+    public static void createHelper() {
+        sqlHelper = new OBSQLiteHelper(MainActivity.mainActivity);
     }
 
     @Override

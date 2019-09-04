@@ -1,8 +1,10 @@
 package org.onebillion.onecourse.utils;
 
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -947,6 +949,12 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
 
     @Override
     public void startUp() {
+        try {
+            DBSQL.recreateDB();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         DayPickerPopup.showDialog(new DayPickerPopup.OnCloseListener() {
             @Override
             public void onClose() {

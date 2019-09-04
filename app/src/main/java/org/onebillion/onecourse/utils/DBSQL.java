@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.SyncStateContract;
+import android.util.Log;
 
 import org.onebillion.onecourse.mainui.MainActivity;
 
@@ -116,9 +117,18 @@ public class DBSQL
         return database.rawQuery(query,args == null ? null :args.toArray(new String[args.size()]));
     }
 
-    public static void deleteDB()
-    {
+    public static void deleteDB() {
         MainActivity.mainActivity.getApplicationContext().deleteDatabase(OBSQLiteHelper.DATABASE_NAME);
+    }
+
+    public static void recreateDB() {
+        Log.d("DBSQL", "recreateDB - START");
+        MainActivity.mainActivity.getApplicationContext().deleteDatabase(OBSQLiteHelper.DATABASE_NAME);
+
+        OBSQLiteHelper.createHelper();
+        OBSQLiteHelper helper = OBSQLiteHelper.getSqlHelper();
+        database = helper.getWritableDatabase();
+        Log.d("DBSQL", "recreateDB - SUCCESS");
     }
 
     public void beginTransaction()
