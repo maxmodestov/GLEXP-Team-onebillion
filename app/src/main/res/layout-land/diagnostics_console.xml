@@ -55,7 +55,6 @@
 
                 <SeekBar
                     android:id="@+id/week_slider"
-                    style="@style/Widget.AppCompat.SeekBar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -132,7 +131,6 @@
 
                 <SeekBar
                     android:id="@+id/totalRuns_slider"
-                    style="@style/Widget.AppCompat.SeekBar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -204,7 +202,6 @@
 
                 <SeekBar
                     android:id="@+id/wrongAnwers_slider"
-                    style="@style/Widget.AppCompat.SeekBar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
