@@ -7,6 +7,8 @@ import android.widget.EditText;
 
 import org.onebillion.onecourse.mainui.MainActivity;
 
+import static java.lang.Math.max;
+
 public class DayPickerPopup {
     public static void showDialog() {
         showDialog(new OnCloseListener() {
@@ -22,7 +24,7 @@ public class DayPickerPopup {
 
         final AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.mainActivity);
         final EditText input = new EditText(MainActivity.mainActivity);
-        input.setText("" + TimeProvider.getCurrentDayNumber());
+        input.setText("" + max(1, TimeProvider.getCurrentDayNumber()));
         input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         alert.setView(input);
         alert.setTitle("Select Day");
