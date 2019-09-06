@@ -1,7 +1,6 @@
 .gradle
 /local.properties
-/.idea/workspace.xml
-/.idea/libraries
+.idea/
 .DS_Store
 /build
 /captures
@@ -9,9 +8,6 @@
 *.iml
 #/app/build.gradle
 #/app/src/build.gradle
-.idea/modules.xml
-
-projectFilesBackup1/.idea/workspace.xml
 
 app/src/main/java/org/onebillion/onecourse/mainui/generic/XPRZ_Generic.java
 
