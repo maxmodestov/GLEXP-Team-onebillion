@@ -955,18 +955,7 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
             e.printStackTrace();
         }
 
-        DayPickerPopup.showDialog(new DayPickerPopup.OnCloseListener() {
-            @Override
-            public void onClose() {
-                OBUtils.runOnMainThread(new OBUtils.RunLambda() {
-                    @Override
-                    public void run() {
-
-                        proceedStartingUp();
-                    }
-                });
-            }
-        });
+        SyllabusPickerPopup.showDialog(() -> OBUtils.runOnMainThread(this::proceedStartingUp));
     }
 
     void proceedStartingUp() {
@@ -1006,7 +995,8 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
         timeoutHandler = new Handler();
 
 //        runNextMenu();
-        showSelectStartupActivityDialog();
+//        showSelectStartupActivityDialog();
+        runMenu();
     }
 
     private void runNextMenu() {
@@ -1088,17 +1078,7 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
     }
 
     private void showSelectStartupActivityDialog() {
-        showSelectStartupActivityDialog(new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                runMenu();
-            }
-        }, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                runMenu("OC_SimpleListMenu");
-            }
-        });
+        showSelectStartupActivityDialog((dialog, which) -> runMenu(), (dialog, which) -> runMenu("OC_SimpleListMenu"));
     }
 
     private void showSelectStartupActivityDialog(final DialogInterface.OnClickListener childMenu, final DialogInterface.OnClickListener simpleListMenu) {
