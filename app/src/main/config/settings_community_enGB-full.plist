@@ -42,16 +42,16 @@
 
 	<!-- LOCALISATIONS -->
 	<key>localisation_skin_colour_index</key>
-	<integer>7</integer>
+	<integer>3</integer>
 	<!--  -->
 	<key>localisation_cloth_colour</key>
 	<string>177,33,254</string>
 	<!--  -->
 	<key>localisation_language_id</key>
-	<string>sw</string>
+	<string>en_GB</string>
 	<!--  -->
 	<key>localisation_fallback_language_id</key>
-	<string>sw</string>
+	<string>en_GB</string>
 
 
 	<!-- SETUP MENU -->
@@ -240,22 +240,21 @@
     <integer>10</integer>
     <!--  -->
     <key>fat_controller_study_loop_week</key>
-    <integer>37</integer>
+    <integer>1</integer>
 
 
 	<!-- ASSETS -->
 	<key>assets_external_path</key>
-	<string>/onebillion/assets</string>
-	<!-- -->
-	<key>assets_look_for_zipped_files</key>
-	<string>false</string>
-	<!-- -->
-	<key>assets_unzip_all_on_startup</key>
-	<string>true</string>
-	<!-- -->
-	<key>assets_priority_folders</key>
-	<string>oc-gen,oc-setup,oc-community,masterlists</string>
-
+    <string>/onebillion/assets</string>
+    <!-- -->
+    <key>assets_look_for_zipped_files</key>
+    <string>false</string>
+    <!-- -->
+    <key>assets_unzip_all_on_startup</key>
+    <string>true</string>
+    <!-- -->
+    <key>assets_priority_folders</key>
+    <string>oc-gen,oc-setup,oc-community,masterlists</string>
 
 
 	<!-- DEBUG -->
@@ -271,7 +270,7 @@
 	<key>debug_show_unit_id</key>
 	<string>true</string>
 	<!--  -->
-	<key>debug_jump_to_setup_password</key>
+    <key>debug_jump_to_setup_password</key>
 	<string>obxprize</string>
 	<!-- -->
 	<key>debug_change_date_password</key>
@@ -285,7 +284,7 @@
 	<!--  -->
 	<key>debug_revert_community_mode_password</key>
 	<string>opo</string>
-	<!--  -->
+    <!--  -->
 	<key>debug_build_number</key>
 	<string>RC4 - Community</string>
 
@@ -315,15 +314,12 @@
 	<string>OCM_FatController</string>
 	<!--  -->
 	<key>app_masterlist</key>
-	<string>eidu_sw</string>
+	<string>community_enGB</string>
 	<!--  -->
 	<key>app_masterlist_playzone</key>
-	<string>playzone_sw</string>
+	<string>playzone_enGB</string>
 	<!--  -->
 	<key>app_masterlist_library</key>
-	<string>library_sw</string>
-
-
-
+	<string>library_enGB</string>
 </dict>
 </plist>

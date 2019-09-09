@@ -1,10 +1,8 @@
 package org.onebillion.onecourse.utils;
 
-import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,6 +12,7 @@ import android.util.ArrayMap;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.onebillion.onecourse.BuildConfig;
 import org.onebillion.onecourse.R;
 import org.onebillion.onecourse.controls.OBControl;
 import org.onebillion.onecourse.controls.OBGroup;
@@ -947,6 +946,8 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
         initDB();
     }
 
+    private boolean teacherSyllabus = false;
+
     @Override
     public void startUp() {
         try {
@@ -955,15 +956,42 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
             e.printStackTrace();
         }
 
-        SyllabusPickerPopup.showDialog(() -> OBUtils.runOnMainThread(this::proceedStartingUp));
+        if (BuildConfig.SELECT_SYLLABUS)
+            SyllabusPickerPopup.showDialog(new SyllabusPickerPopup.OnClickListener() {
+                @Override
+                public void onClick() {
+                    teacherSyllabus = true;
+                }
+            }, new SyllabusPickerPopup.OnCloseListener() {
+                @Override
+                public void onClose() {
+                    OBUtils.runOnMainThread(new OBUtils.RunLambda() {
+                        @Override
+                        public void run() throws Exception {
+                            proceedStartingUp();
+                        }
+                    });
+                }
+            });
+        else
+            WeekPickerPopup.showDialog(new WeekPickerPopup.OnCloseListener() {
+                @Override
+                public void onClose() {
+                    OBUtils.runOnMainThread(new OBUtils.RunLambda() {
+                        @Override
+                        public void run() throws Exception {
+                            proceedStartingUp();
+                        }
+                    });
+                }
+            });
     }
 
     void proceedStartingUp() {
         // initial setup
         //DBSQL.deleteDB();
         unitInstancesList = new ArrayList<>();
-        try
-        {
+        try {
             unitAttemptsCount = OBConfigManager.sharedManager.getFatControllerMaxUnitAttempts();
             String disallowHours = OBConfigManager.sharedManager.getFatControllerNightModeHours();
             String[] disallowArray = disallowHours.split(",");
@@ -977,9 +1005,7 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
             studyListLoopWeek = OBConfigManager.sharedManager.getFatControllerStudyLoopWeek();
             if (studyListLoopWeek < 0) studyListLoopWeek = 1;
             if (lockBatteryLevel < 0) lockBatteryLevel = 10;
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             unitAttemptsCount = 3;
             disallowStartHour = 22;
             disallowEndHour = 5;
@@ -995,8 +1021,15 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
         timeoutHandler = new Handler();
 
 //        runNextMenu();
-//        showSelectStartupActivityDialog();
-        runMenu();
+        if (BuildConfig.SELECT_SYLLABUS) {
+            if (teacherSyllabus)
+                runMenu("OC_SimpleListMenu");
+            else
+                runMenu();
+        }
+        else {
+            showSelectStartupActivityDialog();
+        }
     }
 
     private void runNextMenu() {
@@ -1078,7 +1111,17 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
     }
 
     private void showSelectStartupActivityDialog() {
-        showSelectStartupActivityDialog((dialog, which) -> runMenu(), (dialog, which) -> runMenu("OC_SimpleListMenu"));
+        showSelectStartupActivityDialog(new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                OCM_FatController.this.runMenu();
+            }
+        }, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                OCM_FatController.this.runMenu("OC_SimpleListMenu");
+            }
+        });
     }
 
     private void showSelectStartupActivityDialog(final DialogInterface.OnClickListener childMenu, final DialogInterface.OnClickListener simpleListMenu) {

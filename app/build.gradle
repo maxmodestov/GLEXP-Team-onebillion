@@ -80,6 +80,7 @@ android {
             versionName '1.0'
             resValue "string", "app_name", "onecourse - Child"
             buildConfigField 'String', 'SETTINGS_FILE', '"settings_community_sw.plist"'
+            buildConfigField 'boolean', 'SELECT_SYLLABUS', 'true'
             manifestPlaceholders = [
                     appIcon: "@mipmap/icon_child"
             ]
@@ -90,6 +91,18 @@ android {
             versionName '1.0'
             resValue "string", "app_name", "onecourse - enGB"
             buildConfigField 'String', 'SETTINGS_FILE', '"settings_community_enGB.plist"'
+            buildConfigField 'boolean', 'SELECT_SYLLABUS', 'true'
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/child_en_gb"
+            ]
+        }
+        enGB_community_full_ {
+            applicationId 'org.onebillion.onecourse.child.en_GB.full'
+            versionCode 1
+            versionName '1.0'
+            resValue "string", "app_name", "onecourse - enGB Full"
+            buildConfigField 'String', 'SETTINGS_FILE', '"settings_community_enGB-full.plist"'
+            buildConfigField 'boolean', 'SELECT_SYLLABUS', 'false'
             manifestPlaceholders = [
                     appIcon: "@mipmap/child_en_gb"
             ]
@@ -105,10 +118,10 @@ android {
         exclude 'META-INF/LICENSE.txt'
         pickFirst 'META-INF/license.txt'
     }
-    compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
-    }
+//    compileOptions {
+//        sourceCompatibility = 1.8
+//        targetCompatibility = 1.8
+//    }
 }
 
 

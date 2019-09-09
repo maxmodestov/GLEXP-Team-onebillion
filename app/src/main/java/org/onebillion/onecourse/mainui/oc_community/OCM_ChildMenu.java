@@ -51,7 +51,7 @@ import org.onebillion.onecourse.utils.OCM_FatController;
 import org.onebillion.onecourse.utils.OCM_FatReceiver;
 import org.onebillion.onecourse.utils.OCM_MlUnit;
 import org.onebillion.onecourse.utils.OCM_MlUnitInstance;
-import org.onebillion.onecourse.utils.DayPickerPopup;
+import org.onebillion.onecourse.utils.WeekPickerPopup;
 import org.onebillion.onecourse.utils.TimeProvider;
 
 import java.util.ArrayList;
@@ -1841,7 +1841,7 @@ public class OCM_ChildMenu extends OC_Menu implements OCM_FatReceiver, TimePicke
                 {
                     if (OBConfigManager.sharedManager.isCommunityModeOverrideEnabled())
                     {
-                        DayPickerPopup.showDialog();
+                        WeekPickerPopup.showDialog();
                         //showPasswordCheckDialog();
                     }
                     secretBoxTouchIndex = 0;
