@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.RectF;
-import android.media.ExifInterface;
 import android.media.MediaMetadataRetriever;
 import android.util.ArrayMap;
 import android.util.DisplayMetrics;
@@ -12,7 +11,6 @@ import android.view.View;
 
 import org.onebillion.onecourse.controls.OBControl;
 import org.onebillion.onecourse.controls.OBGroup;
-import org.onebillion.onecourse.controls.OBImage;
 import org.onebillion.onecourse.controls.OBPath;
 import org.onebillion.onecourse.controls.OBVideoPlayer;
 import org.onebillion.onecourse.mainui.MainActivity;
@@ -21,7 +19,6 @@ import org.onebillion.onecourse.mainui.OC_SectionController;
 import org.onebillion.onecourse.utils.OBAnim;
 import org.onebillion.onecourse.utils.OBAnimationGroup;
 import org.onebillion.onecourse.utils.OBCameraManager;
-import org.onebillion.onecourse.utils.OBImageManager;
 import org.onebillion.onecourse.utils.OBUtils;
 import org.onebillion.onecourse.utils.OBVideoRecorder;
 import org.onebillion.onecourse.utils.OB_Maths;
@@ -29,10 +26,8 @@ import org.onebillion.onecourse.utils.OCM_FatController;
 
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -256,7 +251,7 @@ public class OC_PlayZoneVideo extends OC_SectionController
         waitForSecs(0.2f);
         OBAnimationGroup.runAnims(Arrays.asList(OBAnim.rotationAnim((float) Math.toRadians(-360), videoFrame),
                 OBAnim.moveAnim(OB_Maths.locationForRect(-0.5f, 0.5f, bounds()), videoFrame)), 0.5, true, OBAnim.ANIM_EASE_IN, this);
-        if (!this._aborting)
+        if (!this.getAborting())
             exitEvent();
     }
 
@@ -278,7 +273,7 @@ public class OC_PlayZoneVideo extends OC_SectionController
                 unlockScreen();
                 OBControl pulse = recordingControl.objectDict.get("pulse");
                 float scale = pulse.scale();
-                while (recording && !_aborting)
+                while (recording && !getAborting())
                 {
                     lockScreen();
                     pulse.setScale(scale);

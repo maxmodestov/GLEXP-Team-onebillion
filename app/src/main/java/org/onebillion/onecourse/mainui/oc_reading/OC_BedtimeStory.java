@@ -4,19 +4,10 @@ import android.content.res.AssetFileDescriptor;
 import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.RectF;
-import android.media.AudioAttributes;
-import android.media.AudioFormat;
-import android.media.AudioManager;
-import android.media.AudioTrack;
-import android.media.MediaCodec;
-import android.media.MediaExtractor;
-import android.media.MediaFormat;
-import android.os.AsyncTask;
 import android.os.Handler;
 
 import org.onebillion.onecourse.controls.OBControl;
 import org.onebillion.onecourse.controls.OBPath;
-import org.onebillion.onecourse.mainui.MainActivity;
 import org.onebillion.onecourse.mainui.OBMainViewController;
 import org.onebillion.onecourse.mainui.OC_SectionController;
 import org.onebillion.onecourse.utils.OBAudioBufferPlayer;
@@ -25,16 +16,10 @@ import org.onebillion.onecourse.utils.OBBrightnessManager;
 import org.onebillion.onecourse.utils.OBUtils;
 import org.onebillion.onecourse.utils.OB_Maths;
 
-import java.io.FileDescriptor;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static android.media.AudioFormat.CHANNEL_IN_MONO;
-import static android.media.AudioFormat.CHANNEL_OUT_MONO;
-import static android.media.AudioFormat.ENCODING_PCM_16BIT;
-import static android.media.MediaCodec.BUFFER_FLAG_END_OF_STREAM;
 import static org.onebillion.onecourse.utils.OBAudioBufferPlayer.OBAP_FINISHED;
 
 /**
@@ -325,7 +310,7 @@ public class OC_BedtimeStory extends OC_SectionController
 
     void scheduleTimerEvent()
     {
-        if (_aborting || theStatus == STATUS_EXITING)
+        if (getAborting() || theStatus == STATUS_EXITING)
             return;
         if (timerRunnable == null)
         {

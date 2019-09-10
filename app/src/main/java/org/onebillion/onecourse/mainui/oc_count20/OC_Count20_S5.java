@@ -12,7 +12,6 @@ import org.onebillion.onecourse.controls.OBControl;
 import org.onebillion.onecourse.controls.OBGroup;
 import org.onebillion.onecourse.controls.OBLabel;
 import org.onebillion.onecourse.controls.OBPath;
-import org.onebillion.onecourse.mainui.MainActivity;
 import org.onebillion.onecourse.mainui.OBSectionController;
 import org.onebillion.onecourse.mainui.OC_Tracer;
 import org.onebillion.onecourse.utils.OBConfigManager;
@@ -232,7 +231,7 @@ public class OC_Count20_S5 extends OC_Tracer
 
     void doFrame()
     {
-        if (_aborting)
+        if (getAborting())
         {
             stopAnimations();
             return;

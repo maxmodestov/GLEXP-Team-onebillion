@@ -10,7 +10,6 @@ import org.onebillion.onecourse.controls.OBPresenter;
 import org.onebillion.onecourse.utils.OBUtils;
 import org.onebillion.onecourse.utils.OB_Maths;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -120,7 +119,7 @@ public class OC_ReadingReadToMe extends OC_Reading
         try
         {
             waitForSecs(0.8f);
-            if(status()  != STATUS_FINISHING && !_aborting)
+            if(status()  != STATUS_FINISHING && !getAborting())
             {
                 bringUpNextButton();
             }
@@ -142,7 +141,7 @@ public class OC_ReadingReadToMe extends OC_Reading
 
     public void readingReplayAudio()
     {
-        if (!_aborting && !MainViewController().navigating && status()!= STATUS_FINISHING && status() != STATUS_DOING_DEMO)
+        if (!getAborting() && !MainViewController().navigating && status()!= STATUS_FINISHING && status() != STATUS_DOING_DEMO)
         {
             new AsyncTask<Void, Void, Void>()
             {

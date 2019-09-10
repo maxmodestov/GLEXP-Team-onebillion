@@ -148,7 +148,7 @@ public class OBVideoRecorder
 
     public void recordingTimerFire()
     {
-        if(recording && !sectionController.get()._aborting)
+        if(recording && !sectionController.get().getAborting())
         {
             long currentTime = TimeProvider.currentTimeMillis();
             int val = getAverangePower();

@@ -4,7 +4,6 @@ import org.onebillion.onecourse.controls.OBGroup;
 import org.onebillion.onecourse.mainui.OBSectionController;
 import org.onebillion.onecourse.utils.OBUtils;
 
-import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.List;
 
@@ -53,7 +52,7 @@ public class OC_AudioRecordingButton
             {
                 List<String> frames = Arrays.asList("dot_2","dot_1","dot_2","dot_3");
                 int index = 0;
-                while(animate && !sectionController._aborting) {
+                while(animate && !sectionController.getAborting()) {
                     sectionController.lockScreen();
                     control.hideMembers("dot_.*");
                     control.objectDict.get(frames.get(index)).show();
@@ -80,9 +79,9 @@ public class OC_AudioRecordingButton
         OBUtils.runOnOtherThread(new OBUtils.RunLambda()
         {
             public void run() throws Exception {
-                if (time == sectionController.statusTime() && !sectionController._aborting)
+                if (time == sectionController.statusTime() && !sectionController.getAborting())
                     sectionController.waitForSecs(waitTime);
-                if (time == sectionController.statusTime() && !sectionController._aborting) {
+                if (time == sectionController.statusTime() && !sectionController.getAborting()) {
                     control.setOpacity(1);
                     sectionController.waitForSecs(0.5);
 
@@ -90,19 +89,19 @@ public class OC_AudioRecordingButton
                 for (int i = 0;
                      i < 2;
                      i++) {
-                    if (time == sectionController.statusTime() && !sectionController._aborting) {
+                    if (time == sectionController.statusTime() && !sectionController.getAborting()) {
                         control.setOpacity(0.4f);
                         sectionController.waitForSecs(0.3);
 
                     }
-                    if (time == sectionController.statusTime() && !sectionController._aborting) {
+                    if (time == sectionController.statusTime() && !sectionController.getAborting()) {
                         control.setOpacity(1);
                         sectionController.waitForSecs(0.3);
                     }
 
                 }
                 control.setOpacity(1);
-                if (time == sectionController.statusTime() && !sectionController._aborting)
+                if (time == sectionController.statusTime() && !sectionController.getAborting())
                     flash(sectionController.statusTime(), 5);
             }
 

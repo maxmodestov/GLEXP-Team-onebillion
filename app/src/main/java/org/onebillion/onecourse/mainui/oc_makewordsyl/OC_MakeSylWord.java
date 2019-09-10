@@ -594,7 +594,7 @@ public class OC_MakeSylWord extends OC_SectionController
             public void run() throws Exception
             {
                 waitForSecs(3f);
-                while(time == statusTime && !_aborting)
+                while(time == statusTime && !getAborting())
                 {
                     flashButton(time);
                     waitForSecs(4f);
@@ -611,12 +611,12 @@ public class OC_MakeSylWord extends OC_SectionController
         {
             for (int i = 0;i < 2;i++)
             {
-                if(time == statusTime && !_aborting)
+                if(time == statusTime && !getAborting())
                 {
                     button.setOpacity(0.2f);
                 }
                 waitForSecs(0.3f);
-                if(time == statusTime && !_aborting)
+                if(time == statusTime && !getAborting())
                 {
                     button.setOpacity(1);
                 }

@@ -1,27 +1,21 @@
 package org.onebillion.onecourse.mainui.oc_addsubtract;
 
 import android.graphics.Color;
-import android.graphics.Path;
 import android.graphics.PointF;
-import android.graphics.RectF;
 import android.util.ArrayMap;
 import android.view.View;
 
 import org.onebillion.onecourse.controls.OBControl;
 import org.onebillion.onecourse.controls.OBGroup;
 import org.onebillion.onecourse.controls.OBPath;
-import org.onebillion.onecourse.mainui.MainActivity;
 import org.onebillion.onecourse.mainui.OC_SectionController;
 import org.onebillion.onecourse.mainui.oc_numberlines.OC_Numberlines_Additions;
 import org.onebillion.onecourse.utils.OBAnim;
 import org.onebillion.onecourse.utils.OBAnimBlock;
 import org.onebillion.onecourse.utils.OBAnimationGroup;
-import org.onebillion.onecourse.utils.OBAudioManager;
 import org.onebillion.onecourse.utils.OBMisc;
 import org.onebillion.onecourse.utils.OBUtils;
 import org.onebillion.onecourse.utils.OB_Maths;
-import org.onebillion.onecourse.utils.UPath;
-import org.onebillion.onecourse.utils.USubPath;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -225,7 +219,7 @@ public class OC_AddSubtract_S4e extends OC_SectionController
             @Override
             public void runAnimBlock(float frac)
             {
-                if(_aborting)
+                if(getAborting())
                     killAnimations();
 
                 for(int i=0; i<targets.size(); i++)

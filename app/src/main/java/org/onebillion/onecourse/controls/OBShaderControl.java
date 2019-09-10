@@ -9,14 +9,9 @@ import android.opengl.GLES20;
 import android.os.Handler;
 import android.os.SystemClock;
 
-import org.onebillion.onecourse.glstuff.ColorShaderProgram;
-import org.onebillion.onecourse.glstuff.GradientRect;
-import org.onebillion.onecourse.glstuff.MaskShaderProgram;
 import org.onebillion.onecourse.glstuff.OBRenderer;
 import org.onebillion.onecourse.glstuff.PixelRect;
 import org.onebillion.onecourse.glstuff.PixelShaderProgram;
-import org.onebillion.onecourse.glstuff.ShadowShaderProgram;
-import org.onebillion.onecourse.glstuff.TextureShaderProgram;
 import org.onebillion.onecourse.mainui.OBSectionController;
 import org.onebillion.onecourse.mainui.OBViewController;
 import org.onebillion.onecourse.utils.OBUtils;
@@ -70,7 +65,7 @@ public class OBShaderControl extends OBControl
 
     private boolean shouldAnimate(OBSectionController cont)
     {
-        return animate && (cont != null && !cont._aborting && cont.status() != OBSectionController.STATUS_EXITING);
+        return animate && (cont != null && !cont.getAborting() && cont.status() != OBSectionController.STATUS_EXITING);
     }
 
     public void startAnimation(final OBSectionController cont)

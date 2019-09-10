@@ -332,7 +332,7 @@ public class OC_PlayZoneTrace extends OC_SectionController
             @Override
             public int timerEvent(OBTimer timer) {
                 doFrame(timer);
-                if (_aborting)
+                if (getAborting())
                     return 0;
                 return 1;
             }

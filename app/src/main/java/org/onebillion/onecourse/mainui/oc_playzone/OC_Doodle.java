@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
@@ -40,7 +39,6 @@ import org.onebillion.onecourse.utils.OBFatController;
 import org.onebillion.onecourse.utils.OBUtils;
 import org.onebillion.onecourse.utils.OB_Maths;
 import org.onebillion.onecourse.utils.OCM_FatController;
-import org.onebillion.onecourse.utils.OC_FatController;
 
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -51,7 +49,6 @@ import java.util.List;
 import java.util.Map;
 
 import static org.onebillion.onecourse.mainui.oc_playzone.OC_PlayZoneAsset.ASSET_DOODLE;
-import static org.onebillion.onecourse.mainui.oc_playzone.OC_PlayZoneAsset.ASSET_TEXT;
 import static org.onebillion.onecourse.mainui.oc_playzone.OC_PlayZoneAsset.assetsNamesForNewFile;
 import static org.onebillion.onecourse.mainui.oc_playzone.OC_PlayZoneAsset.pathToAsset;
 
@@ -487,7 +484,7 @@ public class OC_Doodle extends OC_SectionController
     }
     void scheduleTimerEvent()
     {
-        if (_aborting || theStatus == STATUS_EXITING)
+        if (getAborting() || theStatus == STATUS_EXITING)
             return;
         if (messageCheckRunnable == null)
         {
@@ -674,7 +671,7 @@ public class OC_Doodle extends OC_SectionController
        // OBConfigManager.sharedManager.setValue("oc_doodle", drawOn);
         saveContentsToDisk();
 
-        if(!_aborting)
+        if(!getAborting())
             OBUtils.runOnOtherThread(new OBUtils.RunLambda()
                                      {
                                          @Override

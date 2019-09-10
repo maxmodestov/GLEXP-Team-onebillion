@@ -70,7 +70,7 @@ public class OC_CountingTo1000_Revision extends OC_CountingTo1000
             public void run() throws Exception
             {
                 boolean statusWasIdle = true;
-                while (!_aborting)
+                while (!getAborting())
                 {
                     if (status() != STATUS_AWAITING_CLICK)
                     {

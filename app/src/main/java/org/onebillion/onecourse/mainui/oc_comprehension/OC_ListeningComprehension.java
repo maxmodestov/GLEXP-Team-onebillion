@@ -1,9 +1,7 @@
 package org.onebillion.onecourse.mainui.oc_comprehension;
 
 import android.graphics.Color;
-import android.graphics.Path;
 import android.graphics.PointF;
-import android.graphics.RectF;
 import android.view.View;
 
 import org.onebillion.onecourse.controls.OBControl;
@@ -14,8 +12,6 @@ import org.onebillion.onecourse.mainui.oc_prepr3.OC_PrepR3;
 import org.onebillion.onecourse.utils.OBAnim;
 import org.onebillion.onecourse.utils.OBAnimBlock;
 import org.onebillion.onecourse.utils.OBAnimationGroup;
-import org.onebillion.onecourse.utils.OBAudioManager;
-import org.onebillion.onecourse.utils.OBAudioPlayer;
 import org.onebillion.onecourse.utils.OBUtils;
 import org.onebillion.onecourse.utils.OB_Maths;
 
@@ -23,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.onebillion.onecourse.utils.OBAudioManager.AM_MAIN_CHANNEL;
 import static org.onebillion.onecourse.utils.OB_Maths.clamp01;
 
 public class OC_ListeningComprehension extends OC_Comprehension {
@@ -214,7 +209,7 @@ public class OC_ListeningComprehension extends OC_Comprehension {
                     c.setOpacity(1.0f);
                 }
                 sequenceLock.unlock();
-                if (!_aborting)
+                if (!getAborting())
                     flashButton(stt);
 
             }
@@ -239,7 +234,7 @@ public class OC_ListeningComprehension extends OC_Comprehension {
                 } catch (Exception e) {
                     c.lowlight();
                 }
-                if (!_aborting)
+                if (!getAborting())
                     flashArrow(stt);
             }
         });

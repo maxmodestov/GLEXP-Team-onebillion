@@ -5,14 +5,12 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.os.AsyncTask;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.View;
 
 import org.onebillion.onecourse.controls.OBControl;
 import org.onebillion.onecourse.controls.OBGroup;
 import org.onebillion.onecourse.controls.OBLabel;
 import org.onebillion.onecourse.controls.OBPresenter;
-import org.onebillion.onecourse.mainui.MainActivity;
 import org.onebillion.onecourse.utils.OBAnim;
 import org.onebillion.onecourse.utils.OBAnimBlock;
 import org.onebillion.onecourse.utils.OBAnimationGroup;
@@ -456,7 +454,7 @@ public class OC_ReadingIRead extends OC_Reading
 
     public void touchDownAtPoint(PointF pt,View v)
     {
-        if (!_aborting  && !MainViewController().navigating && status() == STATUS_AWAITING_CLICK && wordHelpAvailable)
+        if (!getAborting()  && !MainViewController().navigating && status() == STATUS_AWAITING_CLICK && wordHelpAvailable)
         {
             Object obj = findTarget(pt);
             if (obj instanceof OBReadingWord)

@@ -2,7 +2,6 @@ package org.onebillion.onecourse.mainui.oc_community;
 
 import android.content.Intent;
 import android.graphics.PointF;
-import android.support.v4.app.NotificationCompatSideChannelService;
 
 import org.onebillion.onecourse.controls.OBControl;
 import org.onebillion.onecourse.controls.OBGroup;
@@ -233,7 +232,7 @@ public class OCM_LockScreen extends OC_Menu implements OCM_FatReceiver
         setStatus(STATUS_EXITING);
         killAnimations();
         playAudio(null);
-        _aborting = true;
+        setAborting(true);
         fatController.menu = null;
         fatController.colourDict = null;
         OBUtils.runOnMainThread(new OBUtils.RunLambda()
@@ -408,7 +407,7 @@ public class OCM_LockScreen extends OC_Menu implements OCM_FatReceiver
         animateNightSky();
         try
         {
-            if(!this._aborting)
+            if(!this.getAborting())
                 OBSystemsManager.sharedManager.screenLock();
         }catch (Exception e)
         {
@@ -423,7 +422,7 @@ public class OCM_LockScreen extends OC_Menu implements OCM_FatReceiver
         animateNightSky();
         try
         {
-            if(!this._aborting)
+            if(!this.getAborting())
                 OBSystemsManager.sharedManager.screenLock();
         }catch (Exception e)
         {
@@ -457,7 +456,7 @@ public class OCM_LockScreen extends OC_Menu implements OCM_FatReceiver
         walkPresenterOut();
         try
         {
-            if(!this._aborting)
+            if(!this.getAborting())
                 OBSystemsManager.sharedManager.screenLock();
         }catch (Exception e)
         {
@@ -483,7 +482,7 @@ public class OCM_LockScreen extends OC_Menu implements OCM_FatReceiver
 
         try
         {
-            if(!this._aborting)
+            if(!this.getAborting())
                 OBSystemsManager.sharedManager.screenLock();
         }catch (Exception e)
         {

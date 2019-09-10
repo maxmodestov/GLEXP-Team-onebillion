@@ -756,7 +756,7 @@ public class OC_Lg extends OC_SectionController
 
     public void startsAnimationLoop(List<OBControl> stars) throws Exception
     {
-        while(!_aborting)
+        while(!getAborting())
         {
             List<OBAnim> anims = new ArrayList<>();
 

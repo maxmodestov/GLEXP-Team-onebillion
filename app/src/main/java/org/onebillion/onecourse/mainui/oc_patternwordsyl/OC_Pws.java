@@ -20,7 +20,6 @@ import org.onebillion.onecourse.utils.OBUtils;
 import org.onebillion.onecourse.utils.OBWord;
 import org.onebillion.onecourse.utils.OB_Maths;
 
-import java.io.WriteAbortedException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -438,7 +437,7 @@ public class OC_Pws extends OC_SectionController
         {
             public void run() throws Exception
             {
-                while(con.isEnabled() && animateWobble && !controller._aborting)
+                while(con.isEnabled() && animateWobble && !controller.getAborting())
                 {
                     OBAnimationGroup.runAnims(Arrays.asList(blockAnim),1.5,true
                             ,OBAnim.ANIM_LINEAR,controller);

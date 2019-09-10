@@ -251,7 +251,7 @@ public class OC_MakingPlurals extends OC_Wordcontroller
                 button.setFillColor(colourButtonHilited);
                 unlockScreen();
                 waitForSecs(0.2f);
-                if (_aborting)
+                if (getAborting())
                 {
                     return;
                 }
@@ -264,7 +264,7 @@ public class OC_MakingPlurals extends OC_Wordcontroller
 
                 unlockScreen();
                 waitForSecs(0.2f);
-                if (_aborting)
+                if (getAborting())
                 {
                     return;
                 }
@@ -305,7 +305,7 @@ public class OC_MakingPlurals extends OC_Wordcontroller
                 unlockScreen();
                 waitForSecs(0.2f);
                 //
-                if (_aborting)
+                if (getAborting())
                 {
                     return;
                 }
@@ -321,7 +321,7 @@ public class OC_MakingPlurals extends OC_Wordcontroller
                 unlockScreen();
                 waitForSecs(0.2f);
                 //
-                if (_aborting)
+                if (getAborting())
                 {
                     return;
                 }
@@ -338,7 +338,7 @@ public class OC_MakingPlurals extends OC_Wordcontroller
             }
             unlockScreen();
             //
-            while (!_aborting && OBAudioManager.audioManager.isPlaying())
+            while (!getAborting() && OBAudioManager.audioManager.isPlaying())
             {
                 waitForSecs(0.1f);
             }

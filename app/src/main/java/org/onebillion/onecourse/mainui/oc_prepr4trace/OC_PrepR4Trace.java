@@ -15,15 +15,10 @@ import android.view.View;
 
 import org.onebillion.onecourse.controls.OBControl;
 import org.onebillion.onecourse.controls.OBGroup;
-import org.onebillion.onecourse.controls.OBLabel;
-import org.onebillion.onecourse.controls.OBPresenter;
 import org.onebillion.onecourse.utils.OBAnim;
 import org.onebillion.onecourse.utils.OBAnimBlock;
 import org.onebillion.onecourse.utils.OBAnimationGroup;
 import org.onebillion.onecourse.utils.OBConditionLock;
-import org.onebillion.onecourse.utils.OBFont;
-import org.onebillion.onecourse.utils.OBReadingPara;
-import org.onebillion.onecourse.utils.OBReadingWord;
 import org.onebillion.onecourse.utils.OBTimer;
 import org.onebillion.onecourse.utils.OBUtils;
 import org.onebillion.onecourse.utils.OBXMLManager;
@@ -32,12 +27,10 @@ import org.onebillion.onecourse.utils.OB_Maths;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
 public class OC_PrepR4Trace extends OC_SectionController
 {
     public static int TRACING = 0,
@@ -507,7 +500,7 @@ public class OC_PrepR4Trace extends OC_SectionController
             @Override
             public int timerEvent(OBTimer timer) {
                 doFrame(timer);
-                if (_aborting)
+                if (getAborting())
                     return 0;
                 return 1;
             }

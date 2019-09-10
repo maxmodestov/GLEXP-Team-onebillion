@@ -396,7 +396,7 @@ public class OC_Reading extends OC_SectionController
 
     public void showNextArrow(boolean show)
     {
-        if (_aborting)
+        if (getAborting())
             return;
         lockScreen();
         if (show)
@@ -420,7 +420,7 @@ public class OC_Reading extends OC_SectionController
 
     public void showNextArrowAndRA(boolean show)
     {
-        if (_aborting)
+        if (getAborting())
             return;
         collectNextAppearanceTime = TimeProvider.currentTimeMillis();
         lockScreen();
@@ -514,7 +514,7 @@ public class OC_Reading extends OC_SectionController
             @Override
             public void run() throws Exception
             {
-                while (!_aborting && status() != STATUS_FINISHING)
+                while (!getAborting() && status() != STATUS_FINISHING)
                 {
                     try
                     {
@@ -538,7 +538,7 @@ public class OC_Reading extends OC_SectionController
             @Override
             public void run() throws Exception
             {
-                if (_aborting)
+                if (getAborting())
                     return;
                 try
                 {
@@ -567,7 +567,7 @@ public class OC_Reading extends OC_SectionController
                 }
                 catch (Exception exception)
                 {
-                    showNextArrow(!_aborting);
+                    showNextArrow(!getAborting());
                 }
             }
         });
@@ -579,7 +579,7 @@ public class OC_Reading extends OC_SectionController
         OBUtils.runOnOtherThreadDelayed(5, new OBUtils.RunLambda() {
             @Override
             public void run() throws Exception {
-                if (status() != STATUS_FINISHING && !_aborting)
+                if (status() != STATUS_FINISHING && !getAborting())
                     flashContinuouslyAfter(4);
 
             }
@@ -910,7 +910,7 @@ public class OC_Reading extends OC_SectionController
 
     public void readingReplayAudio()
     {
-        if (!_aborting && !MainViewController().navigating && status()!= STATUS_FINISHING && status() != STATUS_DOING_DEMO)
+        if (!getAborting() && !MainViewController().navigating && status()!= STATUS_FINISHING && status() != STATUS_DOING_DEMO)
         {
             new AsyncTask<Void, Void, Void>()
             {
@@ -978,7 +978,7 @@ public class OC_Reading extends OC_SectionController
             parmString.append(String.format("/page=%d",p));
             if (parameters.get("cq") != null)
                 parmString.append(String.format("/cq=%s",parameters.get("cq")));
-            _aborting = true;
+            setAborting(true);
             playAudio(null);
             final String fParmString = parmString.toString();
             OBUtils.runOnMainThread(new OBUtils.RunLambda()
@@ -993,7 +993,7 @@ public class OC_Reading extends OC_SectionController
     }
     public void nextPage()
     {
-        if (!_aborting && !MainViewController().navigating && status()!= STATUS_FINISHING)
+        if (!getAborting() && !MainViewController().navigating && status()!= STATUS_FINISHING)
         {
             long currTime = TimeProvider.currentTimeMillis();
             collectNextButtonPressDuration = (currTime - collectNextAppearanceTime) / 1000f;
@@ -1028,7 +1028,7 @@ public class OC_Reading extends OC_SectionController
         parmString.append(String.format("/page=%d",p));
         if (parameters.get("cq") != null)
             parmString.append(String.format("/cq=%s",parameters.get("cq")));
-        _aborting = true;
+        setAborting(true);
         playAudio(null);
         final String fParmString = parmString.toString();
         OBUtils.runOnMainThread(new OBUtils.RunLambda()
@@ -1043,7 +1043,7 @@ public class OC_Reading extends OC_SectionController
 
     public void prevPage()
     {
-        if (!_aborting && !MainViewController().navigating && status()!= STATUS_FINISHING)
+        if (!getAborting() && !MainViewController().navigating && status()!= STATUS_FINISHING)
         {
             setStatus(STATUS_FINISHING);
             final Class c = this.getClass();

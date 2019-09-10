@@ -164,7 +164,7 @@ public class OC_CountingPractice_Grid extends OC_SectionController
             {
                 boolean statusWasIdle = true;
                 //
-                while (!_aborting)
+                while (!getAborting())
                 {
                     if (status() != STATUS_AWAITING_CLICK)
                     {

@@ -1,45 +1,28 @@
 package org.onebillion.onecourse.mainui.oc_playzone;
 
-import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.util.ArrayMap;
 import android.util.MutableBoolean;
 import android.view.View;
-import android.widget.Toast;
 
 import org.onebillion.onecourse.controls.OBControl;
 import org.onebillion.onecourse.controls.OBGroup;
 import org.onebillion.onecourse.controls.OBImage;
 import org.onebillion.onecourse.mainui.MainActivity;
 import org.onebillion.onecourse.mainui.OBMainViewController;
-import org.onebillion.onecourse.mainui.OBSectionController;
 import org.onebillion.onecourse.mainui.OC_Menu;
-import org.onebillion.onecourse.mainui.OC_SectionController;
-import org.onebillion.onecourse.utils.MlUnit;
 import org.onebillion.onecourse.utils.OBAnim;
 import org.onebillion.onecourse.utils.OBAnimationGroup;
-import org.onebillion.onecourse.utils.OBConfigManager;
 import org.onebillion.onecourse.utils.OBImageManager;
 import org.onebillion.onecourse.utils.OBMisc;
-import org.onebillion.onecourse.utils.OBRunnableSyncUI;
 import org.onebillion.onecourse.utils.OBUtils;
-import org.onebillion.onecourse.utils.OBXMLManager;
-import org.onebillion.onecourse.utils.OBXMLNode;
 import org.onebillion.onecourse.utils.OB_Maths;
-import org.onebillion.onecourse.utils.OB_MutInt;
 
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.onebillion.onecourse.utils.OCM_FatController;
 import org.onebillion.onecourse.utils.OCM_MlUnit;
@@ -227,7 +210,7 @@ public class OC_Library extends OC_Menu
             return;
         curGroup.setProperty("time", time);
         MutableBoolean finished = new MutableBoolean(false);
-        while (!this._aborting && !finished.value && time == (long)curGroup.propertyValue("time"))
+        while (!this.getAborting() && !finished.value && time == (long)curGroup.propertyValue("time"))
         {
             if (time == (long)curGroup.propertyValue("time"))
             {
@@ -238,7 +221,7 @@ public class OC_Library extends OC_Menu
             }
             waitForSecs(0.001f);
         }
-        if (!this._aborting)
+        if (!this.getAborting())
             snapClosest(time, curGroup, false);
     }
 
@@ -500,7 +483,7 @@ public class OC_Library extends OC_Menu
 
     public void triggerLibraryTimeout()
     {
-        if(!_aborting)
+        if(!getAborting())
         {
             fatController.closeCurrentUnitInstance(OCM_MlUnitInstance.STATUS_UNIT_TIMEOUT,this);
             exitEvent();

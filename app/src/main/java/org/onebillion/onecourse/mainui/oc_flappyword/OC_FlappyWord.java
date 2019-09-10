@@ -320,7 +320,7 @@ public class OC_FlappyWord extends OC_SectionController
 
     public void scrollLoop()
     {
-        if(this._aborting)
+        if(this.getAborting())
             stopGameLoop();
         boolean finishScrollLoop = false;
         float scrollSpeed = INITIAL_SCROLL_SPEED * 2;
@@ -352,7 +352,7 @@ public class OC_FlappyWord extends OC_SectionController
 
     public void gameLoop()
     {
-        if(this._aborting)
+        if(this.getAborting())
             stopGameLoop();
 
         long currentTime = SystemClock.uptimeMillis();

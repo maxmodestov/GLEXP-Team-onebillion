@@ -9,7 +9,6 @@ import org.onebillion.onecourse.controls.OBGroup;
 import org.onebillion.onecourse.controls.OBLabel;
 import org.onebillion.onecourse.controls.OBPath;
 import org.onebillion.onecourse.mainui.MainActivity;
-import org.onebillion.onecourse.utils.OBAudioManager;
 import org.onebillion.onecourse.utils.OBFont;
 import org.onebillion.onecourse.utils.OBMisc;
 import org.onebillion.onecourse.utils.OBUtils;
@@ -155,7 +154,7 @@ public class OC_Twrd1 extends OC_Twrd
 
     public void playReminder(long time) throws Exception
     {
-        if(time == statusTime() && !_aborting)
+        if(time == statusTime() && !getAborting())
         {
             playAudioQueuedScene("REMIND",0.3f,false);
             typewriterManager.animateFlash(time);

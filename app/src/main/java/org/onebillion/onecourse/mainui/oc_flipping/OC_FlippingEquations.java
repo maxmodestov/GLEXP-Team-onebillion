@@ -267,7 +267,7 @@ public class OC_FlippingEquations extends OC_SectionController
             public void run() throws Exception
             {
                 boolean statusWasIdle = true;
-                while (!_aborting)
+                while (!getAborting())
                 {
                     if (status() != STATUS_AWAITING_CLICK)
                     {
@@ -727,7 +727,7 @@ public class OC_FlippingEquations extends OC_SectionController
         if (isPhase(2, null)) box = phase2Box;
         for (int i = 0; i < 3; i++)
         {
-            if (_aborting) return;
+            if (getAborting()) return;
             //
             lockScreen();
             box.setStrokeColor(colourBoxHilited);
@@ -746,7 +746,7 @@ public class OC_FlippingEquations extends OC_SectionController
     {
         for (int i = 0; i < 3; i++)
         {
-            if (_aborting) return;
+            if (getAborting()) return;
             //
             lockScreen();
             underline.setStrokeColor(colourUnderlineHilited);

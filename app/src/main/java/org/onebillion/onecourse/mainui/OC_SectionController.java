@@ -175,7 +175,7 @@ public class OC_SectionController extends OBSectionController {
 
     public void displayAward() throws Exception
     {
-        if (_aborting)
+        if (getAborting())
             return;
         OBPath star = StarWithScale(bounds().height() * 0.4f,true);
         star.setPosition(bounds().width() / 2, bounds().height() / 2);
@@ -221,7 +221,7 @@ public class OC_SectionController extends OBSectionController {
 
     public void displayAward2(int colour) throws Exception
     {
-        if (_aborting)
+        if (getAborting())
             return;
         OBPath star = StarWithScale(bounds().height() * 0.4f,true);
         star.setPosition(bounds().width() / 2, bounds().height() / 2);

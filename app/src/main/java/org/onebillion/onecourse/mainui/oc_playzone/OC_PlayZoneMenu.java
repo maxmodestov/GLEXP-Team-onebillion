@@ -5,15 +5,11 @@ import android.graphics.Color;
 import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.RectF;
-import android.graphics.Typeface;
-import android.util.ArrayMap;
 import android.view.View;
 
 import org.onebillion.onecourse.controls.OBControl;
 import org.onebillion.onecourse.controls.OBGroup;
 import org.onebillion.onecourse.controls.OBImage;
-import org.onebillion.onecourse.controls.OBLabel;
-import org.onebillion.onecourse.controls.OBRadialGradientPath;
 import org.onebillion.onecourse.controls.OBScrollingText;
 import org.onebillion.onecourse.controls.OBShaderControl;
 import org.onebillion.onecourse.controls.OBVideoPlayer;
@@ -22,28 +18,22 @@ import org.onebillion.onecourse.mainui.MainActivity;
 import org.onebillion.onecourse.mainui.OBSectionController;
 import org.onebillion.onecourse.mainui.OC_Menu;
 import org.onebillion.onecourse.mainui.OC_SectionController;
-import org.onebillion.onecourse.utils.MlUnit;
 import org.onebillion.onecourse.utils.OBAnalytics;
 import org.onebillion.onecourse.utils.OBAnalyticsManager;
 import org.onebillion.onecourse.utils.OBAnim;
 import org.onebillion.onecourse.utils.OBAnimBlock;
 import org.onebillion.onecourse.utils.OBAnimationGroup;
-import org.onebillion.onecourse.utils.OBConfigManager;
 import org.onebillion.onecourse.utils.OBImageManager;
 import org.onebillion.onecourse.utils.OBMisc;
 import org.onebillion.onecourse.utils.OBUtils;
-import org.onebillion.onecourse.utils.OBXMLManager;
-import org.onebillion.onecourse.utils.OBXMLNode;
 import org.onebillion.onecourse.utils.OB_Maths;
 import org.onebillion.onecourse.utils.OCM_FatController;
 import org.onebillion.onecourse.utils.OCM_MlUnit;
 import org.onebillion.onecourse.utils.OCM_MlUnitInstance;
 import org.onebillion.onecourse.utils.TimeProvider;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -611,7 +601,7 @@ public class OC_PlayZoneMenu extends OC_Menu
         long currentTime, lastLoopTime;
         currentTime = lastLoopTime = TimeProvider.currentTimeMillis();
         float scrollSpeed = (float)scrollableControl.propertyValue("speedy");
-        while(time == statusTime && !_aborting && Math.abs(scrollSpeed) > applyGraphicScale(0.01f))
+        while(time == statusTime && !getAborting() && Math.abs(scrollSpeed) > applyGraphicScale(0.01f))
         {
             currentTime = TimeProvider.currentTimeMillis();
             float frameFrac = (currentTime - lastLoopTime)*1.0f/(TICK_VALUE*1000.0f) ;
@@ -757,7 +747,7 @@ public class OC_PlayZoneMenu extends OC_Menu
         if(iconsDeleteMode)
             animateIconsShake();
         lastFloatLoopTick = currentTime;
-        if(_aborting || !animateFloat)
+        if(getAborting() || !animateFloat)
             deregisterAnimationGroupWithName("floatloop");
 
     }

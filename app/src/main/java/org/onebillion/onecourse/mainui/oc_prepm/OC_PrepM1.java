@@ -862,7 +862,7 @@ public class OC_PrepM1 extends OC_SectionController
         try
         {
             waitForSecs(0.8f);
-            if (!_aborting)
+            if (!getAborting())
                 showScoreHammerScore((int)(score * 10.0/10),false);
         }
         catch(Exception e)

@@ -1,10 +1,7 @@
 package org.onebillion.onecourse.mainui.oc_patternwordsyl;
 
 import android.graphics.Color;
-import android.graphics.Path;
-import android.graphics.Point;
 import android.graphics.PointF;
-import android.graphics.Rect;
 import android.graphics.RectF;
 
 import org.onebillion.onecourse.controls.OBControl;
@@ -24,7 +21,6 @@ import org.onebillion.onecourse.utils.USubPath;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -120,7 +116,7 @@ public class OC_WordBag
             public void run() throws Exception
             {
                 int index = 0;
-                while (dotsAnimated && controller != null && !controller._aborting)
+                while (dotsAnimated && controller != null && !controller.getAborting())
                 {
                     index++;
                     changeDotsColours(index);
@@ -143,7 +139,7 @@ public class OC_WordBag
             {
                 int index = 0;
                 while (dotsAnimated && controller != null &&
-                        !controller._aborting)
+                        !controller.getAborting())
                 {
                     index++;
                     changeDotsColours2(index);

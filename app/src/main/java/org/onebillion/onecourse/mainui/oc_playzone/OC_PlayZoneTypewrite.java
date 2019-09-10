@@ -1,20 +1,12 @@
 package org.onebillion.onecourse.mainui.oc_playzone;
 
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
-import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.text.DynamicLayout;
-import android.text.Layout;
 import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.TextPaint;
-import android.text.style.LeadingMarginSpan;
-import android.util.Log;
 import android.view.View;
 
 import org.onebillion.onecourse.controls.OBControl;
@@ -22,8 +14,6 @@ import org.onebillion.onecourse.controls.OBGroup;
 import org.onebillion.onecourse.controls.OBLabel;
 import org.onebillion.onecourse.controls.OBPath;
 import org.onebillion.onecourse.controls.OBScrollingText;
-import org.onebillion.onecourse.glstuff.OBRenderer;
-import org.onebillion.onecourse.glstuff.TextureShaderProgram;
 import org.onebillion.onecourse.mainui.MainActivity;
 import org.onebillion.onecourse.mainui.OBMainViewController;
 import org.onebillion.onecourse.mainui.OC_SectionController;
@@ -43,7 +33,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.onebillion.onecourse.mainui.oc_playzone.OC_PlayZoneAsset.ASSET_DOODLE;
 import static org.onebillion.onecourse.mainui.oc_playzone.OC_PlayZoneAsset.ASSET_TEXT;
 import static org.onebillion.onecourse.mainui.oc_playzone.OC_PlayZoneAsset.assetsNamesForNewFile;
 import static org.onebillion.onecourse.mainui.oc_playzone.OC_PlayZoneAsset.pathToAsset;
@@ -228,7 +217,7 @@ public class OC_PlayZoneTypewrite extends OC_SectionController
         OBControl cursor = objectDict.get("cursor");
         try
         {
-            while(!_aborting)
+            while(!getAborting())
             {
                 lockScreen();
                 if(cursor.hidden() )
@@ -241,7 +230,7 @@ public class OC_PlayZoneTypewrite extends OC_SectionController
                     cursor.hide();
                 }
                 unlockScreen();
-                if(!_aborting)
+                if(!getAborting())
                     waitForSecs(0.5f);
             }
         }
@@ -835,7 +824,7 @@ public class OC_PlayZoneTypewrite extends OC_SectionController
                 {
                     double speed = dragSpeed;
                     boolean finished = Math.abs(speed) < 0.0001;
-                    while(!finished && time == statusTime  && !_aborting)
+                    while(!finished && time == statusTime  && !getAborting())
                     {
 
                         double amt = speed * 0.01f;
@@ -910,7 +899,7 @@ public class OC_PlayZoneTypewrite extends OC_SectionController
         {
             e.printStackTrace();
         }
-        if(!_aborting)
+        if(!getAborting())
             exitEvent();
 
     }

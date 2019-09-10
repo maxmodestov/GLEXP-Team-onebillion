@@ -168,7 +168,7 @@ public class OC_Diagnostics extends OC_SectionController
                     boolean statusWasIdle = true;
                     //
                     promptWasRepeated = false;
-                    while (!_aborting && currentEventUUID.equals(eventUUID))
+                    while (!getAborting() && currentEventUUID.equals(eventUUID))
                     {
                         if (status() != STATUS_AWAITING_CLICK)
                         {
@@ -214,7 +214,7 @@ public class OC_Diagnostics extends OC_SectionController
                         }
                         Thread.sleep(250);
                     }
-                    MainActivity.log("Prompt loop now killed for event " + currentEventUUID + "/" + eventUUID + " aborting? " + _aborting);
+                    MainActivity.log("Prompt loop now killed for event " + currentEventUUID + "/" + eventUUID + " aborting? " + getAborting());
                 }
             });
         }

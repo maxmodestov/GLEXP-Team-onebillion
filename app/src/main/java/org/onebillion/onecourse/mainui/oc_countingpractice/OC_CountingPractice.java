@@ -29,7 +29,6 @@ import java.util.List;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.abs;
-import static java.lang.Math.random;
 import static java.lang.Math.round;
 import static org.onebillion.onecourse.utils.OBAudioManager.AM_MAIN_CHANNEL;
 import static org.onebillion.onecourse.utils.OBAudioManager.AM_SFX_CHANNEL;
@@ -371,7 +370,7 @@ public class OC_CountingPractice extends OC_Generic_Event
                 unlockScreen();
                 //
                 waitForSecs(0.2f);
-                if (_aborting) return;
+                if (getAborting()) return;
                 if (lastActionTakenTimestamp != timeStamp) break;
                 //
                 lockScreen();
@@ -381,7 +380,7 @@ public class OC_CountingPractice extends OC_Generic_Event
                 unlockScreen();
                 //
                 waitForSecs(0.2f);
-                if (_aborting) return;
+                if (getAborting()) return;
                 if (lastActionTakenTimestamp != timeStamp) break;
             }
             //
@@ -417,11 +416,11 @@ public class OC_CountingPractice extends OC_Generic_Event
         else if (mode.equals(kModeChildCountChooseAnswer))
         {
             playAudioScene("REMINDER2", 0, true);           // How many peas are in the jar?
-            if (_aborting) return;
+            if (getAborting()) return;
             if (lastActionTakenTimestamp != timeStamp) return;
             //
             waitForSecs(0.3f);
-            if (_aborting) return;
+            if (getAborting()) return;
             if (lastActionTakenTimestamp != timeStamp) return;
             //
             playAudioScene("REMINDER2", 1, false);          // Touch the correct number.
@@ -436,7 +435,7 @@ public class OC_CountingPractice extends OC_Generic_Event
                 unlockScreen();
                 //
                 waitForSecs(0.3f);
-                if (_aborting) return;
+                if (getAborting()) return;
                 if (lastActionTakenTimestamp != timeStamp) break;
                 //
                 lockScreen();
@@ -447,7 +446,7 @@ public class OC_CountingPractice extends OC_Generic_Event
                 unlockScreen();
                 //
                 waitForSecs(0.3f);
-                if (_aborting) return;
+                if (getAborting()) return;
                 if (lastActionTakenTimestamp != timeStamp) break;
             }
             //
@@ -838,7 +837,7 @@ public class OC_CountingPractice extends OC_Generic_Event
                     //
                     int counter = (atRestObjects == null) ? 0 : atRestObjects.size();
                     //
-                    while (!_aborting && !contactThread_aborting)
+                    while (!getAborting() && !contactThread_aborting)
                     {
                         if (atRestObjects == null)
                         {
@@ -1625,7 +1624,7 @@ public class OC_CountingPractice extends OC_Generic_Event
                     //
                     waitForSecs(refreshInterval);
                     //
-                    while (!_aborting && !physicsThread_aborting)
+                    while (!getAborting() && !physicsThread_aborting)
                     {
                         List controls;
                         synchronized (physicsControls)
@@ -2399,7 +2398,7 @@ public class OC_CountingPractice extends OC_Generic_Event
         double delta = labelContainerFrame.left - dropFrame.left;
         dropFrame.left = labelContainerFrame.left;
         dropFrame.right -= delta;
-        while (!_aborting)
+        while (!getAborting())
         {
             dropPosition.set(dropFrame.left + randomInt(1, 100) * 0.01f * (dropFrame.width()), dropFrame.top + 0.5f * control.height() + randomInt(1, 100) * 0.01f * (dropFrame.height() - 0.5f * control.height()));
             RectF futureFrame = new RectF(dropPosition.x, dropPosition.y, dropPosition.x + control.width(), dropPosition.y + control.height());

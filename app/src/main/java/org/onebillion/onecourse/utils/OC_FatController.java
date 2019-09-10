@@ -590,7 +590,7 @@ public class OC_FatController extends OBFatController
 
         currentUnitInstance = null;
 
-        if(unitInstance.sectionController != null && !unitInstance.sectionController._aborting)
+        if(unitInstance.sectionController != null && !unitInstance.sectionController.getAborting())
             unitInstance.sectionController.exitEvent();
     }
 
@@ -1345,7 +1345,7 @@ public class OC_FatController extends OBFatController
         if(unitInstance != currentUnitInstance)
             return false;
 
-        if(unitInstance.sectionController == null || unitInstance.sectionController._aborting)
+        if(unitInstance.sectionController == null || unitInstance.sectionController.getAborting())
             return false;
 
         if((unitInstance.startTime + unitInstance.mlUnit.targetDuration) <= getCurrentTime())

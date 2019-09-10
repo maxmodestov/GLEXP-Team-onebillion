@@ -311,7 +311,7 @@ public class OC_VideoPlayback extends OC_SectionController
             int end = subtitleNode.attributeIntValue("end");
             int currentPosition = videoPlayer == null ? -1 : videoPlayer.currentPosition();
             //
-            while (currentPosition < end && !_aborting)
+            while (currentPosition < end && !getAborting())
             {
                 int excess = end - currentPosition;
                 if (currentPosition == -1) excess = 10;
@@ -321,7 +321,7 @@ public class OC_VideoPlayback extends OC_SectionController
                 try
                 {
                     int totalSleepTime = 0;
-                    while (totalSleepTime < excess && !_aborting)
+                    while (totalSleepTime < excess && !getAborting())
                     {
                         Thread.sleep(10);
                         //
@@ -378,7 +378,7 @@ public class OC_VideoPlayback extends OC_SectionController
             Scanner scanner = new Scanner(OBUtils.getInputStreamForPath(srtPath));
             String line;
             //
-            while (scanner.hasNextLine() && !_aborting)
+            while (scanner.hasNextLine() && !getAborting())
             {
                 line = scanner.nextLine();
                 //

@@ -633,7 +633,7 @@ public class OCM_ChildMenu extends OC_Menu implements OCM_FatReceiver, TimePicke
 
     public boolean checkCurrentCommand()
     {
-        if(status() == STATUS_EXITING || _aborting)
+        if(status() == STATUS_EXITING || getAborting())
             return false;
         int code = (int)fatController.getCurrentCommand().get("code") ;
         if(code == OCM_FatController.OFC_SESSION_LOCKED || code == OCM_FatController.OFC_BATTERY_LOW)
@@ -662,7 +662,7 @@ public class OCM_ChildMenu extends OC_Menu implements OCM_FatReceiver, TimePicke
         setStatus(STATUS_EXITING);
         killAnimations();
         playAudio(null);
-        _aborting = true;
+        setAborting(true);
         fatController.menu = null;
         fatController.colourDict = null;
         OBUtils.runOnMainThread(new OBUtils.RunLambda()

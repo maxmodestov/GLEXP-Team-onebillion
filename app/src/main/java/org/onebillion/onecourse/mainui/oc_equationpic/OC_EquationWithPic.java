@@ -342,9 +342,9 @@ public class OC_EquationWithPic extends OC_SectionController
         {
             public void run() throws Exception {
                 try {
-                    while (!statusChanged(time) && equation == currentEquation && !controller._aborting)
+                    while (!statusChanged(time) && equation == currentEquation && !controller.getAborting())
                     {
-                        for (int i = 0; i < 3 && !statusChanged(time) && equation == currentEquation && !controller._aborting; i++)
+                        for (int i = 0; i < 3 && !statusChanged(time) && equation == currentEquation && !controller.getAborting(); i++)
                         {
                             OC_Numberlines_Additions.colourEquation(equation, 1, 4, Color.RED, controller);
                             if (statusChanged(time))

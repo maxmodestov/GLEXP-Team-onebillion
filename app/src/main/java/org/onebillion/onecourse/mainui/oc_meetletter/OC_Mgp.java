@@ -715,25 +715,25 @@ public class OC_Mgp extends OC_SectionController
                try
                {
                    waitForSecs(3f);
-                   if(time == statusTime && !_aborting)
+                   if(time == statusTime && !getAborting())
                    {
                        textbox.setStrokeColor(frameColour);
                    }
                    waitForSecs(0.5f);
                    for (int i = 0;i < 3;i++)
                    {
-                       if(time == statusTime && !_aborting)
+                       if(time == statusTime && !getAborting())
                        {
                            textbox.setStrokeColor(Color.RED);
                        }
                        waitForSecs(0.3f);
-                       if(time == statusTime && !_aborting)
+                       if(time == statusTime && !getAborting())
                        {
                            textbox.setStrokeColor(frameColour);
                        }
                        waitForSecs(0.3f);
                    }
-                   if(time == statusTime && !_aborting)
+                   if(time == statusTime && !getAborting())
                    {
                        flashTextBox(time);
                    }

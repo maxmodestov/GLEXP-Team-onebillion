@@ -5,21 +5,16 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.view.View;
 
-import junit.framework.Test;
-
 import org.onebillion.onecourse.controls.OBControl;
 import org.onebillion.onecourse.controls.OBGroup;
 import org.onebillion.onecourse.controls.OBImage;
 import org.onebillion.onecourse.controls.OBLabel;
-import org.onebillion.onecourse.controls.OBPath;
 import org.onebillion.onecourse.controls.OBTextLayer;
-import org.onebillion.onecourse.mainui.MainActivity;
 import org.onebillion.onecourse.mainui.OBMainViewController;
 import org.onebillion.onecourse.mainui.OC_SectionController;
 import org.onebillion.onecourse.utils.OBAnim;
 import org.onebillion.onecourse.utils.OBAnimBlock;
 import org.onebillion.onecourse.utils.OBAnimationGroup;
-import org.onebillion.onecourse.utils.OBAudioManager;
 import org.onebillion.onecourse.utils.OBUtils;
 import org.onebillion.onecourse.utils.OBXMLManager;
 import org.onebillion.onecourse.utils.OBXMLNode;
@@ -393,7 +388,7 @@ public class OC_BubbleWrap extends OC_SectionController
         }
 
         lastPopLoopTick = currentTime;
-        if(this._aborting || !animatePopping)
+        if(this.getAborting() || !animatePopping)
             deregisterAnimationGroupWithName("poploop");
 
     }

@@ -7,7 +7,6 @@ import org.onebillion.onecourse.mainui.MainActivity;
 import org.onebillion.onecourse.mainui.OBMainViewController;
 import org.onebillion.onecourse.mainui.OBSectionController;
 
-import java.lang.ref.SoftReference;
 import java.util.Map;;
 
 /**
@@ -64,7 +63,7 @@ public class OBFatController
         {
 
         }
-        if(!cont._aborting)
+        if(!cont.getAborting())
             cont.exitEvent();
     }
 

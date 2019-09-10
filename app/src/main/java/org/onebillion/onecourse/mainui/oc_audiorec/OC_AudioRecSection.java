@@ -7,7 +7,6 @@ import android.view.View;
 import org.onebillion.onecourse.controls.OBControl;
 import org.onebillion.onecourse.controls.OBGroup;
 import org.onebillion.onecourse.controls.OBLabel;
-import org.onebillion.onecourse.mainui.MainActivity;
 import org.onebillion.onecourse.mainui.OBSectionController;
 import org.onebillion.onecourse.mainui.OC_SectionController;
 import org.onebillion.onecourse.utils.OBAnim;
@@ -19,7 +18,6 @@ import org.onebillion.onecourse.utils.OBMisc;
 import org.onebillion.onecourse.utils.OBUtils;
 import org.onebillion.onecourse.utils.OB_Maths;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -46,24 +44,24 @@ public class OC_AudioRecSection extends OC_SectionController
         OBUtils.runOnOtherThread(new OBUtils.RunLambda()
         {
             public void run() throws Exception {
-                if (time == controller.statusTime() && !controller._aborting)
+                if (time == controller.statusTime() && !controller.getAborting())
                     controller.waitForSecs(5f);
-                if (time == controller.statusTime() && !controller._aborting) {
+                if (time == controller.statusTime() && !controller.getAborting()) {
                     button.setOpacity(1);
                     controller.waitForSecs(0.5f);
                 }
                 for (int i = 0; i < 2; i++) {
-                    if (time == controller.statusTime() && !controller._aborting) {
+                    if (time == controller.statusTime() && !controller.getAborting()) {
                         button.setOpacity(0.4f);
                         controller.waitForSecs(0.3f);
                     }
-                    if (time == controller.statusTime() && !controller._aborting) {
+                    if (time == controller.statusTime() && !controller.getAborting()) {
                         button.setOpacity(1);
                         controller.waitForSecs(0.3f);
                     }
                 }
                 button.setOpacity(1);
-                if (time == controller.statusTime() && !controller._aborting)
+                if (time == controller.statusTime() && !controller.getAborting())
                     flashNextButton(button, time, controller);
             }
         } );

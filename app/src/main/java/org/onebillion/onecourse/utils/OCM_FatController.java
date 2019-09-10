@@ -563,7 +563,7 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
         if(unitInstance != currentUnitInstance)
             return false;
 
-        if(unitInstance.sectionController == null || unitInstance.sectionController._aborting)
+        if(unitInstance.sectionController == null || unitInstance.sectionController.getAborting())
             return false;
 
         if((unitInstance.startTime + unitInstance.mlUnit.targetDuration) <= getCurrentTime())
@@ -615,7 +615,7 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
         }
         unitInstancesList.remove(unitInstance);
         currentUnitInstance = null;
-        if(unitInstance.sectionController != null && !unitInstance.sectionController._aborting)
+        if(unitInstance.sectionController != null && !unitInstance.sectionController.getAborting())
             unitInstance.sectionController.exitEvent();
         unitInstance.sectionController = null;
     }
@@ -1156,7 +1156,7 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
 
     private void quitEvent(OBSectionController sectionController)
     {
-        if (!sectionController._aborting)
+        if (!sectionController.getAborting())
         {
             sectionController.cleanUp();
         }
@@ -1221,7 +1221,7 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
                 e.printStackTrace();
             }
         }
-        if(!cont._aborting)
+        if(!cont.getAborting())
             cont.exitEvent();
     }
 

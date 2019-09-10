@@ -2,9 +2,6 @@ package org.onebillion.onecourse.mainui;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
 import java.util.*;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -18,7 +15,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.*;
-import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
@@ -34,12 +30,8 @@ import org.onebillion.onecourse.controls.*;
 import org.onebillion.onecourse.glstuff.*;
 import org.onebillion.onecourse.utils.*;
 
-import static android.opengl.GLES20.GL_FLOAT;
 import static android.opengl.GLES20.GL_TEXTURE_2D;
-import static android.opengl.GLES20.GL_TRIANGLE_STRIP;
 import static android.opengl.GLES20.glBindTexture;
-import static android.opengl.GLES20.glDrawArrays;
-import static android.opengl.GLES20.glEnableVertexAttribArray;
 import static android.opengl.GLES20.glVertexAttribPointer;
 import static android.opengl.GLUtils.texImage2D;
 
@@ -84,7 +76,7 @@ public class OBSectionController extends OBViewController
     public int targetNo, currNo;
     public Object params;
     public OBControl target;
-    public boolean _aborting, sortedAttachedControlsValid, initialised;
+    public boolean sortedAttachedControlsValid, initialised;
     public OBControl thePointer, tick;
     protected int eventIndex, replayAudioIndex, theStatus, theMoveSpeed;
     protected List<Object> _replayAudio;
@@ -100,6 +92,16 @@ public class OBSectionController extends OBViewController
     public float topColour[] = {1, 1, 1, 1};
     float bottomColour[] = {1, 1, 1, 1};
     protected List<Integer> busyStatuses =Arrays.asList(STATUS_BUSY,STATUS_DOING_DEMO,STATUS_DRAGGING,STATUS_CHECKING);
+
+    private boolean aborting;
+
+    public boolean getAborting() {
+        return aborting;
+    }
+
+    public void setAborting(boolean value) {
+        aborting = value;
+    }
 
     public OBSectionController (Activity a)
     {
@@ -119,7 +121,7 @@ public class OBSectionController extends OBViewController
         eventAttributes = new HashMap<String, String>();
         objectDict = new HashMap<String, OBControl>();
         miscObjects = new HashMap<String, OBControl>();
-        _aborting = false;
+        setAborting(false);
         sequenceLock = new ReentrantLock();
         sortedAttachedControlsValid = true;
         this.requiresOpenGL = requiresOpenGL;
@@ -329,7 +331,7 @@ public class OBSectionController extends OBViewController
 
     public void viewWillAppear (Boolean animated)
     {
-        _aborting = false;
+        setAborting(false);
         //
         if (saveConfig != null)
         {
@@ -1718,7 +1720,7 @@ public class OBSectionController extends OBViewController
                 {
                     if (aqtCopy == audioQueueToken)
                     {
-                        
+
                         int sec = player.currentPositionms();
 
                         if (sec >= t)
@@ -1727,7 +1729,7 @@ public class OBSectionController extends OBViewController
                             audioTimer.cancel();
                             audioTimer.purge();
                         }
-                        if (controller._aborting || sec < 0)
+                        if (controller.getAborting() || sec < 0)
                         {
                             audioTimer.cancel();
                             audioTimer.purge();
@@ -1961,7 +1963,7 @@ public class OBSectionController extends OBViewController
         final long ftoken = token;
         final Lock flock = lock;
         final Condition fcondition = condition;
-        final OB_MutBoolean fabort = new OB_MutBoolean(_aborting);
+        final OB_MutBoolean fabort = new OB_MutBoolean(getAborting());
         new AsyncTask<Void, Void, Void>()
         {
             protected Void doInBackground (Void... params)
@@ -2007,7 +2009,7 @@ public class OBSectionController extends OBViewController
         }
         if (fabort.value)
         {
-            _aborting = true;
+            setAborting(true);
             throw new OBUserPressedBackException();
 //            throw new Exception("BackException");
         }
@@ -2025,7 +2027,7 @@ public class OBSectionController extends OBViewController
             return lock;
         final long token = updateAudioQueueToken();
         final OBConditionLock flock = lock;
-        final OB_MutBoolean fabort = new OB_MutBoolean(_aborting);
+        final OB_MutBoolean fabort = new OB_MutBoolean(getAborting());
         OBUtils.runOnOtherThread(new OBUtils.RunLambda() {
             @Override
             public void run() throws Exception {
@@ -2070,7 +2072,7 @@ public class OBSectionController extends OBViewController
         }
         if (fabort.value)
         {
-            _aborting = true;
+            setAborting(true);
             throw new OBUserPressedBackException();
         }
         return lock;
@@ -2143,7 +2145,7 @@ public class OBSectionController extends OBViewController
     {
         setStatus(STATUS_EXITING);
         //playAudio(null);
-        if (!_aborting)
+        if (!getAborting())
         {
             cleanUp();
             new OBRunnableUI()
@@ -2165,7 +2167,7 @@ public class OBSectionController extends OBViewController
 
     public void cleanUp ()
     {
-        _aborting = true;
+        setAborting(true);
         stopAllAudio();
         for(OBControl con : attachedControls)
             con.cleanUp();
@@ -2173,7 +2175,7 @@ public class OBSectionController extends OBViewController
 
     public void goBack ()
     {
-        if (!_aborting && !MainActivity.mainViewController.navigating)
+        if (!getAborting() && !MainActivity.mainViewController.navigating)
             exitEvent();
     }
 
@@ -2194,10 +2196,10 @@ public class OBSectionController extends OBViewController
 
     public boolean waitForAudio ()
     {
-        if (_aborting)
+        if (getAborting())
             return false;
         OBAudioManager.audioManager.waitAudio();
-        return !_aborting;
+        return !getAborting();
     }
 
     public void waitAudio () throws Exception
@@ -2227,13 +2229,13 @@ public class OBSectionController extends OBViewController
 
     public void waitAudioChannel (String ch) throws Exception
     {
-        if (_aborting)
+        if (getAborting())
         {
             throw new OBUserPressedBackException();
 //            throw new Exception("BackException");
         }
         OBAudioManager.audioManager.waitAudioChannel(ch);
-        if (_aborting)
+        if (getAborting())
         {
             throw new OBUserPressedBackException();
 //            throw new Exception("BackException");
@@ -2269,17 +2271,17 @@ public class OBSectionController extends OBViewController
 
     public void waitForSecsNoThrow (double secs)
     {
-        if (!_aborting)
+        if (!getAborting())
             _wait(secs);
     }
 
     public void waitForSecs (double secs) throws Exception
     {
-        if (!_aborting)
+        if (!getAborting())
         {
             _wait(secs);
         }
-        if (_aborting)
+        if (getAborting())
         {
             throw new OBUserPressedBackException();
 //            throw new Exception("BackException");
@@ -2288,7 +2290,7 @@ public class OBSectionController extends OBViewController
 
     public void checkAbort() throws Exception
     {
-        if (_aborting)
+        if (getAborting())
         {
             throw new OBUserPressedBackException();
         }
@@ -2440,7 +2442,7 @@ public class OBSectionController extends OBViewController
 
     public void goToCard (final Class nextSection, final String param, final boolean withAnimation)
     {
-        _aborting = true;
+        setAborting(true);
         OBUtils.runOnMainThread(new OBUtils.RunLambda()
         {
             @Override
@@ -2585,7 +2587,7 @@ public class OBSectionController extends OBViewController
 
     public boolean aborting()
     {
-        return _aborting;
+        return getAborting();
     }
 }
 

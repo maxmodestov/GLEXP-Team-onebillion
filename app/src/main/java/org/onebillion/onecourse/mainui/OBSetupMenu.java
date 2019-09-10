@@ -1,11 +1,7 @@
 package org.onebillion.onecourse.mainui;
 
-import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
@@ -14,23 +10,15 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
-import android.os.PowerManager;
-import android.os.RemoteException;
 import android.os.SystemClock;
 import android.text.format.DateFormat;
-import android.text.format.DateUtils;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.SeekBar;
 import android.widget.TimePicker;
 
-import org.onebillion.onecourse.R;
 import org.onebillion.onecourse.controls.OBControl;
 import org.onebillion.onecourse.controls.OBGroup;
 import org.onebillion.onecourse.controls.OBLabel;
@@ -43,7 +31,6 @@ import org.onebillion.onecourse.utils.OBUnZip;
 import org.onebillion.onecourse.utils.OCM_MlUnit;
 import org.onebillion.onecourse.utils.OBBrightnessManager;
 import org.onebillion.onecourse.utils.OBConnectionManager;
-import org.onebillion.onecourse.utils.OBImageManager;
 import org.onebillion.onecourse.utils.OBPreferenceManager;
 import org.onebillion.onecourse.utils.OBSystemsManager;
 import org.onebillion.onecourse.utils.OBUtils;
@@ -53,18 +40,15 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Date;
-import java.util.Random;
 
 import org.apache.commons.net.ntp.NTPUDPClient;
 import org.apache.commons.net.ntp.TimeInfo;
 import org.onebillion.onecourse.utils.OB_Maths;
 import org.onebillion.onecourse.utils.OCM_FatController;
-import org.onebillion.onecourse.utils.OCM_User;
 import org.onebillion.onecourse.utils.TimeProvider;
 
 
@@ -275,7 +259,7 @@ public class OBSetupMenu extends OC_SectionController implements TimePickerDialo
                     homeScreen_refreshDate();
                 }
                 //
-                if (!_aborting)
+                if (!getAborting())
                 {
                     OBUtils.runOnOtherThreadDelayed(clockRefreshInterval, new OBUtils.RunLambda()
                     {

@@ -2,7 +2,6 @@ package org.onebillion.onecourse.utils;
 
 import android.media.MediaRecorder;
 
-import org.onebillion.onecourse.mainui.MainActivity;
 import org.onebillion.onecourse.mainui.OBSectionController;
 
 import java.io.IOException;
@@ -189,7 +188,7 @@ public class OBAudioRecorder
 
     public void recordingTimerFire()
     {
-        if(recording && !sectionControllerWeakReference.get()._aborting)
+        if(recording && !sectionControllerWeakReference.get().getAborting())
         {
             long currentTime = TimeProvider.currentTimeMillis();
             int val = getAverangePower();

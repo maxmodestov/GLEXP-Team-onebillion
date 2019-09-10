@@ -7,7 +7,6 @@ import android.graphics.PathMeasure;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 
 import org.onebillion.onecourse.controls.OBControl;
@@ -163,7 +162,7 @@ public class OC_ReadingReadToMeNTx extends OC_ReadingReadToMe
 
     public void replayAudio()
     {
-        if (_aborting || MainViewController().navigating || status() == STATUS_FINISHING)
+        if (getAborting() || MainViewController().navigating || status() == STATUS_FINISHING)
             return;
         if (pageNo == 0)
         {
@@ -468,7 +467,7 @@ public class OC_ReadingReadToMeNTx extends OC_ReadingReadToMe
         try
         {
             waitForSecs(0.8f);
-            if(status()  != STATUS_FINISHING && !_aborting)
+            if(status()  != STATUS_FINISHING && !getAborting())
             {
                 if (!considerComprehensionQuestions())
                     bringUpNextButton();

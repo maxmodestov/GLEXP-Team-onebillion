@@ -3,7 +3,6 @@ package org.onebillion.onecourse.mainui.oc_lettersandsounds;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Color;
 import android.graphics.PointF;
-import android.os.AsyncTask;
 import android.view.View;
 
 import org.onebillion.onecourse.controls.OBControl;
@@ -320,7 +319,7 @@ public class OC_TalkingHead extends OC_Generic_WordsEvent
 
     public void doReminder(final Boolean playReminder) throws Exception
     {
-        if (_aborting)
+        if (getAborting())
         {
             return;
         }
@@ -481,14 +480,14 @@ public class OC_TalkingHead extends OC_Generic_WordsEvent
                 //
                 avatarShowMouthFrameForText(sound.text, false);
                 waitForSecs(0.15);
-                if (_aborting) return;
+                if (getAborting()) return;
                 //
                 avatarShowMouthFrameForText(sound.text, true);
                 waitAudio();
-                if (_aborting) return;
+                if (getAborting()) return;
                 //
                 waitForSecs(0.15);
-                if (_aborting) return;
+                if (getAborting()) return;
                 //
                 avatarShowMouthFrame("mouth_2");
                 //
@@ -510,42 +509,42 @@ public class OC_TalkingHead extends OC_Generic_WordsEvent
                 Double currTime = OC_Generic.currentTime() - startTime;
                 Double waitTime = timeStart - currTime;
                 if (waitTime > 0.0) waitForSecs(waitTime);
-                if (_aborting) return;
+                if (getAborting()) return;
                 //
                 Integer endRange = startRange + sound.text.length();
                 action_highlightWord(correctAnswer, label, startRange, endRange, true);
                 //
                 avatarShowMouthFrameForText(sound.text, false);
                 waitForSecs(0.15);
-                if (_aborting) return;
+                if (getAborting()) return;
                 //
                 avatarShowMouthFrameForText(sound.text, true);
                 waitForSecs(0.15);
-                if (_aborting) return;
+                if (getAborting()) return;
                 //
                 currTime = OC_Generic.currentTime();
                 waitTime = timeEnd - currTime;
                 if (waitTime > 0) waitForSecs(waitTime);
-                if (_aborting) return;
+                if (getAborting()) return;
                 //
                 avatarShowMouthFrame("mouth_2");
                 //
                 startRange += sound.text.length();
             }
             waitAudio();
-            if (_aborting) return;
+            if (getAborting()) return;
         }
         //
         action_highlightWord(correctAnswer, label, 0, correctAnswer.text.length(), false);
         avatarShowMouthFrame("mouth_0");
         //
         waitForSecs(0.3);
-        if (_aborting) return;
+        if (getAborting()) return;
         //
         avatarSay_word(true);
         //
         waitForSecs(0.3);
-        if (_aborting) return;
+        if (getAborting()) return;
     }
 
 

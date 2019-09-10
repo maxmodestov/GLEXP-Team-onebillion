@@ -257,7 +257,7 @@ public class OBCameraManager
 
     private void startPreviewForControls(final OBVideoPlayer videoPlayer, final OBVideoRecorder videoRecorder, int cameraLoc)
     {
-        if (videoPlayer == null || activityPaused || controller.get()._aborting || videoPlayer.activityPaused)
+        if (videoPlayer == null || activityPaused || controller.get().getAborting() || videoPlayer.activityPaused)
             return;
         controller.get().lockScreen();
         try
@@ -273,7 +273,7 @@ public class OBCameraManager
             stopPreview(true);
             startCameraLock();
             calculatePreviewAndRecordingSizes(videoPlayer.width(), videoPlayer.height());
-            
+
             videoPlayer.setPreviewSize(previewSize);
 
             previewBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);

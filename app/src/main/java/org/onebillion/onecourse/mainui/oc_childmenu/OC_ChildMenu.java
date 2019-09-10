@@ -28,7 +28,6 @@ import org.onebillion.onecourse.utils.OB_Maths;
 import org.onebillion.onecourse.utils.OC_FatController;
 import org.onebillion.onecourse.utils.OC_FatReceiver;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -330,7 +329,7 @@ public class OC_ChildMenu extends OC_Menu implements OC_FatReceiver
                 @Override
                 public void run() throws Exception
                 {
-                    if (dialog.isShowing()&&!controller._aborting)
+                    if (dialog.isShowing()&&!controller.getAborting())
                     {
                         dialog.dismiss();
                         resetEntireCourse();
@@ -400,7 +399,7 @@ public class OC_ChildMenu extends OC_Menu implements OC_FatReceiver
 
     public boolean checkCurrentCommand()
     {
-        if(status() == STATUS_EXITING || _aborting)
+        if(status() == STATUS_EXITING || getAborting())
             return false;
 
         if(currentTarget == TouchTargets.TARGET_BUTTON && fatController.currentSessionReadyToStart())
@@ -422,7 +421,7 @@ public class OC_ChildMenu extends OC_Menu implements OC_FatReceiver
         setStatus(STATUS_EXITING);
         killAnimations();
         playAudio(null);
-        _aborting = true;
+        setAborting(true);
         OBUtils.runOnMainThread(new OBUtils.RunLambda()
         {
             @Override
@@ -806,11 +805,11 @@ public class OC_ChildMenu extends OC_Menu implements OC_FatReceiver
         screenOverlay.setOpacity(0);
         screenOverlay.show();
         attachControl(screenOverlay);
-        if(_aborting)
+        if(getAborting())
             return;
         OBAnimationGroup.runAnims(Collections.singletonList(OBAnim.opacityAnim(1, screenOverlay)), 2, true, OBAnim.ANIM_LINEAR, this);
         objectDict.get("overlay").show();
-        if(_aborting)
+        if(getAborting())
             return;
         OBSystemsManager.sharedManager.screenLock();
 

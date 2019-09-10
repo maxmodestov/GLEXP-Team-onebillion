@@ -4,7 +4,6 @@ import android.graphics.PointF;
 
 import org.onebillion.onecourse.controls.OBControl;
 import org.onebillion.onecourse.controls.OBGroup;
-import org.onebillion.onecourse.controls.OBImage;
 import org.onebillion.onecourse.controls.OBLabel;
 import org.onebillion.onecourse.controls.OBPath;
 import org.onebillion.onecourse.mainui.MainActivity;
@@ -69,7 +68,7 @@ public class OC_CountingTo1000_Learn extends OC_CountingTo1000
             public void run() throws Exception
             {
                 boolean statusWasIdle = true;
-                while (!_aborting)
+                while (!getAborting())
                 {
                     if (status() != STATUS_AWAITING_CLICK)
                     {

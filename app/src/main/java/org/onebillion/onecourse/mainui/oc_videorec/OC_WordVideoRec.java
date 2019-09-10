@@ -220,14 +220,14 @@ public class OC_WordVideoRec extends OC_SectionController
 
     public void showVideoPreview()
     {
-        if(!_aborting)
+        if(!getAborting())
             cameraManager.startPreviewForRecording(videoPlayer,videoRecorder);
     }
 
 
     public void startVideoRecorder(double audioLength)
     {
-        if(!_aborting)
+        if(!getAborting())
             videoRecorder.startMediaRecorderAndTimer(audioLength);
     }
 
@@ -583,25 +583,25 @@ public class OC_WordVideoRec extends OC_SectionController
                 try
                 {
                     waitForSecs(3f);
-                    if(time == statusTime && !_aborting)
+                    if(time == statusTime && !getAborting())
                     {
                         nextButton.setOpacity(1);
                     }
                     waitForSecs(0.5f);
                     for (int i = 0;i < 2;i++)
                     {
-                        if(time == statusTime && !_aborting)
+                        if(time == statusTime && !getAborting())
                         {
                             nextButton.setOpacity(0.2f);
                         }
                         waitForSecs(0.3f);
-                        if(time == statusTime && !_aborting)
+                        if(time == statusTime && !getAborting())
                         {
                             nextButton.setOpacity(1);
                         }
                         waitForSecs(0.3f);
                     }
-                    if(time == statusTime && !_aborting)
+                    if(time == statusTime && !getAborting())
                     {
                         flashNextButton(statusTime);
                     }
