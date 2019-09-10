@@ -1026,7 +1026,7 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
 //        runNextMenu();
         if (BuildConfig.SELECT_SYLLABUS) {
             if (teacherSyllabus)
-                runMenu("OC_SimpleListMenu");
+                runSimpleListMenu();
             else
                 runMenu();
         }
@@ -1085,6 +1085,11 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
         runMenu(OBConfigManager.sharedManager.getMenuClassName());
     }
 
+    private void runSimpleListMenu() {
+        testMenuMode = true;
+        runMenu("OC_SimpleListMenu");
+    }
+
     private void runMenu(final String menuClassName) {
         MainActivity.log("OCM_FatController shouldShowTestMenu else");
 
@@ -1117,12 +1122,12 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
         showSelectStartupActivityDialog(new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                OCM_FatController.this.runMenu();
+                runMenu();
             }
         }, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                OCM_FatController.this.runMenu("OC_SimpleListMenu");
+                runSimpleListMenu();
             }
         });
     }
