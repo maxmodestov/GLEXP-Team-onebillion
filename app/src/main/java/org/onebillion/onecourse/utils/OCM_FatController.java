@@ -45,6 +45,7 @@ import static org.onebillion.onecourse.mainui.OBViewController.MainViewControlle
 
 public class OCM_FatController extends OBFatController implements OBSystemsManager.TimeSynchronizationReceiver
 {
+    private final String TAG = "OCM_FatController";
     public final static int STUDY_LISTID=1,
             PLAYZONE_LISTID=2,
             LIBRARY_LISTID=3;
@@ -481,10 +482,12 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
         OBAlarmManager.scheduleRepeatingAlarm(calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, ALARM_PLAYZONE_UNLOCK);
     }
 
-    public void checkCurrentStatus()
-    {
-        if(testMenuMode)
+    private void checkCurrentStatus() {
+        boolean disableStatusCheck = true;
+        if (testMenuMode || disableStatusCheck) {
+            Log.d(TAG, "checkCurrentStatus: DISABLED");
             return;
+        }
 
         boolean batteryStatusLow = batteryStatusLow();
         if(batteryStatusLow ||
