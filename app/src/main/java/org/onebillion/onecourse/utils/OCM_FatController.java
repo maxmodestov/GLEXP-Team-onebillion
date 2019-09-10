@@ -1093,7 +1093,6 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
     private void runMenu(final String menuClassName) {
         MainActivity.log("OCM_FatController shouldShowTestMenu else");
 
-        testMenuMode = false;
         // setup is now complete: continue as usual
         prepareAlarm();
         //
