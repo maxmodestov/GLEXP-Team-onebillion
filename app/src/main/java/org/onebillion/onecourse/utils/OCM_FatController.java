@@ -949,7 +949,7 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
         initDB();
     }
 
-    private boolean teacherSyllabus = false;
+    private boolean runAsUnitList = false;
 
     @Override
     public void startUp() {
@@ -963,7 +963,6 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
             SyllabusPickerPopup.showDialog(new SyllabusPickerPopup.OnClickListener() {
                 @Override
                 public void onClick() {
-                    teacherSyllabus = true;
                 }
             }, new SyllabusPickerPopup.OnCloseListener() {
                 @Override
@@ -971,6 +970,7 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
                     OBUtils.runOnMainThread(new OBUtils.RunLambda() {
                         @Override
                         public void run() throws Exception {
+                            runAsUnitList = true;
                             proceedStartingUp();
                         }
                     });
@@ -1025,7 +1025,7 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
 
 //        runNextMenu();
         if (BuildConfig.SELECT_SYLLABUS) {
-            if (teacherSyllabus)
+            if (runAsUnitList)
                 runSimpleListMenu();
             else
                 runMenu();
