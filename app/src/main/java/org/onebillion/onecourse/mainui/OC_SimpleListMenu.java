@@ -171,7 +171,7 @@ public class OC_SimpleListMenu extends OBSectionController
             public View getView(int position, View convertView, ViewGroup parent)
             {
                 MlUnit ml = getItem(position);
-                String s =  String.format("%s/%s/%s/%s",ml.key,ml.target,ml.params,ml.config);
+                String s =  String.format("%s",ml.key);
                 TextView view = (TextView)super.getView(position,convertView,parent);
                 // Get the Layout Parameters for ListView Current Item View
                 ViewGroup.LayoutParams params = view.getLayoutParams();
