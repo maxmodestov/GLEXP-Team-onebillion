@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -271,6 +270,7 @@ public class OC_SimpleListMenu extends OBSectionController
                     {
                         MlUnit m = MlUnit.mlUnitFromXMLNode(n);
                         m.key = n.attributeStringValue("id");
+                        m.level = Integer.parseInt(xmlLevel.attributeStringValue("id"));
                         arr.add(m);
                     }
                 }
@@ -288,7 +288,8 @@ public class OC_SimpleListMenu extends OBSectionController
         String mlname = OBConfigManager.sharedManager.getMasterlist();
         masterList = loadUnitXML(String.format("masterlists/%s/units.xml", mlname));
         if (BuildConfig.SELECT_SYLLABUS) {
-            removeUnitsBeforeCurrentWeek();
+            leaveUnitsOnlyForCurrentWeek();
+            removeDuplicateUnits();
         }
         else {
             removeRepeatExercisesFromUnitsList();
@@ -305,24 +306,33 @@ public class OC_SimpleListMenu extends OBSectionController
         masterList.removeAll(toBeRemoved);
     }
 
-    private void removeUnitsBeforeCurrentWeek() {
-        final int unitsInAWeek = 15;
-        int week = TimeProvider.getCurrentDayNumber() / 7;
-        int removeDays = week * unitsInAWeek;
-        if (removeDays >= masterList.size())
-            masterList = new ArrayList<>();
-        else
-            masterList = masterList.subList(removeDays, masterList.size());
+    private void leaveUnitsOnlyForCurrentWeek() {
+        int currentWeek = TimeProvider.getCurrentDayNumber() / 7 + 1;
+        List<MlUnit> result = new ArrayList<>();
+        for (MlUnit unit : masterList)
+            if (unit.level == currentWeek)
+                result.add(unit);
+        masterList = result;
+    }
+
+    private void removeDuplicateUnits() {
+        List<MlUnit> toRemove = new ArrayList<>();
+        for (int i = 0; i < masterList.size(); i++)
+            for (int n = i + 1; n < masterList.size(); n++)
+                if (masterList.get(i).key.equals(masterList.get(n).key))
+                    toRemove.add(masterList.get(n));
+
+        masterList.removeAll(toRemove);
     }
 
     private void removeUnitsBeforeCurrentWeekFull() {
         final int unitsInAWeek = 60;
         int week = TimeProvider.getCurrentDayNumber() / 7;
-        int removeDays = week * unitsInAWeek;
-        if (removeDays >= masterList.size())
+        int removeUnits = week * unitsInAWeek;
+        if (removeUnits >= masterList.size())
             masterList = new ArrayList<>();
         else
-            masterList = masterList.subList(removeDays, masterList.size());
+            masterList = masterList.subList(removeUnits, masterList.size());
     }
 
     public void prepare()
