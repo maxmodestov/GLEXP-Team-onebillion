@@ -96,6 +96,17 @@ android {
                     appIcon: "@mipmap/child_en_gb"
             ]
         }
+        sw_community_full_ {
+            applicationId 'org.onebillion.onecourse.child.full'
+            versionCode 1
+            versionName '1.0'
+            resValue "string", "app_name", "onecourse - Child Full"
+            buildConfigField 'String', 'SETTINGS_FILE', '"settings_community_sw-full.plist"'
+            buildConfigField 'boolean', 'SELECT_SYLLABUS', 'false'
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/icon_child"
+            ]
+        }
         enGB_community_full_ {
             applicationId 'org.onebillion.onecourse.child.en_GB.full'
             versionCode 1
