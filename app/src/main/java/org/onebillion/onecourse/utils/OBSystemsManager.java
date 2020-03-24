@@ -28,6 +28,7 @@ import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.Display;
 import android.view.Window;
 import android.widget.DatePicker;
@@ -731,6 +732,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
 
     public void setCurrentUnit(String unit)
     {
+        Log.d("MYTEST", "setCurrentUnit: " + unit);
         if (OBConfigManager.sharedManager.isDebugEnabled())
         {
             currentUnit = unit;

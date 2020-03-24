@@ -35,6 +35,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.onebillion.onecourse.R;
+import org.onebillion.onecourse.adultapp.AdultAppAdapter;
 import org.onebillion.onecourse.controls.OBControl;
 import org.onebillion.onecourse.controls.OBGroup;
 import org.onebillion.onecourse.glstuff.OBGLView;
@@ -229,6 +230,21 @@ public class MainActivity extends Activity
         catch (Exception e)
         {
             e.printStackTrace();
+        }
+        Log.d("MYTEST", "onCreate FINISHED");
+    }
+
+    public boolean ready = false;
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        setIntent(intent);
+        Log.d("MYTEST", "onNewIntent");
+        if (ready) {
+            Log.d("MYTEST", "onNewIntent handleIntent");
+            AdultAppAdapter.handleIntent(MainActivity.mainActivity.getIntent());
         }
     }
 

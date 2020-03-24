@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import org.onebillion.onecourse.BuildConfig;
 import org.onebillion.onecourse.R;
+import org.onebillion.onecourse.adultapp.AdultAppAdapter;
 import org.onebillion.onecourse.controls.OBControl;
 import org.onebillion.onecourse.controls.OBGroup;
 import org.onebillion.onecourse.mainui.MainActivity;
@@ -959,35 +960,39 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
             e.printStackTrace();
         }
 
-        if (BuildConfig.SELECT_SYLLABUS)
-            SyllabusPickerPopup.showDialog(new SyllabusPickerPopup.OnClickListener() {
-                @Override
-                public void onClick() {
-                }
-            }, new SyllabusPickerPopup.OnCloseListener() {
-                @Override
-                public void onClose() {
-                    OBUtils.runOnMainThread(new OBUtils.RunLambda() {
-                        @Override
-                        public void run() throws Exception {
-                            runAsUnitList = true;
-                            proceedStartingUp();
-                        }
-                    });
-                }
-            });
-        else
-            WeekPickerPopup.showDialog(new WeekPickerPopup.OnCloseListener() {
-                @Override
-                public void onClose() {
-                    OBUtils.runOnMainThread(new OBUtils.RunLambda() {
-                        @Override
-                        public void run() throws Exception {
-                            proceedStartingUp();
-                        }
-                    });
-                }
-            });
+        if (!BuildConfig.CHILD_APP) {
+            if (BuildConfig.SELECT_SYLLABUS)
+                SyllabusPickerPopup.showDialog(new SyllabusPickerPopup.OnClickListener() {
+                    @Override
+                    public void onClick() {
+                    }
+                }, new SyllabusPickerPopup.OnCloseListener() {
+                    @Override
+                    public void onClose() {
+                        OBUtils.runOnMainThread(new OBUtils.RunLambda() {
+                            @Override
+                            public void run() throws Exception {
+                                runAsUnitList = true;
+                                proceedStartingUp();
+                            }
+                        });
+                    }
+                });
+            else
+                WeekPickerPopup.showDialog(new WeekPickerPopup.OnCloseListener() {
+                    @Override
+                    public void onClose() {
+                        OBUtils.runOnMainThread(new OBUtils.RunLambda() {
+                            @Override
+                            public void run() throws Exception {
+                                proceedStartingUp();
+                            }
+                        });
+                    }
+                });
+        } else {
+            proceedStartingUp();
+        }
     }
 
     void proceedStartingUp() {
@@ -1023,8 +1028,13 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
         //
         timeoutHandler = new Handler();
 
+        MainActivity.mainActivity.ready = true;
 //        runNextMenu();
-        if (BuildConfig.SELECT_SYLLABUS) {
+        if (BuildConfig.CHILD_APP) {
+            Log.d("MYTEST", "proceedStartingUp CHILD_APP handleIntent");
+            AdultAppAdapter.handleIntent(MainActivity.mainActivity.getIntent());
+        }
+        else if (BuildConfig.SELECT_SYLLABUS) {
             if (runAsUnitList)
                 runSimpleListMenu();
             else
