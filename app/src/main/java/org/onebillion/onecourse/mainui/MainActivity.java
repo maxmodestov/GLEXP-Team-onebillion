@@ -335,8 +335,7 @@ public class MainActivity extends Activity
     }
 
 
-    public void checkForFirstSetupAndRun()
-    {
+    public void checkForFirstSetupAndRun() {
         OBUtils.runOnMainThread(new OBUtils.RunLambda()
         {
             @Override
