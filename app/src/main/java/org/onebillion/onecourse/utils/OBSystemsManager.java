@@ -36,9 +36,6 @@ import android.widget.LinearLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ntp.NTPUDPClient;
-import org.apache.commons.net.ntp.TimeInfo;
 import org.onebillion.onecourse.controls.OBLabel;
 import org.onebillion.onecourse.mainui.MainActivity;
 import org.onebillion.onecourse.receivers.OBBatteryReceiver;
@@ -418,7 +415,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
                     continue;
                 }
                 MainActivity.log("OBSystemsManager.killBackgroundProcesses: " + name);
-                activityManager.killBackgroundProcesses(name);
+//                activityManager.killBackgroundProcesses(name);
             }
         }
     }
@@ -1430,82 +1427,82 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
 
     public void backup_uploadDatabase_ftp(Boolean disconnectAfter)
     {
-        MainActivity.log("OBSystemsManager.backup_uploadDatabase_ftp attempting lock");
-        if (backup_getLock().tryLock())
-        {
-            try
-            {
-                MainActivity.log("OBSystemsManager.backup_uploadDatabase_ftp.generating database backup");
-                final boolean freshBackup = true;
-                String fileURL = (freshBackup) ? OBSQLiteHelper.getSqlHelper().backupDatabase() : OBSQLiteHelper.getSqlHelper().getLatestDatabaseBackup();
-                if (fileURL == null) fileURL = OBSQLiteHelper.getSqlHelper().backupDatabase();
-                //
-                if (fileURL == null)
-                {
-                    MainActivity.log("OBSystemsManager.backup_uploadDatabase_ftp.could not generate a database backup");
-                } else
-                {
-                    File file = new File(fileURL);
-                    FTPClient ftpClient = new FTPClient();
-                    //
-                    String backupURL = OBConfigManager.sharedManager.getBackupURL();
-                    String backupWorkingDirectory = OBConfigManager.sharedManager.getBackupWorkingDirectory();
-                    //
-                    ftpClient.connect(InetAddress.getByName(backupURL));
-                    ftpClient.login("anonymous", "");
-                    ftpClient.changeWorkingDirectory(backupWorkingDirectory);
-                    //
-                    String reply = ftpClient.getReplyString();
-                    //
-                    if (reply.contains("250") || reply.contains("230"))
-                    {
-                        ftpClient.setFileType(org.apache.commons.net.ftp.FTP.BINARY_FILE_TYPE);
-                        BufferedInputStream buffIn = null;
-                        buffIn = new BufferedInputStream(new FileInputStream(file));
-                        ftpClient.enterLocalPassiveMode();
-                        boolean result = ftpClient.storeFile(file.getName(), new FileInputStream(file));
-                        buffIn.close();
-                        ftpClient.logout();
-                        ftpClient.disconnect();
-                        //
-                        if (result)
-                        {
-                            MainActivity.log("OBSystemsManager.backup_uploadDatabase_ftp updating lastBackupTimeStamp");
-                            long currentTime = TimeProvider.currentTimeMillis() / 1000;
-                            OBPreferenceManager.setPreference("lastBackupTimeStamp", String.format("%d", currentTime));
-                            //
-                            OBUtils.runOnMainThread(new OBUtils.RunLambda()
-                            {
-                                @Override
-                                public void run() throws Exception
-                                {
-                                    Toast.makeText(MainActivity.mainActivity, "Database has been uploaded to the server", Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        } else
-                        {
-                            MainActivity.log("OBSystemsManager.backup_uploadDatabase_ftp error while uploading FTP file");
-                        }
-                        //
-                        if (disconnectAfter)
-                        {
-                            MainActivity.log("OBSystemsManager.backup_uploadDatabase_ftp. disconnecting Wifi");
-                            connectionManager.disconnectWifi();
-                        }
-                    }
-                }
-            } catch (Exception e)
-            {
-                MainActivity.log("OBSystemsManager.backup_uploadDatabase_ftp exception caught");
-                e.printStackTrace();
-            }
-            //
-            MainActivity.log("OBSystemsManager.backup_uploadDatabase_ftp releasing lock");
-            backup_getLock().unlock();
-        } else
-        {
-            MainActivity.log("OBSystemsManager.backup_uploadDatabase_ftp backup already in progress");
-        }
+//        MainActivity.log("OBSystemsManager.backup_uploadDatabase_ftp attempting lock");
+//        if (backup_getLock().tryLock())
+//        {
+//            try
+//            {
+//                MainActivity.log("OBSystemsManager.backup_uploadDatabase_ftp.generating database backup");
+//                final boolean freshBackup = true;
+//                String fileURL = (freshBackup) ? OBSQLiteHelper.getSqlHelper().backupDatabase() : OBSQLiteHelper.getSqlHelper().getLatestDatabaseBackup();
+//                if (fileURL == null) fileURL = OBSQLiteHelper.getSqlHelper().backupDatabase();
+//                //
+//                if (fileURL == null)
+//                {
+//                    MainActivity.log("OBSystemsManager.backup_uploadDatabase_ftp.could not generate a database backup");
+//                } else
+//                {
+//                    File file = new File(fileURL);
+//                    FTPClient ftpClient = new FTPClient();
+//                    //
+//                    String backupURL = OBConfigManager.sharedManager.getBackupURL();
+//                    String backupWorkingDirectory = OBConfigManager.sharedManager.getBackupWorkingDirectory();
+//                    //
+//                    ftpClient.connect(InetAddress.getByName(backupURL));
+//                    ftpClient.login("anonymous", "");
+//                    ftpClient.changeWorkingDirectory(backupWorkingDirectory);
+//                    //
+//                    String reply = ftpClient.getReplyString();
+//                    //
+//                    if (reply.contains("250") || reply.contains("230"))
+//                    {
+//                        ftpClient.setFileType(org.apache.commons.net.ftp.FTP.BINARY_FILE_TYPE);
+//                        BufferedInputStream buffIn = null;
+//                        buffIn = new BufferedInputStream(new FileInputStream(file));
+//                        ftpClient.enterLocalPassiveMode();
+//                        boolean result = ftpClient.storeFile(file.getName(), new FileInputStream(file));
+//                        buffIn.close();
+//                        ftpClient.logout();
+//                        ftpClient.disconnect();
+//                        //
+//                        if (result)
+//                        {
+//                            MainActivity.log("OBSystemsManager.backup_uploadDatabase_ftp updating lastBackupTimeStamp");
+//                            long currentTime = TimeProvider.currentTimeMillis() / 1000;
+//                            OBPreferenceManager.setPreference("lastBackupTimeStamp", String.format("%d", currentTime));
+//                            //
+//                            OBUtils.runOnMainThread(new OBUtils.RunLambda()
+//                            {
+//                                @Override
+//                                public void run() throws Exception
+//                                {
+//                                    Toast.makeText(MainActivity.mainActivity, "Database has been uploaded to the server", Toast.LENGTH_LONG).show();
+//                                }
+//                            });
+//                        } else
+//                        {
+//                            MainActivity.log("OBSystemsManager.backup_uploadDatabase_ftp error while uploading FTP file");
+//                        }
+//                        //
+//                        if (disconnectAfter)
+//                        {
+//                            MainActivity.log("OBSystemsManager.backup_uploadDatabase_ftp. disconnecting Wifi");
+//                            connectionManager.disconnectWifi();
+//                        }
+//                    }
+//                }
+//            } catch (Exception e)
+//            {
+//                MainActivity.log("OBSystemsManager.backup_uploadDatabase_ftp exception caught");
+//                e.printStackTrace();
+//            }
+//            //
+//            MainActivity.log("OBSystemsManager.backup_uploadDatabase_ftp releasing lock");
+//            backup_getLock().unlock();
+//        } else
+//        {
+//            MainActivity.log("OBSystemsManager.backup_uploadDatabase_ftp backup already in progress");
+//        }
     }
 
 
@@ -1824,31 +1821,31 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
     public long getNTPTimestamp(String timeServerURL)
     {
         long timestamp = -1;
-        NTPUDPClient client = new NTPUDPClient();
-        client.setDefaultTimeout(1000);
-        //
-        try
-        {
-            client.open();
-            InetAddress hostAddr = InetAddress.getByName(timeServerURL);
-            //
-            TimeInfo info = client.getTime(hostAddr);
-            info.computeDetails();
-            client.close();
-            //
-            timestamp = info.getMessage().getReceiveTimeStamp().getTime();
-        } catch (SocketException e)
-        {
-            e.printStackTrace();
-
-        } catch (SocketTimeoutException e)
-        {
-
-
-        } catch (Exception e)
-        {
-
-        }
+//        NTPUDPClient client = new NTPUDPClient();
+//        client.setDefaultTimeout(1000);
+//        //
+//        try
+//        {
+//            client.open();
+//            InetAddress hostAddr = InetAddress.getByName(timeServerURL);
+//            //
+//            TimeInfo info = client.getTime(hostAddr);
+//            info.computeDetails();
+//            client.close();
+//            //
+//            timestamp = info.getMessage().getReceiveTimeStamp().getTime();
+//        } catch (SocketException e)
+//        {
+//            e.printStackTrace();
+//
+//        } catch (SocketTimeoutException e)
+//        {
+//
+//
+//        } catch (Exception e)
+//        {
+//
+//        }
 
         return timestamp;
     }
