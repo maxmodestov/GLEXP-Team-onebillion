@@ -27,7 +27,7 @@ public class OBLocationManager
     {
         sharedManager = this;
         //
-//        locationManager = (LocationManager) activity.getSystemService(activity.getApplicationContext().LOCATION_SERVICE);
+        locationManager = (LocationManager) activity.getSystemService(activity.getApplicationContext().LOCATION_SERVICE);
     }
 
     public Location getLastKnownLocation ()

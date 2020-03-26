@@ -2,10 +2,8 @@ package org.onebillion.onecourse.utils;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.BroadcastReceiver;
@@ -54,10 +52,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
-import java.net.InetAddress;
 import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -132,7 +127,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
-            return Settings.System.canWrite(MainActivity.mainActivity);
+            return Settings.System.canWrite(MainActivity.instance);
         } else
         {
             MainActivity.log("OBSystemsManager:hasWriteSettingsPermission: failsafe incompatible SDK version. exiting function");
@@ -171,7 +166,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
 
     private boolean isMyServiceRunning(Class<?> serviceClass)
     {
-        ActivityManager manager = (ActivityManager) MainActivity.mainActivity.getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager manager = (ActivityManager) MainActivity.instance.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE))
         {
             if (serviceClass.getName().equals(service.service.getClassName()))
@@ -190,7 +185,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
         //
         MainActivity.log("OBSystemsManager.killing all services");
         //
-        MainActivity.mainActivity.stopService(new Intent(MainActivity.mainActivity, OBAutoStartActivityService.class));
+        MainActivity.instance.stopService(new Intent(MainActivity.instance, OBAutoStartActivityService.class));
     }
 
 
@@ -213,8 +208,8 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
         {
             MainActivity.log("OBAutoStartActivityService was not running. Starting now");
             //
-            Intent serviceIntent = new Intent(MainActivity.mainActivity, OBAutoStartActivityService.class);
-            MainActivity.mainActivity.startService(serviceIntent);
+            Intent serviceIntent = new Intent(MainActivity.instance, OBAutoStartActivityService.class);
+            MainActivity.instance.startService(serviceIntent);
         }
         //
         PhoneStateListener phoneStateListener = new PhoneStateListener()
@@ -253,7 +248,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
             }
         };
         //
-        TelephonyManager telephonyManager = (TelephonyManager) MainActivity.mainActivity.getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager telephonyManager = (TelephonyManager) MainActivity.instance.getSystemService(Context.TELEPHONY_SERVICE);
 
         telephonyManager.listen(phoneStateListener,
                 PhoneStateListener.LISTEN_CALL_FORWARDING_INDICATOR |
@@ -312,7 +307,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
         //
         if (mainHandler == null)
         {
-            mainHandler = new Handler(MainActivity.mainActivity.getMainLooper());
+            mainHandler = new Handler(MainActivity.instance.getMainLooper());
         }
         //
         MainActivity.log("OBSystemsManager.runChecks --> SQL maintenance");
@@ -326,7 +321,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
     {
         if (mainHandler == null)
         {
-            mainHandler = new Handler(MainActivity.mainActivity.getMainLooper());
+            mainHandler = new Handler(MainActivity.instance.getMainLooper());
         }
         return mainHandler;
     }
@@ -340,7 +335,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
             return;
         }
         //
-        ActivityManager activityManager = (ActivityManager) MainActivity.mainActivity.getSystemService(MainActivity.ACTIVITY_SERVICE);
+        ActivityManager activityManager = (ActivityManager) MainActivity.instance.getSystemService(MainActivity.ACTIVITY_SERVICE);
         int id = android.os.Process.myPid();
         int[] list = {id};
         Debug.MemoryInfo result[] = activityManager.getProcessMemoryInfo(list);
@@ -399,7 +394,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
     public void killBackgroundProcesses()
     {
         MainActivity.log("OBSystemsManager.killBackgroundProcesses");
-        ActivityManager activityManager = (ActivityManager) MainActivity.mainActivity.getSystemService(MainActivity.ACTIVITY_SERVICE);
+        ActivityManager activityManager = (ActivityManager) MainActivity.instance.getSystemService(MainActivity.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> procInfo = activityManager.getRunningAppProcesses();
         if (procInfo != null)
         {
@@ -637,7 +632,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
 
     public void onPause()
     {
-        MainActivity.log("OBSystemsManager.onPause detected" + (MainActivity.mainActivity.isFinishing() ? " and is finishing!" : ""));
+        MainActivity.log("OBSystemsManager.onPause detected" + (MainActivity.instance.isFinishing() ? " and is finishing!" : ""));
         //
         AppIsInForeground = false;
         //
@@ -645,12 +640,12 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
         //
         if (batteryReceiver != null)
         {
-            MainActivity.mainActivity.unregisterReceiver(batteryReceiver);
+            MainActivity.instance.unregisterReceiver(batteryReceiver);
         }
         //
         if (headphoneReceiver != null)
         {
-            MainActivity.mainActivity.unregisterReceiver(headphoneReceiver);
+            MainActivity.instance.unregisterReceiver(headphoneReceiver);
         }
         //
         if (settingsContentObserver != null)
@@ -671,7 +666,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
 
     public void onStop()
     {
-        if (MainActivity.mainActivity.isFinishing())
+        if (MainActivity.instance.isFinishing())
         {
             MainActivity.log("OBSystemsManager.onStop detected");
             //
@@ -766,16 +761,16 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
 
     public void registerBatteryReceiver()
     {
-        Intent intent = MainActivity.mainActivity.registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-        MainActivity.mainActivity.registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_LOW));
-        MainActivity.mainActivity.registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_OKAY));
-        MainActivity.mainActivity.registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_POWER_CONNECTED));
-        MainActivity.mainActivity.registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_POWER_DISCONNECTED));
+        Intent intent = MainActivity.instance.registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        MainActivity.instance.registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_LOW));
+        MainActivity.instance.registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_OKAY));
+        MainActivity.instance.registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_POWER_CONNECTED));
+        MainActivity.instance.registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_POWER_DISCONNECTED));
     }
 
     public void registerHeadphoneReceiver()
     {
-        Intent intent = MainActivity.mainActivity.registerReceiver(headphoneReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
+        Intent intent = MainActivity.instance.registerReceiver(headphoneReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
     }
 
 
@@ -880,22 +875,22 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
 
     public boolean hasAdministratorPrivileges()
     {
-        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) MainActivity.mainActivity.getSystemService(Context.DEVICE_POLICY_SERVICE);
+        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) MainActivity.instance.getSystemService(Context.DEVICE_POLICY_SERVICE);
         return devicePolicyManager.isAdminActive(AdministratorReceiver());
     }
 
 
     public ComponentName AdministratorReceiver()
     {
-        return OBDeviceAdminReceiver.getComponentName(MainActivity.mainActivity);
+        return OBDeviceAdminReceiver.getComponentName(MainActivity.instance);
     }
 
 
     public boolean isDeviceOwner()
     {
         MainActivity.log("OBSystemsManager.isDeviceOwner");
-        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) MainActivity.mainActivity.getSystemService(Context.DEVICE_POLICY_SERVICE);
-        boolean result = devicePolicyManager.isDeviceOwnerApp(MainActivity.mainActivity.getPackageName());
+        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) MainActivity.instance.getSystemService(Context.DEVICE_POLICY_SERVICE);
+        boolean result = devicePolicyManager.isDeviceOwnerApp(MainActivity.instance.getPackageName());
         MainActivity.log(result ? "It is device owner" : "It's NOT device owner");
         return result;
     }
@@ -903,9 +898,9 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
 
     public void requestToRemoveAccounts()
     {
-        Toast.makeText(MainActivity.mainActivity, "Please remove all accounts before going back", Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.instance, "Please remove all accounts before going back", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(Settings.ACTION_SYNC_SETTINGS);
-        MainActivity.mainActivity.startActivityForResult(intent, MainActivity.REQUEST_FIRST_SETUP_ADMINISTRATOR_PRIVILEGES);
+        MainActivity.instance.startActivityForResult(intent, MainActivity.REQUEST_FIRST_SETUP_ADMINISTRATOR_PRIVILEGES);
     }
 
 
@@ -913,7 +908,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
     {
         MainActivity.log("OBSystemsManager.requestDeviceOwner");
         //
-        String packageName = MainActivity.mainActivity.getPackageName();
+        String packageName = MainActivity.instance.getPackageName();
         try
         {
 //            String[] command = new String[]{"su", "-c", "dpm set-device-owner " + packageName + "/" + AdministratorReceiver().getClassName()}; // for normal Root
@@ -941,7 +936,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
             //
             if (!output.contains("Active admin set to component"))
             {
-                Toast.makeText(MainActivity.mainActivity, "Device Owner was not set. Another App is the device owner.", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.instance, "Device Owner was not set. Another App is the device owner.", Toast.LENGTH_LONG).show();
             }
         } catch (Exception e)
         {
@@ -955,8 +950,8 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
     {
         MainActivity.log("OBSystemsManager.enableAdminstratorPrivileges");
         //
-        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) MainActivity.mainActivity.getSystemService(Context.DEVICE_POLICY_SERVICE);
-        ComponentName adminReceiver = OBDeviceAdminReceiver.getComponentName(MainActivity.mainActivity);
+        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) MainActivity.instance.getSystemService(Context.DEVICE_POLICY_SERVICE);
+        ComponentName adminReceiver = OBDeviceAdminReceiver.getComponentName(MainActivity.instance);
         //
         if (!devicePolicyManager.isAdminActive(adminReceiver))
         {
@@ -964,13 +959,13 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
             Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
             intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, adminReceiver);
             intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "");
-            MainActivity.mainActivity.startActivityForResult(intent, MainActivity.REQUEST_FIRST_SETUP_ADMINISTRATOR_PRIVILEGES);
+            MainActivity.instance.startActivityForResult(intent, MainActivity.REQUEST_FIRST_SETUP_ADMINISTRATOR_PRIVILEGES);
             return false;
         }
-        if (!devicePolicyManager.isDeviceOwnerApp(MainActivity.mainActivity.getPackageName()))
+        if (!devicePolicyManager.isDeviceOwnerApp(MainActivity.instance.getPackageName()))
         {
             MainActivity.log("OBSystemsManager.enableAdminstratorPrivileges.requesting device owner");
-            String packageName = MainActivity.mainActivity.getPackageName();
+            String packageName = MainActivity.instance.getPackageName();
             try
             {
                 // String resetCommand = "su -c rm /data/system/device_owner.xml; su -c rm /data/system/device_policies.xml;";
@@ -1005,9 +1000,9 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
                 {
                     MainActivity.log("OBSystemsManager. Another account was detected. Requesting user to remove them"); // no idea how to do this programmatically
                     //
-                    Toast.makeText(MainActivity.mainActivity, "Please remove all accounts before going back", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.instance, "Please remove all accounts before going back", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(Settings.ACTION_SYNC_SETTINGS);
-                    MainActivity.mainActivity.startActivityForResult(intent, MainActivity.REQUEST_FIRST_SETUP_ADMINISTRATOR_PRIVILEGES);
+                    MainActivity.instance.startActivityForResult(intent, MainActivity.REQUEST_FIRST_SETUP_ADMINISTRATOR_PRIVILEGES);
                     //
                     return false;
                 }
@@ -1032,10 +1027,10 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
             return;
         }
         MainActivity.log("OBSystemsManager.disableAdministratorPrivileges");
-        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) MainActivity.mainActivity.getSystemService(Context.DEVICE_POLICY_SERVICE);
-        ComponentName adminReceiver = OBDeviceAdminReceiver.getComponentName(MainActivity.mainActivity);
+        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) MainActivity.instance.getSystemService(Context.DEVICE_POLICY_SERVICE);
+        ComponentName adminReceiver = OBDeviceAdminReceiver.getComponentName(MainActivity.instance);
         //
-        if (devicePolicyManager.isDeviceOwnerApp(MainActivity.mainActivity.getPackageName()))
+        if (devicePolicyManager.isDeviceOwnerApp(MainActivity.instance.getPackageName()))
         {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             {
@@ -1054,7 +1049,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
                 MainActivity.log("OBSystemsManager.disableAdministratorPrivileges: removing active admin");
                 devicePolicyManager.removeActiveAdmin(adminReceiver);
                 MainActivity.log("OBSystemsManager.disableAdministratorPrivileges: clearing device owner");
-                devicePolicyManager.clearDeviceOwnerApp(MainActivity.mainActivity.getPackageName());
+                devicePolicyManager.clearDeviceOwnerApp(MainActivity.instance.getPackageName());
                 MainActivity.log("OBSystemsManager.disableAdministratorPrivileges: done");
             } catch (Exception e)
             {
@@ -1065,7 +1060,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
         }
         if (kioskModeActive)
         {
-            MainActivity.mainActivity.stopLockTask();
+            MainActivity.instance.stopLockTask();
             kioskModeActive = false;
         }
     }
@@ -1077,23 +1072,23 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
         //
         if (OBConfigManager.sharedManager.shouldPinApplication())
         {
-            DevicePolicyManager devicePolicyManager = (DevicePolicyManager) MainActivity.mainActivity.getSystemService(Context.DEVICE_POLICY_SERVICE);
-            ComponentName adminReceiver = OBDeviceAdminReceiver.getComponentName(MainActivity.mainActivity);
+            DevicePolicyManager devicePolicyManager = (DevicePolicyManager) MainActivity.instance.getSystemService(Context.DEVICE_POLICY_SERVICE);
+            ComponentName adminReceiver = OBDeviceAdminReceiver.getComponentName(MainActivity.instance);
             //
-            if (devicePolicyManager.isDeviceOwnerApp(MainActivity.mainActivity.getPackageName()))
+            if (devicePolicyManager.isDeviceOwnerApp(MainActivity.instance.getPackageName()))
             {
                 MainActivity.log("OBSystemsManager.pinApplication: attempting to pin app");
-                String[] packages = {MainActivity.mainActivity.getPackageName()};
+                String[] packages = {MainActivity.instance.getPackageName()};
                 devicePolicyManager.setLockTaskPackages(adminReceiver, packages);
                 //
-                if (devicePolicyManager.isLockTaskPermitted(MainActivity.mainActivity.getPackageName()))
+                if (devicePolicyManager.isLockTaskPermitted(MainActivity.instance.getPackageName()))
                 {
                     if (isAppIsInForeground())
                     {
                         try
                         {
                             MainActivity.log("OBSystemsManager.pinApplication: starting locked task");
-                            MainActivity.mainActivity.startLockTask();
+                            MainActivity.instance.startLockTask();
                             kioskModeActive = true;
                         } catch (Exception e)
                         {
@@ -1124,23 +1119,23 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
         //
         if (OBConfigManager.sharedManager.shouldPinApplication())
         {
-            DevicePolicyManager devicePolicyManager = (DevicePolicyManager) MainActivity.mainActivity.getSystemService(Context.DEVICE_POLICY_SERVICE);
-            ComponentName adminReceiver = OBDeviceAdminReceiver.getComponentName(MainActivity.mainActivity);
+            DevicePolicyManager devicePolicyManager = (DevicePolicyManager) MainActivity.instance.getSystemService(Context.DEVICE_POLICY_SERVICE);
+            ComponentName adminReceiver = OBDeviceAdminReceiver.getComponentName(MainActivity.instance);
             //
-            if (devicePolicyManager.isDeviceOwnerApp(MainActivity.mainActivity.getPackageName()))
+            if (devicePolicyManager.isDeviceOwnerApp(MainActivity.instance.getPackageName()))
             {
                 MainActivity.log("OBSystemsManager.unpinApplication: attempting to unpin app");
-                String[] packages = {MainActivity.mainActivity.getPackageName()};
+                String[] packages = {MainActivity.instance.getPackageName()};
                 devicePolicyManager.setLockTaskPackages(adminReceiver, packages);
                 //
-                if (devicePolicyManager.isLockTaskPermitted(MainActivity.mainActivity.getPackageName()))
+                if (devicePolicyManager.isLockTaskPermitted(MainActivity.instance.getPackageName()))
                 {
                     if (isAppIsInForeground())
                     {
                         try
                         {
                             MainActivity.log("OBSystemsManager.unpinApplication: starting locked task");
-                            MainActivity.mainActivity.stopLockTask();
+                            MainActivity.instance.stopLockTask();
                             kioskModeActive = false;
                         } catch (Exception e)
                         {
@@ -1170,10 +1165,10 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
             MainActivity.log("OBSystemsManager:toggleKeyguardAndStatusBar: incompatible SDK version. exiting function");
             return;
         }
-        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) MainActivity.mainActivity.getSystemService(Context.DEVICE_POLICY_SERVICE);
-        ComponentName adminReceiver = OBDeviceAdminReceiver.getComponentName(MainActivity.mainActivity);
+        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) MainActivity.instance.getSystemService(Context.DEVICE_POLICY_SERVICE);
+        ComponentName adminReceiver = OBDeviceAdminReceiver.getComponentName(MainActivity.instance);
         //
-        if (devicePolicyManager.isDeviceOwnerApp(MainActivity.mainActivity.getPackageName()))
+        if (devicePolicyManager.isDeviceOwnerApp(MainActivity.instance.getPackageName()))
         {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             {
@@ -1189,7 +1184,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
 
     public void screenLock()
     {
-        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) MainActivity.mainActivity.getSystemService(Context.DEVICE_POLICY_SERVICE);
+        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) MainActivity.instance.getSystemService(Context.DEVICE_POLICY_SERVICE);
         devicePolicyManager.lockNow();
     }
 
@@ -1592,7 +1587,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
                     @Override
                     public void run() throws Exception
                     {
-                        Toast.makeText(MainActivity.mainActivity, "Database has been uploaded to the server", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.instance, "Database has been uploaded to the server", Toast.LENGTH_LONG).show();
                     }
                 });
             } catch (Exception e)
@@ -1615,7 +1610,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
         {
             try
             {
-                MainActivity.mainActivity.unregisterReceiver(receiver);
+                MainActivity.instance.unregisterReceiver(receiver);
                 MainActivity.log("OBSystemsManager.unregisterReceiver successfull");
             } catch (Exception e)
             {
@@ -1631,14 +1626,14 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
     {
         dateSetCompletionBlock = completionBlock;
         final Calendar calendar = Calendar.getInstance();
-        DatePickerDialog d = new DatePickerDialog(MainActivity.mainActivity, this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        DatePickerDialog d = new DatePickerDialog(MainActivity.instance, this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         //
         d.setCancelable(cancelable);
         d.setCanceledOnTouchOutside(cancelable);
         //
         if (message == null)
         {
-            LinearLayout linearLayout = new LinearLayout(MainActivity.mainActivity.getApplicationContext());
+            LinearLayout linearLayout = new LinearLayout(MainActivity.instance.getApplicationContext());
             d.requestWindowFeature(Window.FEATURE_NO_TITLE);
             d.setCustomTitle(linearLayout);
         } else
@@ -1662,7 +1657,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
     {
         timeSetCompletionBlock = completionBlock;
         final Calendar calendar = Calendar.getInstance();
-        TimePickerDialog d = new TimePickerDialog(MainActivity.mainActivity, this, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), DateFormat.is24HourFormat(MainActivity.mainActivity));
+        TimePickerDialog d = new TimePickerDialog(MainActivity.instance, this, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), DateFormat.is24HourFormat(MainActivity.instance));
         d.setCancelable(false);
         d.setCanceledOnTouchOutside(false);
         d.setButton(DatePickerDialog.BUTTON_NEGATIVE, "Back", new DialogInterface.OnClickListener()
@@ -1681,7 +1676,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
     {
-        final Activity activity = MainActivity.mainActivity;
+        final Activity activity = MainActivity.instance;
         if (activity != null)
         {
             setDate(activity, year, monthOfYear, dayOfMonth);
@@ -1695,7 +1690,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute)
     {
-        final Activity activity = MainActivity.mainActivity;
+        final Activity activity = MainActivity.instance;
         ;
         if (activity != null)
         {
@@ -1873,7 +1868,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
             MainActivity.log("OBSystemManager:synchronizeAndUpdate: Timestamp received from server: " + timestampMillisec);
             if (timestampMillisec > 0)
             {
-                OBFatController fatController = MainActivity.mainActivity.fatController;
+                OBFatController fatController = MainActivity.instance.fatController;
                 if (fatController != null &&
                         TimeSynchronizationReceiver.class.isAssignableFrom(fatController.getClass()))
                 {
@@ -1905,7 +1900,7 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
             }
             //
             // trying to find path in external storage directories
-            File[] externalMediaFolders = MainActivity.mainActivity.getBaseContext().getExternalMediaDirs();
+            File[] externalMediaFolders = MainActivity.instance.getBaseContext().getExternalMediaDirs();
             for (File externalMediaFolder : externalMediaFolders)
             {
                 if (externalMediaFolder == null) continue;

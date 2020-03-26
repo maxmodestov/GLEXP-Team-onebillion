@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="org.onebillion.onecourse"
-          android:installLocation="internalOnly"
-          android:sharedUserId="${appuserid}"
     >
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -10,29 +8,14 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
-
-    <application
-
-        android:allowBackup="true"
-        android:icon="${appIcon}"
-        android:label="@string/app_name"
-        android:largeHeap="true"
-        android:showOnLockScreen="true"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-
+    <application>
 
         <activity
             android:name="org.onebillion.onecourse.mainui.MainActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:screenOrientation="landscape"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            android:process=":Unity">
 
             <intent-filter>
                 <action android:name="com.eidu.ob.START_UNIT" />
