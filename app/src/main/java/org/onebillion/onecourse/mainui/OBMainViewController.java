@@ -4,7 +4,6 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -237,7 +236,7 @@ public class OBMainViewController extends OBViewController
                 topController().goBack();
             else if (but == topRightButton)
             {
-                MainActivity.mainActivity.fatController.onReplayAudioButtonPressed();
+                MainActivity.instance.fatController.onReplayAudioButtonPressed();
                 topController().replayAudio();
             }
             else if (but == bottomLeftButton)
@@ -279,12 +278,12 @@ public class OBMainViewController extends OBViewController
                 return true;
             }
         });
-        MainActivity.mainActivity.fatController.startUp();
+        MainActivity.instance.fatController.startUp();
     }
 
     public OBGLView glView ()
     {
-        return MainActivity.mainActivity.glSurfaceView;
+        return MainActivity.instance.glSurfaceView;
     }
 
     public boolean glMode ()
@@ -310,14 +309,14 @@ public class OBMainViewController extends OBViewController
 
     public void addView (View v)
     {
-        ViewGroup rootView = (ViewGroup) MainActivity.mainActivity.findViewById(android.R.id.content);
+        ViewGroup rootView = (ViewGroup) MainActivity.instance.findViewById(android.R.id.content);
         rootView.addView(v, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         //rootView.addView(v, 0);
     }
 
     public void removeView (View v)
     {
-        ViewGroup rootView = (ViewGroup) MainActivity.mainActivity.findViewById(android.R.id.content);
+        ViewGroup rootView = (ViewGroup) MainActivity.instance.findViewById(android.R.id.content);
         rootView.removeView(v);
     }
 
@@ -397,7 +396,7 @@ public class OBMainViewController extends OBViewController
             e.printStackTrace();
             return;
         }
-        OBRenderer renderer = MainActivity.mainActivity.renderer;
+        OBRenderer renderer = MainActivity.instance.renderer;
         if (renderer != null)
         {
             controller.setViewPort(0,0,renderer.w,renderer.h);
@@ -445,7 +444,7 @@ public class OBMainViewController extends OBViewController
             }
         }
         final OBSectionController vc = controller;
-        MainActivity.mainActivity.fatController.onSectionStarted(controller);
+        MainActivity.instance.fatController.onSectionStarted(controller);
         new Handler().post(new Runnable()
         {
             @Override
@@ -459,7 +458,7 @@ public class OBMainViewController extends OBViewController
 
     public void transition (OBSectionController l, OBSectionController r, boolean fromRight, double duration)
     {
-        OBRenderer renderer = MainActivity.mainActivity.renderer;
+        OBRenderer renderer = MainActivity.instance.renderer;
         renderer.transitionFrac = 0;
         renderer.transitionScreenL = l;
         renderer.transitionScreenR = r;
@@ -497,7 +496,7 @@ public class OBMainViewController extends OBViewController
 
     public void transitionZoom (OBSectionController l, OBSectionController r, boolean fromRight, RectF zoomRect, double duration)
     {
-        OBRenderer renderer = MainActivity.mainActivity.renderer;
+        OBRenderer renderer = MainActivity.instance.renderer;
         renderer.transitionFrac = 0;
         renderer.transitionScreenL = l;
         renderer.transitionScreenR = r;

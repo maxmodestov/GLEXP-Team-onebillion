@@ -80,7 +80,7 @@ public class MainActivity extends Activity
     public static OBSystemsManager systemsManager;
     public static OBAnalyticsManager analyticsManager;
     public static OBLocationManager locationManager;
-    public static MainActivity mainActivity;
+    public static MainActivity instance;
     public static OBMainViewController mainViewController;
     public static Typeface standardTypeFace, writingTypeFace;
 
@@ -143,7 +143,7 @@ public class MainActivity extends Activity
     protected void onCreate (final Bundle savedInstanceState)
     {
         MainActivity.log("MainActivity.onCreate");
-        mainActivity = this;
+        instance = this;
 
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
@@ -165,7 +165,7 @@ public class MainActivity extends Activity
                 }
                 else
                 {
-                    Toast.makeText(MainActivity.mainActivity, "Application has crashed due to uncaught exception", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.instance, "Application has crashed due to uncaught exception", Toast.LENGTH_LONG).show();
                 }
                 OBSystemsManager.sharedManager.shutdownProcedures();
                 System.exit(0);
@@ -187,7 +187,7 @@ public class MainActivity extends Activity
         }
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //
-        mainActivity = this;
+        instance = this;
         //
         configManager = new OBConfigManager();
         //
@@ -244,7 +244,7 @@ public class MainActivity extends Activity
         Log.d("MYTEST", "onNewIntent");
         if (ready) {
             Log.d("MYTEST", "onNewIntent handleIntent");
-            AdultAppAdapter.handleIntent(MainActivity.mainActivity.getIntent());
+            AdultAppAdapter.handleIntent(MainActivity.instance.getIntent());
         }
     }
 
@@ -351,7 +351,7 @@ public class MainActivity extends Activity
                 boolean writeSettingsPermission = OBSystemsManager.sharedManager.hasWriteSettingsPermission();
                 if (OBConfigManager.sharedManager.isBrightnessManagerEnabled() && !writeSettingsPermission)
                 {
-                    Toast.makeText(MainActivity.mainActivity, "Please allow this app to write settings before going back.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.instance, "Please allow this app to write settings before going back.", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     intent.setData(Uri.parse("package:" + getPackageName()));
@@ -370,7 +370,7 @@ public class MainActivity extends Activity
                         MainActivity.log("MainActivity.App does not have administrator privileges. Requesting");
                         //
                         Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-                        final PackageManager packageManager = MainActivity.mainActivity.getPackageManager();
+                        final PackageManager packageManager = MainActivity.instance.getPackageManager();
                         final List<ResolveInfo> resolveInfos = packageManager.queryIntentActivities(intent, 0);
                         if (resolveInfos != null && !resolveInfos.isEmpty())
                         {
@@ -426,7 +426,7 @@ public class MainActivity extends Activity
         OBSystemsManager.sharedManager.printMemoryStatus("Before mainViewController");
         //
         MainActivity.log("MainActivity.startup block. creating mainViewControlller");
-        mainViewController = new OBMainViewController(MainActivity.mainActivity);
+        mainViewController = new OBMainViewController(MainActivity.instance);
     }
 
 
@@ -738,7 +738,7 @@ public class MainActivity extends Activity
         //
         if (isSDKCompatible())
         {
-            return ActivityCompat.checkSelfPermission(MainActivity.mainActivity.getApplicationContext(), permission);
+            return ActivityCompat.checkSelfPermission(MainActivity.instance.getApplicationContext(), permission);
         }
         return result;
     }

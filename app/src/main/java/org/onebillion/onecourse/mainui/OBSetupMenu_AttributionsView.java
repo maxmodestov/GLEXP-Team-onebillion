@@ -1,39 +1,32 @@
 package org.onebillion.onecourse.mainui;
 
-import android.content.res.AssetFileDescriptor;
 import android.graphics.Color;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
 
 import org.onebillion.onecourse.R;
 import org.onebillion.onecourse.utils.OBConfigManager;
-import org.onebillion.onecourse.utils.OBUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
 
 public class OBSetupMenu_AttributionsView extends OBSectionController
 {
 
     public OBSetupMenu_AttributionsView ()
     {
-        super(MainActivity.mainActivity, false);
+        super(MainActivity.instance, false);
     }
 
     public void initScreen()
     {
-        MainActivity.mainActivity.setContentView(R.layout.layout_web);
-        TextView textView = (TextView) MainActivity.mainActivity.findViewById(R.id.textview);
+        MainActivity.instance.setContentView(R.layout.layout_web);
+        TextView textView = (TextView) MainActivity.instance.findViewById(R.id.textview);
         textView.setTextColor(Color.BLACK);
         //
 //        final WebView webView = (WebView) MainActivity.mainActivity.findViewById(R.id.webview);
@@ -80,7 +73,7 @@ public class OBSetupMenu_AttributionsView extends OBSectionController
 //            webView.loadUrl("file://" + url);
         }
         //
-        Button backButton = (Button) MainActivity.mainActivity.findViewById(R.id.back_button);
+        Button backButton = (Button) MainActivity.instance.findViewById(R.id.back_button);
         backButton.setOnClickListener(new View.OnClickListener()
         {
             @Override

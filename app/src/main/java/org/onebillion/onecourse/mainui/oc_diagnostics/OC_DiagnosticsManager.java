@@ -1,23 +1,17 @@
 package org.onebillion.onecourse.mainui.oc_diagnostics;
 
 
-import android.database.Cursor;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 
 import org.onebillion.onecourse.mainui.MainActivity;
-import org.onebillion.onecourse.mainui.OBMainViewController;
 import org.onebillion.onecourse.mainui.OBSectionController;
-import org.onebillion.onecourse.mainui.generic.OC_Generic;
-import org.onebillion.onecourse.utils.DBSQL;
 import org.onebillion.onecourse.utils.OBConfigManager;
 import org.onebillion.onecourse.utils.OBUtils;
 import org.onebillion.onecourse.utils.OBXMLManager;
 import org.onebillion.onecourse.utils.OBXMLNode;
 import org.onebillion.onecourse.utils.OCM_FatController;
 import org.onebillion.onecourse.utils.OCM_MlUnit;
-import org.onebillion.onecourse.utils.OCM_MlUnitInstance;
-import org.onebillion.onecourse.utils.OCM_User;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -220,7 +214,7 @@ public class OC_DiagnosticsManager
         //
         unitsByTarget = new HashMap<>();
         unitsByUUID = new HashMap<>();
-        OCM_FatController fatController = (OCM_FatController) MainActivity.mainActivity.fatController;
+        OCM_FatController fatController = (OCM_FatController) MainActivity.instance.fatController;
         //
         List<Map> result = new ArrayList<>();
         //
@@ -493,7 +487,7 @@ public class OC_DiagnosticsManager
             }
             MainActivity.log("OC_DiagnosticsManager --> loadCurrentQuestion --> Reached the end of the questions");
             //
-            OCM_FatController fatController = (OCM_FatController) MainActivity.mainActivity.fatController;
+            OCM_FatController fatController = (OCM_FatController) MainActivity.instance.fatController;
             List<Integer> unitUUIDs = new ArrayList();
             for (String uuid : remedialUnits_day1)
             {

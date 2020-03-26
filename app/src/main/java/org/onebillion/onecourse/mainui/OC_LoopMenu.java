@@ -4,19 +4,13 @@ import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.View;
 
 import org.onebillion.onecourse.controls.OBControl;
-import org.onebillion.onecourse.controls.OBEmitter;
-import org.onebillion.onecourse.controls.OBEmitterCell;
-import org.onebillion.onecourse.controls.OBGroup;
 import org.onebillion.onecourse.controls.OBImage;
 import org.onebillion.onecourse.controls.OBLabel;
-import org.onebillion.onecourse.controls.OBPath;
 import org.onebillion.onecourse.utils.MlUnit;
 import org.onebillion.onecourse.utils.OBAnim;
-import org.onebillion.onecourse.utils.OBAnimBlock;
 import org.onebillion.onecourse.utils.OBAnimationGroup;
 import org.onebillion.onecourse.utils.OBConfigManager;
 import org.onebillion.onecourse.utils.OBImageManager;
@@ -25,9 +19,6 @@ import org.onebillion.onecourse.utils.OBUtils;
 import org.onebillion.onecourse.utils.OB_Maths;
 import org.onebillion.onecourse.utils.OC_FatController;
 import org.onebillion.onecourse.utils.OC_FatReceiver;
-import org.onebillion.onecourse.utils.ULine;
-import org.onebillion.onecourse.utils.UPath;
-import org.onebillion.onecourse.utils.USubPath;
 
 import java.util.Arrays;
 import java.util.List;
@@ -100,7 +91,7 @@ public class OC_LoopMenu extends OC_Menu implements OC_FatReceiver
 
         lastCommand = 0;
         currentLevel = 1;
-        fatController = (OC_FatController)MainActivity.mainActivity.fatController;
+        fatController = (OC_FatController)MainActivity.instance.fatController;
         fatController.menu = this ;
         startIndex = fatController.getLastUnitIndex()-1;
 

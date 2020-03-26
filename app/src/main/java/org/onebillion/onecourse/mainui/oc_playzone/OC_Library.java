@@ -78,7 +78,7 @@ public class OC_Library extends OC_Menu
         limitRight = border2.left() - dist;
         touchLeft = border1.right();
         touchRight = border2.left();
-        fatController = (OCM_FatController)MainActivity.mainActivity.fatController;;
+        fatController = (OCM_FatController)MainActivity.instance.fatController;;
         Map<Integer,List<OCM_MlUnit>> libraryUnits = fatController.getUnitsForLibrary();
         loadBooksForUnits(libraryUnits);
     }

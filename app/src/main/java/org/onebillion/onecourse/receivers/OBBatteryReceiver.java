@@ -3,17 +3,13 @@ package org.onebillion.onecourse.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.BatteryManager;
 
 import org.onebillion.onecourse.mainui.MainActivity;
-import org.onebillion.onecourse.mainui.oc_numberlines.OC_Numberlines_Additions;
 import org.onebillion.onecourse.utils.OBAnalytics;
 import org.onebillion.onecourse.utils.OBAnalyticsManager;
-import org.onebillion.onecourse.utils.OBAnalyticsManagerOnline;
 import org.onebillion.onecourse.utils.OBConfigManager;
 import org.onebillion.onecourse.utils.OBSystemsManager;
-import org.onebillion.onecourse.utils.OCM_FatController;
 
 /**
  * Created by pedroloureiro on 25/08/16.
@@ -36,7 +32,7 @@ public class OBBatteryReceiver extends BroadcastReceiver
     @Override
     public void onReceive (Context context, Intent intent)
     {
-        if (MainActivity.mainActivity == null) return;
+        if (MainActivity.instance == null) return;
         //
         Boolean isNowCharging = false;
         //
@@ -60,9 +56,9 @@ public class OBBatteryReceiver extends BroadcastReceiver
         //
         MainActivity.log("OBBatteryReceiver.onReceive: " + printStatus());
         //
-        if(MainActivity.mainActivity != null)
+        if(MainActivity.instance != null)
         {
-            MainActivity.mainActivity.onBatteryStatusReceived(getBatteryLevel(),cablePluggedIn());
+            MainActivity.instance.onBatteryStatusReceived(getBatteryLevel(),cablePluggedIn());
         }
         //
         if (OBSystemsManager.sharedManager != null)

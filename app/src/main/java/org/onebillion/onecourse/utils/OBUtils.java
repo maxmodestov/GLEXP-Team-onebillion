@@ -88,7 +88,7 @@ public class OBUtils
     public static Boolean assetsDirectoryExists (String path)
     {
         // check in bundled assets
-        AssetManager am = MainActivity.mainActivity.getAssets();
+        AssetManager am = MainActivity.instance.getAssets();
         try
         {
             String files[] = am.list(path);
@@ -124,7 +124,7 @@ public class OBUtils
     public static List<String> filesAtPath (String path)
     {
         // check in bundled assets
-        AssetManager am = MainActivity.mainActivity.getAssets();
+        AssetManager am = MainActivity.instance.getAssets();
         try
         {
             String lst[] = am.list(path);
@@ -181,7 +181,7 @@ public class OBUtils
     {
         try
         {
-            AssetManager am = MainActivity.mainActivity.getAssets();
+            AssetManager am = MainActivity.instance.getAssets();
             InputStream is = am.open(path);
             if (is != null) return "android_asset/" + path;
         }
@@ -201,7 +201,7 @@ public class OBUtils
         // Look into bundled assets
         try
         {
-            InputStream is = MainActivity.mainActivity.getAssets().open(path);
+            InputStream is = MainActivity.instance.getAssets().open(path);
             return is;
         }
         catch (Exception e)
@@ -254,7 +254,7 @@ public class OBUtils
 
     public static AssetFileDescriptor getAssetFileDescriptorForPath (String path)
     {
-        AssetManager am = MainActivity.mainActivity.getAssets();
+        AssetManager am = MainActivity.instance.getAssets();
         // attempts to get file descriptor from assets
         try
         {
@@ -276,7 +276,7 @@ public class OBUtils
                 //
                 File externalAssetPath = new File(externalDirPath + path);
                 Uri uri = Uri.fromFile(externalAssetPath);
-                AssetFileDescriptor fd = MainActivity.mainActivity.getContentResolver().openAssetFileDescriptor(uri, "r");
+                AssetFileDescriptor fd = MainActivity.instance.getContentResolver().openAssetFileDescriptor(uri, "r");
                 return fd;
             }
             catch (Exception e)
@@ -290,7 +290,7 @@ public class OBUtils
         {
             File extendedFile = new File(path);
             Uri uri = Uri.fromFile(extendedFile);
-            AssetFileDescriptor fd = MainActivity.mainActivity.getContentResolver().openAssetFileDescriptor(uri, "r");
+            AssetFileDescriptor fd = MainActivity.instance.getContentResolver().openAssetFileDescriptor(uri, "r");
             return fd;
         }
         catch (Exception e)
@@ -434,7 +434,7 @@ public class OBUtils
     {
         List<String> searchPaths = OBConfigManager.sharedManager.getConfigSearchPaths();
         //
-        AssetManager am = MainActivity.mainActivity.getAssets();
+        AssetManager am = MainActivity.instance.getAssets();
         for (String path : searchPaths)
         {
             String fullpath = path + "/" + cfgName;
@@ -571,7 +571,7 @@ public class OBUtils
     {
         if (MainActivity.standardTypeFace == null)
         {
-            MainActivity.standardTypeFace = Typeface.createFromAsset(MainActivity.mainActivity.getAssets(), "onebillionreader-Regular.otf");
+            MainActivity.standardTypeFace = Typeface.createFromAsset(MainActivity.instance.getAssets(), "onebillionreader-Regular.otf");
         }
         return MainActivity.standardTypeFace;
     }
@@ -669,7 +669,7 @@ public class OBUtils
 
     public static String readTextFileFromResource (int resourceId)
     {
-        Context context = MainActivity.mainActivity;
+        Context context = MainActivity.instance;
         StringBuilder body = new StringBuilder();
 
         try
@@ -826,7 +826,7 @@ public class OBUtils
                     return 0;
                 }
             });
-            MainActivity.mainActivity.glSurfaceView.queueEvent(futureTask);
+            MainActivity.instance.glSurfaceView.queueEvent(futureTask);
          //   Integer result = futureTask.get();
         }
         catch (Exception exception)
@@ -1455,7 +1455,7 @@ public class OBUtils
 
     public static Typeface TypefaceForFile(String file)
     {
-       return Typeface.createFromAsset(MainActivity.mainActivity.getAssets(), file);
+       return Typeface.createFromAsset(MainActivity.instance.getAssets(), file);
     }
 
     public static <T> T coalesce(T t1,T t2)

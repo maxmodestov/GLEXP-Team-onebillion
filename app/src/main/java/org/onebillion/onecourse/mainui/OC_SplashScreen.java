@@ -9,7 +9,7 @@ public class OC_SplashScreen extends OBSectionController
 
     public OC_SplashScreen()
     {
-        super(MainActivity.mainActivity, true);
+        super(MainActivity.instance, true);
     }
 
     public void prepare()

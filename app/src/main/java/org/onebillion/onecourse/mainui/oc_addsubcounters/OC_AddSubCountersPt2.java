@@ -1,7 +1,6 @@
 package org.onebillion.onecourse.mainui.oc_addsubcounters;
 import android.graphics.Color;
 import android.graphics.PointF;
-import android.graphics.RectF;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -11,16 +10,12 @@ import org.onebillion.onecourse.controls.OBLabel;
 import org.onebillion.onecourse.controls.OBPath;
 import org.onebillion.onecourse.controls.OBPresenter;
 import org.onebillion.onecourse.mainui.MainActivity;
-import org.onebillion.onecourse.mainui.oc_lettersandsounds.OC_Wordcontroller;
-import org.onebillion.onecourse.utils.OBAnim;
-import org.onebillion.onecourse.utils.OBAnimationGroup;
 import org.onebillion.onecourse.utils.OBAudioManager;
 import org.onebillion.onecourse.utils.OBFont;
 import org.onebillion.onecourse.utils.OBUtils;
 import org.onebillion.onecourse.utils.OB_Maths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -317,7 +312,7 @@ public class OC_AddSubCountersPt2 extends OC_AddSubCounters
             waitForSecs(0.3f);
             Map<String, List> eventd = (Map<String, List>) audioScenes.get(String.format("finale%d",standalone?1:2));
             playAudioQueued(eventd.get(String.format("DEMO%s",isPlus?"":"2")),true);
-            MainActivity.mainActivity.fatController.completeEvent(this);
+            MainActivity.instance.fatController.completeEvent(this);
         }
         catch(Exception exception)
         {

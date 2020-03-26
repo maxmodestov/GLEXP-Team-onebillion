@@ -121,7 +121,7 @@ public class OBBrightnessManager
 
     public String printStatus ()
     {
-        WindowManager.LayoutParams layoutpars = MainActivity.mainActivity.getWindow().getAttributes();
+        WindowManager.LayoutParams layoutpars = MainActivity.instance.getWindow().getAttributes();
         float brightness = Math.abs(layoutpars.screenBrightness);
         String result = String.format("%.1f%%", brightness * 100);
         return result;
@@ -300,7 +300,7 @@ public class OBBrightnessManager
         {
             if (OBSystemsManager.sharedManager.hasWriteSettingsPermission())
             {
-                Settings.System.putInt(MainActivity.mainActivity.getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, millisecs);
+                Settings.System.putInt(MainActivity.instance.getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, millisecs);
             }
             else
             {

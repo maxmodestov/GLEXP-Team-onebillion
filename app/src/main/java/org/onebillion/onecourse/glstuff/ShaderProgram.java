@@ -25,7 +25,7 @@ import static android.opengl.GLES20.glUseProgram;
 /**
  * Created by alan on 30/04/16.
  */
-abstract class ShaderProgram {
+public abstract class ShaderProgram {
     // Uniform constants
     protected static final String U_MATRIX = "u_Matrix";
     protected static final String U_TEXTURE_UNIT = "u_TextureUnit";
@@ -81,7 +81,7 @@ abstract class ShaderProgram {
         final int[] compileStatus = new int[1];
         glGetShaderiv(shaderObjectId, GL_COMPILE_STATUS, compileStatus, 0);
 
-        
+
 
         // Verify the compile status.
         if (compileStatus[0] == 0) {

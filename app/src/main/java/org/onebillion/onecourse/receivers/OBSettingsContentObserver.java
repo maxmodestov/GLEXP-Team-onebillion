@@ -31,11 +31,11 @@ public class OBSettingsContentObserver extends ContentObserver
 
     public boolean allowsLowerVolume ()
     {
-        if (MainActivity.mainActivity == null) return false;
+        if (MainActivity.instance == null) return false;
         //
         float minVolume = OBConfigManager.sharedManager.getMinimumAudioVolumePercentage() / (float) 100;
         // if value is not present in the config, the min volume will be -.01
-        AudioManager am = (AudioManager) MainActivity.mainActivity.getSystemService(Context.AUDIO_SERVICE);
+        AudioManager am = (AudioManager) MainActivity.instance.getSystemService(Context.AUDIO_SERVICE);
         currentVolume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
         int maxVolume = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         int minVolumeLimit = Math.round(maxVolume * minVolume);
@@ -45,11 +45,11 @@ public class OBSettingsContentObserver extends ContentObserver
     @Override
     public void onChange (boolean selfChange)
     {
-        if (MainActivity.mainActivity == null) return;
+        if (MainActivity.instance == null) return;
         //
         float minVolume = OBConfigManager.sharedManager.getMinimumAudioVolumePercentage() / (float) 100;
         // if value is not present in the config, the min volume will be -.01
-        AudioManager am = (AudioManager) MainActivity.mainActivity.getSystemService(Context.AUDIO_SERVICE);
+        AudioManager am = (AudioManager) MainActivity.instance.getSystemService(Context.AUDIO_SERVICE);
         currentVolume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
         int maxVolume = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         int minVolumeLimit = Math.round(maxVolume * minVolume);
@@ -66,9 +66,9 @@ public class OBSettingsContentObserver extends ContentObserver
 
     public String printVolumeStatus ()
     {
-        if (MainActivity.mainActivity == null) return "";
+        if (MainActivity.instance == null) return "";
         //
-        AudioManager am = (AudioManager) MainActivity.mainActivity.getSystemService(Context.AUDIO_SERVICE);
+        AudioManager am = (AudioManager) MainActivity.instance.getSystemService(Context.AUDIO_SERVICE);
         int maxVolume = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         currentVolume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
         //
@@ -78,28 +78,28 @@ public class OBSettingsContentObserver extends ContentObserver
 
     public static void setDefaultAudioVolume ()
     {
-        if (MainActivity.mainActivity == null) return;
+        if (MainActivity.instance == null) return;
         //
         float volumePercentage = OBConfigManager.sharedManager.getDefaultAudioVolumePercentage() / (float) 100;
         if (volumePercentage < 0) return;
         //
-        AudioManager am = (AudioManager) MainActivity.mainActivity.getSystemService(Context.AUDIO_SERVICE);
+        AudioManager am = (AudioManager) MainActivity.instance.getSystemService(Context.AUDIO_SERVICE);
         am.setStreamVolume(AudioManager.STREAM_MUSIC, Math.round(am.getStreamMaxVolume(AudioManager.STREAM_MUSIC) * volumePercentage), 0);
     }
 
 
     public void onResume ()
     {
-        if (MainActivity.mainActivity == null) return;
+        if (MainActivity.instance == null) return;
         //
-        MainActivity.mainActivity.getContentResolver().registerContentObserver(android.provider.Settings.System.CONTENT_URI, true, this);
+        MainActivity.instance.getContentResolver().registerContentObserver(android.provider.Settings.System.CONTENT_URI, true, this);
     }
 
 
     public void onPause ()
     {
-        if (MainActivity.mainActivity == null) return;
+        if (MainActivity.instance == null) return;
         //
-        MainActivity.mainActivity.getContentResolver().unregisterContentObserver(this);
+        MainActivity.instance.getContentResolver().unregisterContentObserver(this);
     }
 }

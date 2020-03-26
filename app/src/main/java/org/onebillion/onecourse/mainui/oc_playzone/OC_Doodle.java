@@ -647,7 +647,7 @@ public class OC_Doodle extends OC_SectionController
             out = new FileOutputStream(thumbpath);
             thumbnail(name).compress(Bitmap.CompressFormat.PNG, 90, out);
             out.close();
-            OBFatController fc = MainActivity.mainActivity.fatController;
+            OBFatController fc = MainActivity.instance.fatController;
             if (fc instanceof OCM_FatController)
             {
                 OCM_FatController ocf = (OCM_FatController)fc;

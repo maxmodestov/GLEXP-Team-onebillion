@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="org.onebillion.onecourse"
-          android:installLocation="internalOnly"
-          android:sharedUserId="${appuserid}"
     >
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -35,94 +33,16 @@
 
     <uses-feature android:name="android.hardware.camera"/>
     <uses-feature android:name="android.hardware.camera.autofocus"/>
-    <uses-feature
-        android:name="android.software.device_admin"
-        android:required="true"/>
 
 
-    <application
-
-        android:allowBackup="true"
-        android:icon="${appIcon}"
-        android:label="@string/app_name"
-        android:largeHeap="true"
-        android:showOnLockScreen="true"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-
-
-        <receiver
-            android:name="org.onebillion.onecourse.receivers.OBStartUpBootReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-                <category android:name="android.intent.category.HOME"/>
-            </intent-filter>
-        </receiver>
-
-
-        <receiver android:name="org.onebillion.onecourse.receivers.OBHeadphoneReceiver" >
-            <intent-filter>
-                <action android:name="android.intent.action.HEADSET_PLUG" />
-            </intent-filter>
-        </receiver>
-
-
-        <receiver
-            android:name="org.onebillion.onecourse.receivers.OBDeviceAdminReceiver"
-            android:description="@string/device_admin_description"
-            android:label="@string/device_admin_label"
-            android:permission="android.permission.BIND_DEVICE_ADMIN">
-
-            <meta-data
-                android:name="android.app.device_admin"
-                android:resource="@xml/device_admin_policies"/>
-
-            <intent-filter>
-                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>
-                <action android:name="android.app.action.DEVICE_ADMIN_DISABLED"/>
-            </intent-filter>
-        </receiver>
-
-
-        <receiver android:name="org.onebillion.onecourse.receivers.OBShutdownReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.ACTION_SHUTDOWN" />
-                <action android:name="android.intent.action.QUICKBOOT_POWEROFF" />
-            </intent-filter>
-        </receiver>
-
-
-        <service
-            android:name="org.onebillion.onecourse.utils.OBAutoStartActivityService"
-            android:enabled="true"
-            android:exported="true">
-        </service>
-
-        <!--android:debuggable="true"-->
-
-        <!--android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"-->
-        <!--android:theme="@style/AppTheme.NoActionBar">-->
-        <!--android:theme="@android:style/Theme.NoTitleBar">-->
-        <!--android:theme="@android:style/Theme.NoTitleBar.Fullscreen"-->
-
-        <!--android:excludeFromRecents="true"-->
-
+    <application>
 
         <activity
             android:name="org.onebillion.onecourse.mainui.MainActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:screenOrientation="landscape"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            android:process=":Unity">
 
             <intent-filter>
                 <action android:name="com.eidu.ob.START_UNIT" />
@@ -130,17 +50,6 @@
             </intent-filter>
         </activity>
 
-        <!--
-        <receiver android:name="org.onebillion.onecourse.receivers.OBBatteryReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.ACTION_BATTERY_LOW"/>
-                <action android:name="android.intent.action.ACTION_BATTERY_OKAY"/>
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
-            </intent-filter>
-        </receiver>
--->
-        <receiver android:name="org.onebillion.onecourse.receivers.OBAlarmReceiver"></receiver>
     </application>
 
 </manifest>

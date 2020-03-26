@@ -157,7 +157,7 @@ public class OCM_ChildMenu extends OC_Menu implements OCM_FatReceiver, TimePicke
             attachControl(currentLevelLabel);
         }
         coloursDict = OBMisc.loadEventColours(this);
-        fatController = (OCM_FatController)MainActivity.mainActivity.fatController;
+        fatController = (OCM_FatController)MainActivity.instance.fatController;
         fatController.menu = this;
         fatController.loadBatteryIcon(this);
         fatController.colourDict = coloursDict;
@@ -1867,8 +1867,8 @@ public class OCM_ChildMenu extends OC_Menu implements OCM_FatReceiver, TimePicke
 
     public void showPasswordCheckDialog()
     {
-        final AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.mainActivity);
-        final EditText input = new EditText(MainActivity.mainActivity);
+        final AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.instance);
+        final EditText input = new EditText(MainActivity.instance);
         input.setInputType(InputType.TYPE_CLASS_TEXT| InputType.TYPE_TEXT_VARIATION_PASSWORD);
         alert.setView(input);
         alert.setTitle("Password Required");
@@ -1913,13 +1913,13 @@ public class OCM_ChildMenu extends OC_Menu implements OCM_FatReceiver, TimePicke
 
     public void checkPasswordAndProceed(String pass, EditText alertPopup)
     {
-        InputMethodManager imm = (InputMethodManager) MainActivity.mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) MainActivity.instance.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(alertPopup.getWindowToken(), 0);
         //
         if (OBConfigManager.sharedManager.isJumpToSetupPasswordCorrect(pass))
         {
-            final AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.mainActivity);
-            final EditText input = new EditText(MainActivity.mainActivity);
+            final AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.instance);
+            final EditText input = new EditText(MainActivity.instance);
             input.setInputType(InputType.TYPE_CLASS_TEXT| InputType.TYPE_TEXT_VARIATION_PASSWORD);
             alert.setTitle("Data Deletion Warning");
             alert.setMessage("This action will RESET progress on this device and return to setup menu. Do you wish to continue?");
@@ -2020,12 +2020,12 @@ public class OCM_ChildMenu extends OC_Menu implements OCM_FatReceiver, TimePicke
             currentCalendar.setTime(startDate);
         }
         final Calendar calendar = currentCalendar;
-        DatePickerDialog d = new DatePickerDialog(MainActivity.mainActivity, listener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        DatePickerDialog d = new DatePickerDialog(MainActivity.instance, listener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         //
         d.setCancelable(false);
         d.setCanceledOnTouchOutside(false);
         //
-        LinearLayout linearLayout = new LinearLayout(MainActivity.mainActivity.getApplicationContext());
+        LinearLayout linearLayout = new LinearLayout(MainActivity.instance.getApplicationContext());
         d.requestWindowFeature(Window.FEATURE_NO_TITLE);
         d.getWindow().clearFlags(Window.FEATURE_ACTION_BAR);
         d.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
@@ -2056,7 +2056,7 @@ public class OCM_ChildMenu extends OC_Menu implements OCM_FatReceiver, TimePicke
     {
         final DatePickerDialog.OnDateSetListener dateListener = (DatePickerDialog.OnDateSetListener) listener;
         final Calendar calendar = Calendar.getInstance();
-        TimePickerDialog d = new TimePickerDialog(MainActivity.mainActivity, listener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), DateFormat.is24HourFormat(MainActivity.mainActivity));
+        TimePickerDialog d = new TimePickerDialog(MainActivity.instance, listener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), DateFormat.is24HourFormat(MainActivity.instance));
         //
         d.setCancelable(false);
         d.setCanceledOnTouchOutside(false);
@@ -2070,7 +2070,7 @@ public class OCM_ChildMenu extends OC_Menu implements OCM_FatReceiver, TimePicke
             }
         });
         //
-        LinearLayout linearLayout = new LinearLayout(MainActivity.mainActivity.getApplicationContext());
+        LinearLayout linearLayout = new LinearLayout(MainActivity.instance.getApplicationContext());
         d.requestWindowFeature(Window.FEATURE_NO_TITLE);
         d.setCustomTitle(linearLayout);
         //

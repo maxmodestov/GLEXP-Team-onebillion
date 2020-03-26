@@ -36,10 +36,10 @@ fun runUnit(id: String) {
 
     try {
         if (!MainActivity.mainViewController.pushViewControllerWithNameConfig(m.target, configName, true, true, m.params)) {
-            Toast.makeText(MainActivity.mainActivity, m.target + " hasn't been converted to Android yet.", Toast.LENGTH_LONG).show()
+            Toast.makeText(MainActivity.instance, m.target + " hasn't been converted to Android yet.", Toast.LENGTH_LONG).show()
         }
     } catch (e: java.lang.Exception) {
-        Toast.makeText(MainActivity.mainActivity, m.target + " error opening!", Toast.LENGTH_LONG).show()
+        Toast.makeText(MainActivity.instance, m.target + " error opening!", Toast.LENGTH_LONG).show()
         e.printStackTrace()
     }
 }

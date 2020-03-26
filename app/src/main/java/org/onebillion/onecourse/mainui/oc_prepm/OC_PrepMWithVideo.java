@@ -58,7 +58,7 @@ public class OC_PrepMWithVideo extends OC_SectionController
         if(videoPlayer != null)
         {
             videoPlayer.stop();
-            videoPlayer.cleanUp(MainActivity.mainActivity.renderer);
+            videoPlayer.cleanUp(MainActivity.instance.renderer);
         }
 
         if(videoTimer != null)

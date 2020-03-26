@@ -2,15 +2,12 @@ package org.onebillion.onecourse.mainui.oc_handwriting;
 
 import android.graphics.Color;
 import android.graphics.PointF;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.util.ArrayMap;
 import android.view.View;
 
 import org.onebillion.onecourse.controls.OBControl;
 import org.onebillion.onecourse.controls.OBGroup;
 import org.onebillion.onecourse.controls.OBPath;
-import org.onebillion.onecourse.glstuff.ColorShaderProgram;
 import org.onebillion.onecourse.mainui.MainActivity;
 import org.onebillion.onecourse.utils.OBAnim;
 import org.onebillion.onecourse.utils.OBAnimBlock;
@@ -21,7 +18,6 @@ import org.onebillion.onecourse.utils.OBUtils;
 import org.onebillion.onecourse.utils.OB_Maths;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -185,7 +181,7 @@ public class OC_Hw3 extends OC_Hw
             waitForSecs(0.3f);
             playAudioQueuedScene("finale", "DEMO", true);
 
-            MainActivity.mainActivity.fatController.completeEvent(this);
+            MainActivity.instance.fatController.completeEvent(this);
             //displayAward();
             //exitEvent();
         }

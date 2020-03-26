@@ -52,14 +52,14 @@ public class OC_SimpleListMenu extends OBSectionController
 
     public OC_SimpleListMenu ()
     {
-        super(MainActivity.mainActivity, false);
+        super(MainActivity.instance, false);
     }
 
     public void initScreen()
     {
         checkedList = new ArrayList<>();
-        MainActivity.mainActivity.setContentView(R.layout.simple_list_menu);
-        listView = (ListView)MainActivity.mainActivity.findViewById(R.id.OB_simplelistview);
+        MainActivity.instance.setContentView(R.layout.simple_list_menu);
+        listView = (ListView)MainActivity.instance.findViewById(R.id.OB_simplelistview);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listView.setSelector(android.R.color.darker_gray);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
@@ -107,12 +107,12 @@ public class OC_SimpleListMenu extends OBSectionController
 
                     } else
                     {
-                        Toast.makeText(MainActivity.mainActivity, m.target + " hasn't been converted to Android yet.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.instance, m.target + " hasn't been converted to Android yet.", Toast.LENGTH_LONG).show();
                     }
                 }
                 catch(Exception e)
                 {
-                    Toast.makeText(MainActivity.mainActivity, m.target + " error opening!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.instance, m.target + " error opening!", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
                 setStatus(STATUS_IDLE);
@@ -148,7 +148,7 @@ public class OC_SimpleListMenu extends OBSectionController
 
         filteredList = new ArrayList<>(masterList);
         //
-        TextView buildNumber = (TextView) MainActivity.mainActivity.findViewById(R.id.buildNumber);
+        TextView buildNumber = (TextView) MainActivity.instance.findViewById(R.id.buildNumber);
         if (buildNumber != null)
         {
             String buildNumberValue = OBConfigManager.sharedManager.getBuildNumber();
@@ -161,10 +161,10 @@ public class OC_SimpleListMenu extends OBSectionController
 
         }
         //
-        LinearLayout topBar = (LinearLayout) MainActivity.mainActivity.findViewById(R.id.topBar);
+        LinearLayout topBar = (LinearLayout) MainActivity.instance.findViewById(R.id.topBar);
         topBar.setBackgroundColor(Color.rgb(255,165,0));
         //
-        arrayAdapter = new ArrayAdapter<MlUnit>(MainActivity.mainActivity,android.R.layout.simple_list_item_1,filteredList)
+        arrayAdapter = new ArrayAdapter<MlUnit>(MainActivity.instance,android.R.layout.simple_list_item_1,filteredList)
         {
             @Override
             public View getView(int position, View convertView, ViewGroup parent)
@@ -192,7 +192,7 @@ public class OC_SimpleListMenu extends OBSectionController
         listView.setAdapter(arrayAdapter);
 
 
-        final EditText filterText = (EditText) MainActivity.mainActivity.findViewById(R.id.filterText);
+        final EditText filterText = (EditText) MainActivity.instance.findViewById(R.id.filterText);
         if(filterText != null)
         {
             filterText.addTextChangedListener(new TextWatcher()
@@ -217,7 +217,7 @@ public class OC_SimpleListMenu extends OBSectionController
                 }
             });
 
-            final EditText positionText = (EditText) MainActivity.mainActivity.findViewById(R.id.positionText);
+            final EditText positionText = (EditText) MainActivity.instance.findViewById(R.id.positionText);
             if(positionText != null) {
                 positionText.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -344,7 +344,7 @@ public class OC_SimpleListMenu extends OBSectionController
 
     public void askForUnitReport(final MlUnit unit)
     {
-        final AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.mainActivity);
+        final AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.instance);
         alert.setTitle("Unit Report");
         alert.setMessage("Do you want to report unit "+unit.key+" ?");
         alert.setPositiveButton("YES", new DialogInterface.OnClickListener()
@@ -392,7 +392,7 @@ public class OC_SimpleListMenu extends OBSectionController
             stringBuilder.append("&assignee=KaMpErTuGa");
             stringBuilder.append("&milestone=onecourse+-+upload+3");
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(stringBuilder.toString()));
-            MainActivity.mainActivity.startActivity(browserIntent);
+            MainActivity.instance.startActivity(browserIntent);
         }
         catch (Exception e)
         {
@@ -402,9 +402,9 @@ public class OC_SimpleListMenu extends OBSectionController
 
     public void hideKeyboard()
     {
-        View view = MainActivity.mainActivity.getCurrentFocus();
+        View view = MainActivity.instance.getCurrentFocus();
         if (view != null) {
-            InputMethodManager imm = (InputMethodManager)MainActivity.mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager)MainActivity.instance.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }

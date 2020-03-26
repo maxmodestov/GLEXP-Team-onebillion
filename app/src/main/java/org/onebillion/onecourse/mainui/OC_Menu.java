@@ -2,20 +2,15 @@ package org.onebillion.onecourse.mainui;
 
 import android.graphics.Color;
 import android.graphics.PointF;
-import android.graphics.RectF;
 import android.view.View;
 
 import org.onebillion.onecourse.controls.OBControl;
 import org.onebillion.onecourse.controls.OBGroup;
 import org.onebillion.onecourse.controls.OBLabel;
-import org.onebillion.onecourse.controls.OBPath;
 import org.onebillion.onecourse.mainui.generic.OC_Generic;
 import org.onebillion.onecourse.utils.OBConfigManager;
-import org.onebillion.onecourse.utils.OBFatController;
 import org.onebillion.onecourse.utils.OBUtils;
-import org.onebillion.onecourse.utils.OCM_FatController;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -69,7 +64,7 @@ public class OC_Menu extends OC_SectionController
         for (OBControl c : attachedControls)
             c.texturise(false,this);
 
-        boolean permission1 = MainActivity.mainActivity.isAllPermissionGranted();
+        boolean permission1 = MainActivity.instance.isAllPermissionGranted();
         //
         // Should you need to use the OCM_FatController for a normal build, this is how to prevent the constant session invalidation
         /*

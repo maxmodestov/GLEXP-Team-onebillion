@@ -606,7 +606,7 @@ public class OC_VideoPlayback extends OC_SectionController
                 @Override
                 public void run () throws Exception
                 {
-                    OBRenderer rn = MainActivity.mainActivity.renderer;
+                    OBRenderer rn = MainActivity.instance.renderer;
                     while (rn.colourProgram == null)
                     {
                         try

@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 
 
@@ -33,7 +32,7 @@ public class OBLocationManager
 
     public Location getLastKnownLocation ()
     {
-        if (ActivityCompat.checkSelfPermission(MainActivity.mainActivity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.mainActivity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        if (ActivityCompat.checkSelfPermission(MainActivity.instance, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.instance, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
             MainActivity.log("OBLocationManager.getLastKnownLocation.Permissions were NOT granted to access device location");
             // TODO: Consider calling

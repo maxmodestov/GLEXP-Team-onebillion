@@ -521,11 +521,11 @@ public class OC_Generic
         ANCHOR_TOP,
         ANCHOR_BOTTOM;
 
-        public final int anchor;
+        public final int anchorValue;
 
         Anchor()
         {
-            this.anchor = 1 << this.ordinal();
+            this.anchorValue = 1 << this.ordinal();
         }
     }
 

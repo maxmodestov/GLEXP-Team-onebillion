@@ -24,7 +24,7 @@ public class OC_MainMenu extends OBSectionController
 
     public List<String>readingList()
     {
-        AssetManager am = MainActivity.mainActivity.getAssets();
+        AssetManager am = MainActivity.instance.getAssets();
         String dir = "oc-reading";
         dir = OBUtils.stringByAppendingPathComponent(dir,"books");
         try
@@ -44,7 +44,7 @@ public class OC_MainMenu extends OBSectionController
 
     public List<String>mathsList()
     {
-        AssetManager am = MainActivity.mainActivity.getAssets();
+        AssetManager am = MainActivity.instance.getAssets();
         String dir = "";
         try
         {

@@ -47,7 +47,7 @@ public class OC_SectionController extends OBSectionController {
     boolean needsRounding;
 
     public OC_SectionController () {
-        super(MainActivity.mainActivity);
+        super(MainActivity.instance);
 
     }
 
@@ -280,7 +280,7 @@ public class OC_SectionController extends OBSectionController {
             waitForSecs(0.3);
             playAudioQueuedScene("finale", "DEMO", true);
             //displayAward();
-            MainActivity.mainActivity.fatController.completeEvent(this);
+            MainActivity.instance.fatController.completeEvent(this);
         }
         catch (Exception e)
         {
@@ -472,7 +472,7 @@ public class OC_SectionController extends OBSectionController {
 
     public void gotItRight()
     {
-        MainActivity.mainActivity.fatController.gotAnswerRight(1);
+        MainActivity.instance.fatController.gotAnswerRight(1);
     }
 
     public void gotItRightBigTick(boolean bigTick) throws Exception
@@ -487,7 +487,7 @@ public class OC_SectionController extends OBSectionController {
 
     public void gotItWrong()
     {
-        MainActivity.mainActivity.fatController.gotAnswerWrong(1);
+        MainActivity.instance.fatController.gotAnswerWrong(1);
     }
 
     public void gotItWrongWithSfx()
@@ -606,7 +606,7 @@ public class OC_SectionController extends OBSectionController {
     public void exitEvent()
     {
         super.exitEvent();
-        MainActivity.mainActivity.fatController.onExitSection(this);
+        MainActivity.instance.fatController.onExitSection(this);
     }
 
     @Override
@@ -669,14 +669,14 @@ public class OC_SectionController extends OBSectionController {
     public void onPause()
     {
         super.onPause();
-        MainActivity.mainActivity.fatController.onPause(this);
+        MainActivity.instance.fatController.onPause(this);
     }
 
     @Override
     public void onResume()
     {
         super.onResume();
-        MainActivity.mainActivity.fatController.onResume(this);
+        MainActivity.instance.fatController.onResume(this);
     }
 
 
@@ -684,24 +684,24 @@ public class OC_SectionController extends OBSectionController {
     public void onAlarmReceived(Intent intent)
     {
         super.onAlarmReceived(intent);
-        MainActivity.mainActivity.fatController.onAlamReceived(intent,this);
+        MainActivity.instance.fatController.onAlamReceived(intent,this);
     }
 
     @Override
     public void onBatteryStatusReceived(float level, boolean charging)
     {
         super.onBatteryStatusReceived(level, charging);
-        MainActivity.mainActivity.fatController.onBatteryStatusReceived(level,charging);
+        MainActivity.instance.fatController.onBatteryStatusReceived(level,charging);
     }
 
     public boolean shouldCollectMiscData()
     {
-        return MainActivity.mainActivity.fatController.shouldCollectMiscData();
+        return MainActivity.instance.fatController.shouldCollectMiscData();
     }
 
     public void collectMiscData(String tag, Object data)
     {
-        MainActivity.mainActivity.fatController.collectMiscData(tag,data);
+        MainActivity.instance.fatController.collectMiscData(tag,data);
     }
 
 }

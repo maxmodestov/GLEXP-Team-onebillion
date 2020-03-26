@@ -5,9 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiConfiguration;
@@ -17,13 +14,11 @@ import android.provider.Settings;
 import android.telephony.TelephonyManager;
 
 import org.onebillion.onecourse.mainui.MainActivity;
-import org.onebillion.onecourse.mainui.generic.OC_Generic;
 
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Handler;
 import java.util.regex.Pattern;
 
 /**
@@ -54,7 +49,7 @@ public class OBConnectionManager
         //
         forgetAllNetworks();
         //
-        WifiManager wifiManager = (WifiManager) MainActivity.mainActivity.getApplicationContext().getSystemService(MainActivity.WIFI_SERVICE);
+        WifiManager wifiManager = (WifiManager) MainActivity.instance.getApplicationContext().getSystemService(MainActivity.WIFI_SERVICE);
         MainActivity.log("OBConnectionManager.disconnectWifi. Disconnected network");
         wifiManager.disconnect();
         MainActivity.log("OBConnectionManager.disconnectWifi. Disabling wifi");
@@ -64,7 +59,7 @@ public class OBConnectionManager
 
     public void forgetAllNetworks()
     {
-        WifiManager wifiManager = (WifiManager) MainActivity.mainActivity.getApplicationContext().getSystemService(MainActivity.WIFI_SERVICE);
+        WifiManager wifiManager = (WifiManager) MainActivity.instance.getApplicationContext().getSystemService(MainActivity.WIFI_SERVICE);
         List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
         //
         for( WifiConfiguration i : list )
@@ -79,7 +74,7 @@ public class OBConnectionManager
 
     public String getCurrentWifiSSID()
     {
-        WifiManager wifiManager = (WifiManager) MainActivity.mainActivity.getApplicationContext().getSystemService(MainActivity.WIFI_SERVICE);
+        WifiManager wifiManager = (WifiManager) MainActivity.instance.getApplicationContext().getSystemService(MainActivity.WIFI_SERVICE);
         WifiInfo info = wifiManager.getConnectionInfo ();
         String ssid = info.getSSID();
         if (info.getSupplicantState() != SupplicantState.COMPLETED)
@@ -100,7 +95,7 @@ public class OBConnectionManager
 
     public boolean isScanningDisabled ()
     {
-        WifiManager wifiManager = (WifiManager) MainActivity.mainActivity.getApplicationContext().getSystemService(MainActivity.WIFI_SERVICE);
+        WifiManager wifiManager = (WifiManager) MainActivity.instance.getApplicationContext().getSystemService(MainActivity.WIFI_SERVICE);
         if (wifiManager.isScanAlwaysAvailable()) return false;
         //
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -295,7 +290,7 @@ public class OBConnectionManager
                     //
                     boolean isAirplaneModeOn = intent.getBooleanExtra("state", false);
                     //
-                    MainActivity.mainActivity.unregisterReceiver(airplaneChangedReceiver);
+                    MainActivity.instance.unregisterReceiver(airplaneChangedReceiver);
                     if (isAirplaneModeOn)
                     {
                         MainActivity.log("OBConnectionManager.connectToNetwork_disableAirplaneMode.airplaneChangedReceiver.AIRPLANE_MODE is now ON. Unlocking everything.");
@@ -310,18 +305,18 @@ public class OBConnectionManager
             }
         };
         //
-        MainActivity.mainActivity.registerReceiver(airplaneChangedReceiver, new IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED));
+        MainActivity.instance.registerReceiver(airplaneChangedReceiver, new IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED));
         //
-        Boolean airplaneModeIsActive = Settings.Global.getInt(MainActivity.mainActivity.getBaseContext().getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
+        Boolean airplaneModeIsActive = Settings.Global.getInt(MainActivity.instance.getBaseContext().getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
         if (airplaneModeIsActive)
         {
             MainActivity.log("OBConnectionManager.connectToNetwork.disable airplane mode");
             try
             {
-                Settings.Global.putInt(MainActivity.mainActivity.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 0);
+                Settings.Global.putInt(MainActivity.instance.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 0);
                 Intent intent = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
                 intent.putExtra("state", false);
-                MainActivity.mainActivity.sendBroadcast(intent);
+                MainActivity.instance.sendBroadcast(intent);
             }
             catch (Exception e)
             {
@@ -375,18 +370,18 @@ public class OBConnectionManager
             }
         };
         //
-        MainActivity.mainActivity.registerReceiver(airplaneChangedReceiver, new IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED));
+        MainActivity.instance.registerReceiver(airplaneChangedReceiver, new IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED));
         //
-        Boolean airplaneModeIsActive = Settings.Global.getInt(MainActivity.mainActivity.getBaseContext().getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
+        Boolean airplaneModeIsActive = Settings.Global.getInt(MainActivity.instance.getBaseContext().getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
         if (airplaneModeIsActive != enabled)
         {
             // send request to change to user request
             try
             {
-                Settings.Global.putInt(MainActivity.mainActivity.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 0);
+                Settings.Global.putInt(MainActivity.instance.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 0);
                 Intent intent = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
                 intent.putExtra("state", enabled);
-                MainActivity.mainActivity.sendBroadcast(intent);
+                MainActivity.instance.sendBroadcast(intent);
             }
             catch (Exception e)
             {
@@ -417,7 +412,7 @@ public class OBConnectionManager
 
     private void connectToNetwork_enableWifi (final String ssid, final String password, final OBUtils.RunLambdaWithSuccess block)
     {
-        final WifiManager wfMgr = (WifiManager) MainActivity.mainActivity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        final WifiManager wfMgr = (WifiManager) MainActivity.instance.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 //        wifiLock = wfMgr.createWifiLock("LockTag");
 //        wifiLock.acquire();
         //
@@ -440,7 +435,7 @@ public class OBConnectionManager
                     }
                 }
             };
-            MainActivity.mainActivity.registerReceiver(scanResultsReceiver, new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION));
+            MainActivity.instance.registerReceiver(scanResultsReceiver, new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION));
             wfMgr.setWifiEnabled(true);
         }
         else
@@ -452,7 +447,7 @@ public class OBConnectionManager
 
     private void connectToNetWork_complete (boolean success, final OBUtils.RunLambdaWithSuccess block)
     {
-        final WifiManager wfMgr = (WifiManager) MainActivity.mainActivity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        final WifiManager wfMgr = (WifiManager) MainActivity.instance.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         //
         if (success)
         {
@@ -498,7 +493,7 @@ public class OBConnectionManager
 
     private void connectToNetwork_disconnect ()
     {
-        final WifiManager wfMgr = (WifiManager) MainActivity.mainActivity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        final WifiManager wfMgr = (WifiManager) MainActivity.instance.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         //
         MainActivity.log("OBConnectionManager.connectToNetWork_complete.block complete");
         //
@@ -508,10 +503,10 @@ public class OBConnectionManager
         try
         {
             MainActivity.log("OBConnectionManager.connectToNetWork_complete.enable airplane mode");
-            Settings.Global.putInt(MainActivity.mainActivity.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 1);
+            Settings.Global.putInt(MainActivity.instance.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 1);
             Intent intent = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
             intent.putExtra("state", true);
-            MainActivity.mainActivity.sendBroadcast(intent);
+            MainActivity.instance.sendBroadcast(intent);
         }
         catch (Exception e)
         {
@@ -526,7 +521,7 @@ public class OBConnectionManager
         if (ssid == null)
             return;
         //
-        final WifiManager wfMgr = (WifiManager) MainActivity.mainActivity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        final WifiManager wfMgr = (WifiManager) MainActivity.instance.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         //
         String connectionSSID = wfMgr.getConnectionInfo().getSSID();
         if (connectionSSID.startsWith("\"") && connectionSSID.endsWith("\""))
@@ -573,7 +568,7 @@ public class OBConnectionManager
 
     private void connectToNetwork_scanForWifi (final String ssid, final String password, final OBUtils.RunLambdaWithSuccess block)
     {
-        final WifiManager wfMgr = (WifiManager) MainActivity.mainActivity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        final WifiManager wfMgr = (WifiManager) MainActivity.instance.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         //
         OBSystemsManager.unregisterReceiver(scanResultsReceiver);
         scanResultsReceiver = new BroadcastReceiver()
@@ -722,7 +717,7 @@ public class OBConnectionManager
                         MainActivity.log("OBConnectionManager.connectToNetwork_scanForWifi.PROBLEM saving configuration");
                     }
                     //
-                    MainActivity.mainActivity.registerReceiver(scanResultsReceiver, new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
+                    MainActivity.instance.registerReceiver(scanResultsReceiver, new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
                     MainActivity.log("OBConnectionManager.connectToNetwork_scanForWifi.enabling network");
                     //
                     wfMgr.disconnect();
@@ -739,7 +734,7 @@ public class OBConnectionManager
             }
         };
 //        MainActivity.log("OBConnectionManager.connectToNetwork_scanForWifi.registering receiver");
-        MainActivity.mainActivity.registerReceiver(scanResultsReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        MainActivity.instance.registerReceiver(scanResultsReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
         //
         Boolean wifiWasEnabled = wfMgr.setWifiEnabled(true);
         if (!wifiWasEnabled)
@@ -777,7 +772,7 @@ public class OBConnectionManager
     {
         try
         {
-            TelephonyManager telephonyService = (TelephonyManager) MainActivity.mainActivity.getSystemService(Context.TELEPHONY_SERVICE);
+            TelephonyManager telephonyService = (TelephonyManager) MainActivity.instance.getSystemService(Context.TELEPHONY_SERVICE);
             Method setMobileDataEnabledMethod = telephonyService.getClass().getDeclaredMethod("setDataEnabled", boolean.class);
             //
             if (null != setMobileDataEnabledMethod)
@@ -797,7 +792,7 @@ public class OBConnectionManager
     {
         try
         {
-            TelephonyManager telephonyService = (TelephonyManager) MainActivity.mainActivity.getSystemService(Context.TELEPHONY_SERVICE);
+            TelephonyManager telephonyService = (TelephonyManager) MainActivity.instance.getSystemService(Context.TELEPHONY_SERVICE);
             Method getMobileDataEnabledMethod = telephonyService.getClass().getDeclaredMethod("getDataEnabled");
             //
             if (null != getMobileDataEnabledMethod)

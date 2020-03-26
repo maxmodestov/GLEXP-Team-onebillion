@@ -42,7 +42,7 @@ public class OC_DiagnosticsIntro extends OC_Diagnostics
             String totalQuestionsParameter = parameters.get("questions");
             if (totalQuestionsParameter != null) totalQuestions = Integer.parseInt(totalQuestionsParameter);
             //
-            OCM_FatController fatController = (OCM_FatController) MainActivity.mainActivity.fatController;
+            OCM_FatController fatController = (OCM_FatController) MainActivity.instance.fatController;
             int thresholdWeek = fatController.getCurrentWeek();
             String thresholdWeekParameter = parameters.get("week");
             if (thresholdWeekParameter != null) thresholdWeek = Integer.parseInt(thresholdWeekParameter);
@@ -81,9 +81,9 @@ public class OC_DiagnosticsIntro extends OC_Diagnostics
 
     public void finishEvent()
     {
-        if(MainActivity.mainActivity.fatController.getClass() == OCM_FatController.class)
+        if(MainActivity.instance.fatController.getClass() == OCM_FatController.class)
         {
-            OCM_FatController fatController = (OCM_FatController)MainActivity.mainActivity.fatController;
+            OCM_FatController fatController = (OCM_FatController)MainActivity.instance.fatController;
             fatController.completeEventWithStar(this,false);
         }
         else

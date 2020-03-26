@@ -239,7 +239,7 @@ public class OC_MakeSylWord extends OC_SectionController
             box.closeLid("lid_open");
             waitForSecs(0.3f);
             playAudioQueued(OBUtils.insertAudioInterval(audioForScene("finale", "DEMO"), 300), true);
-            MainActivity.mainActivity.fatController.completeEvent(this);
+            MainActivity.instance.fatController.completeEvent(this);
 
     }
 

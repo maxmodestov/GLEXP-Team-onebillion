@@ -8,7 +8,6 @@ import org.onebillion.onecourse.mainui.MainActivity;
 import org.onebillion.onecourse.mainui.OC_SectionController;
 import org.onebillion.onecourse.utils.OBUtils;
 import org.onebillion.onecourse.utils.OCM_FatController;
-import org.onebillion.onecourse.utils.OC_FatController;
 
 /**
  * Created by michal on 08/09/16.
@@ -63,7 +62,7 @@ public class OC_TestEvent extends OC_SectionController
                     {
                         setStatus(STATUS_BUSY);
                         targ.setFillColor(OBUtils.highlightedColour(targ.fillColor()));
-                        OCM_FatController fatController = (OCM_FatController) MainActivity.mainActivity.fatController;
+                        OCM_FatController fatController = (OCM_FatController) MainActivity.instance.fatController;
 
                         if (targ == objectDict.get("button_correct"))
                         {

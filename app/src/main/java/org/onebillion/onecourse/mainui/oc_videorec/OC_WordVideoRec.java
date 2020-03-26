@@ -126,7 +126,7 @@ public class OC_WordVideoRec extends OC_SectionController
         {
             cameraManager.onPause();
             videoRecorder.onPause();
-            videoPlayer.cleanUp(MainActivity.mainActivity.renderer);
+            videoPlayer.cleanUp(MainActivity.instance.renderer);
         } catch(Exception e)
         {
             e.printStackTrace();

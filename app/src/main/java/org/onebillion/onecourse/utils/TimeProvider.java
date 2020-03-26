@@ -7,7 +7,6 @@ import android.util.Log;
 import org.onebillion.onecourse.mainui.MainActivity;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public final class TimeProvider {
@@ -69,7 +68,7 @@ public final class TimeProvider {
     }
 
     private static long Load() {
-        SharedPreferences sharedPref = MainActivity.mainActivity.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = MainActivity.instance.getPreferences(Context.MODE_PRIVATE);
         long timestamp = sharedPref.getLong(PREFERENCES_CURRENT_TIMESTAMP, getTimestampOfDay(0));
 
         Calendar calendar = Calendar.getInstance();
@@ -83,7 +82,7 @@ public final class TimeProvider {
     }
 
     private static void Save(long value) {
-        SharedPreferences sharedPref = MainActivity.mainActivity.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = MainActivity.instance.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putLong(PREFERENCES_CURRENT_TIMESTAMP, value);
         editor.apply();

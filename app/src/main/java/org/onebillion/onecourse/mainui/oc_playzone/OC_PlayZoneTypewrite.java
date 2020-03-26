@@ -331,7 +331,7 @@ public class OC_PlayZoneTypewrite extends OC_SectionController
 
         currentTheme = name;
         String fontPath = String.format("%s",(String)themeData.get("font"));
-        currentTypeface = Typeface.createFromAsset(MainActivity.mainActivity.getAssets(), fontPath);
+        currentTypeface = Typeface.createFromAsset(MainActivity.instance.getAssets(), fontPath);
         currentTypeSize = applyGraphicScale(50f) * textScale;
 
         textBox.setTypeFace(currentTypeface);
@@ -369,8 +369,8 @@ public class OC_PlayZoneTypewrite extends OC_SectionController
         float height = keyNormal.height();
         float minLeft = keyboardRect.left() + buttonDistance;
         float maxRight = minLeft;
-        Typeface typeface = Typeface.createFromAsset(MainActivity.mainActivity.getAssets(), "onebillionreader-Regular.otf");
-        Typeface specialtypeface = Typeface.createFromAsset(MainActivity.mainActivity.getAssets(), "onebillionreader-Regular.otf");
+        Typeface typeface = Typeface.createFromAsset(MainActivity.instance.getAssets(), "onebillionreader-Regular.otf");
+        Typeface specialtypeface = Typeface.createFromAsset(MainActivity.instance.getAssets(), "onebillionreader-Regular.otf");
         float fontSize = 40f * height / 60f;
         float specialfontSize = 30f * height / 60f;
          for(List<String> lettersRow : letters)
@@ -868,7 +868,7 @@ public class OC_PlayZoneTypewrite extends OC_SectionController
             FileOutputStream out = new FileOutputStream(thumbpath);
             thumbnail(thumbname,txt).compress(Bitmap.CompressFormat.PNG, 90, out);
             out.close();
-            OBFatController fatController = (MainActivity.mainActivity.fatController);
+            OBFatController fatController = (MainActivity.instance.fatController);
             if (OCM_FatController.class.isInstance(fatController))
                 ((OCM_FatController)fatController).savePlayZoneAssetForCurrentUserType(ASSET_TEXT,thumbname,params);
         }

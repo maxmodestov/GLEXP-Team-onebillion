@@ -15,15 +15,12 @@ import org.onebillion.onecourse.utils.OBAudioManager;
 import org.onebillion.onecourse.utils.OBConditionLock;
 import org.onebillion.onecourse.utils.OBFont;
 import org.onebillion.onecourse.utils.OBPhoneme;
-import org.onebillion.onecourse.utils.OBReadingWord;
-import org.onebillion.onecourse.utils.OBUserPressedBackException;
 import org.onebillion.onecourse.utils.OBUtils;
 import org.onebillion.onecourse.utils.OBWord;
 import org.onebillion.onecourse.utils.OB_Maths;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -471,7 +468,7 @@ public class OC_Onset extends OC_Reading
             playAudioQueued(Arrays.asList((Object)syllID),true);
 
             waitForSecs(0.8f);
-            MainActivity.mainActivity.fatController.completeEvent(this);
+            MainActivity.instance.fatController.completeEvent(this);
         }
         catch(Exception exception)
         {

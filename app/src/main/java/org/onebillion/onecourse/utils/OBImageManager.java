@@ -163,7 +163,7 @@ public class OBImageManager
 
     public Drawable imageNamed (String imageName)
     {
-        float densityFactor = MainActivity.mainActivity.getResources().getDisplayMetrics().density;
+        float densityFactor = MainActivity.instance.getResources().getDisplayMetrics().density;
 //        AssetManager assetManager = MainActivity.mainActivity.getAssets();
         Drawable d;
         try

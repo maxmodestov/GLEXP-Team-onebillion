@@ -1,27 +1,22 @@
 package org.onebillion.onecourse.mainui.oc_patterns;
 
 import android.graphics.Color;
-import android.graphics.PointF;
-import android.view.View;
 
 import org.onebillion.onecourse.controls.OBControl;
 import org.onebillion.onecourse.controls.OBGroup;
 import org.onebillion.onecourse.controls.OBPath;
 import org.onebillion.onecourse.mainui.MainActivity;
 import org.onebillion.onecourse.mainui.generic.OC_Generic;
-import org.onebillion.onecourse.mainui.generic.OC_Generic_Event;
 import org.onebillion.onecourse.utils.OBAnim;
 import org.onebillion.onecourse.utils.OBAnimBlock;
 import org.onebillion.onecourse.utils.OBAnimationGroup;
 import org.onebillion.onecourse.utils.OBUtils;
-import org.onebillion.onecourse.utils.UPath;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static org.onebillion.onecourse.mainui.generic.OC_Generic.randomInt;
-import static org.onebillion.onecourse.utils.OB_Maths.bezef;
 
 /**
  * Created by pedroloureiro on 16/03/2017.
@@ -41,7 +36,7 @@ public class OC_Patterns_S4m extends OC_Patterns_S4f
         {
             waitForSecs(0.3);
             playAudioQueuedScene("finale", "DEMO", true);
-            MainActivity.mainActivity.fatController.completeEvent(this);
+            MainActivity.instance.fatController.completeEvent(this);
         }
         catch (Exception e)
         {

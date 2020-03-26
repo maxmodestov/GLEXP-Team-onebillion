@@ -1,8 +1,6 @@
 package org.onebillion.onecourse.mainui;
 
 import android.text.format.DateUtils;
-import android.text.style.QuoteSpan;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,10 +13,8 @@ import android.widget.TextView;
 
 import org.onebillion.onecourse.R;
 import org.onebillion.onecourse.mainui.generic.OC_Generic;
-import org.onebillion.onecourse.mainui.oc_diagnostics.OC_Diagnostics;
 import org.onebillion.onecourse.mainui.oc_diagnostics.OC_DiagnosticsManager;
 import org.onebillion.onecourse.utils.OBConfigManager;
-import org.onebillion.onecourse.utils.OBSystemsManager;
 import org.onebillion.onecourse.utils.OBUtils;
 
 
@@ -52,7 +48,7 @@ public class OC_DiagnosticsConsole extends OBSectionController
 
     public OC_DiagnosticsConsole()
     {
-        super(MainActivity.mainActivity, false);
+        super(MainActivity.instance, false);
     }
 
     public void prepare()
@@ -65,15 +61,15 @@ public class OC_DiagnosticsConsole extends OBSectionController
 
     public void initScreen()
     {
-        MainActivity.mainActivity.setContentView(R.layout.diagnostics_console);
+        MainActivity.instance.setContentView(R.layout.diagnostics_console);
         //
-        runTests_progress = (ProgressBar) MainActivity.mainActivity.findViewById(R.id.runTests_progress);
+        runTests_progress = (ProgressBar) MainActivity.instance.findViewById(R.id.runTests_progress);
         runTests_progress.setVisibility(INVISIBLE);
         //
-        runTests_remaining = (TextView) MainActivity.mainActivity.findViewById(R.id.runTests_remaining);
+        runTests_remaining = (TextView) MainActivity.instance.findViewById(R.id.runTests_remaining);
         runTests_remaining.setVisibility(INVISIBLE);
         //
-        runDiagnostics = (Button) MainActivity.mainActivity.findViewById(R.id.diagnostics_button);
+        runDiagnostics = (Button) MainActivity.instance.findViewById(R.id.diagnostics_button);
         runDiagnostics.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -86,7 +82,7 @@ public class OC_DiagnosticsConsole extends OBSectionController
             }
         });
         //
-        runTests = (Button) MainActivity.mainActivity.findViewById(R.id.runTests_button);
+        runTests = (Button) MainActivity.instance.findViewById(R.id.runTests_button);
         runTests.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -107,7 +103,7 @@ public class OC_DiagnosticsConsole extends OBSectionController
             }
         });
         //
-        week_slider = (SeekBar) MainActivity.mainActivity.findViewById(R.id.week_slider);
+        week_slider = (SeekBar) MainActivity.instance.findViewById(R.id.week_slider);
         week_slider.setMax(60);
         week_slider.setProgress(60);
         //
@@ -132,10 +128,10 @@ public class OC_DiagnosticsConsole extends OBSectionController
             }
         });
         //
-        week_value = (TextView) MainActivity.mainActivity.findViewById(R.id.week_value);
+        week_value = (TextView) MainActivity.instance.findViewById(R.id.week_value);
         week_value.setText(String.valueOf(week_slider.getProgress()));
         //
-        wrongAnswers_slider = (SeekBar) MainActivity.mainActivity.findViewById(R.id.wrongAnwers_slider);
+        wrongAnswers_slider = (SeekBar) MainActivity.instance.findViewById(R.id.wrongAnwers_slider);
         wrongAnswers_slider.setMax(3);
         wrongAnswers_slider.setProgress(1);
         //
@@ -160,10 +156,10 @@ public class OC_DiagnosticsConsole extends OBSectionController
             }
         });
         //
-        wrongAnswers_value = (TextView) MainActivity.mainActivity.findViewById(R.id.wrongAnwers_value);
+        wrongAnswers_value = (TextView) MainActivity.instance.findViewById(R.id.wrongAnwers_value);
         wrongAnswers_value.setText(String.valueOf(wrongAnswers_slider.getProgress()));
         //
-        totalRuns_slider = (SeekBar) MainActivity.mainActivity.findViewById(R.id.totalRuns_slider);
+        totalRuns_slider = (SeekBar) MainActivity.instance.findViewById(R.id.totalRuns_slider);
         totalRuns_slider.setMax(1000);
         totalRuns_slider.setProgress(10);
         //
@@ -188,10 +184,10 @@ public class OC_DiagnosticsConsole extends OBSectionController
             }
         });
         //
-        totalRuns_value = (TextView) MainActivity.mainActivity.findViewById(R.id.totalRuns_value);
+        totalRuns_value = (TextView) MainActivity.instance.findViewById(R.id.totalRuns_value);
         totalRuns_value.setText(String.valueOf(totalRuns_slider.getProgress()));
         //
-        question_list = (ListView) MainActivity.mainActivity.findViewById(R.id.question_list);
+        question_list = (ListView) MainActivity.instance.findViewById(R.id.question_list);
         question_list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         question_list.setSelector(android.R.color.darker_gray);
         question_list.setOnItemClickListener(new AdapterView.OnItemClickListener()
@@ -207,7 +203,7 @@ public class OC_DiagnosticsConsole extends OBSectionController
                 //
                 if (resultsForQuestion == null) return;
                 //
-                ArrayAdapter unitIndex_arrayAdapter = new ArrayAdapter<Integer>(MainActivity.mainActivity, android.R.layout.simple_list_item_1, resultsForQuestion)
+                ArrayAdapter unitIndex_arrayAdapter = new ArrayAdapter<Integer>(MainActivity.instance, android.R.layout.simple_list_item_1, resultsForQuestion)
                 {
                     @Override
                     public View getView(int position, View convertView, ViewGroup parent)
@@ -230,7 +226,7 @@ public class OC_DiagnosticsConsole extends OBSectionController
             }
         });
         //
-        ArrayAdapter question_arrayAdapter = new ArrayAdapter<String>(MainActivity.mainActivity, android.R.layout.simple_list_item_1, question_array)
+        ArrayAdapter question_arrayAdapter = new ArrayAdapter<String>(MainActivity.instance, android.R.layout.simple_list_item_1, question_array)
         {
             @Override
             public View getView(int position, View convertView, ViewGroup parent)
@@ -249,7 +245,7 @@ public class OC_DiagnosticsConsole extends OBSectionController
         question_list.setAdapter(question_arrayAdapter);
         question_list.setVisibility(INVISIBLE);
         //
-        unitIndex_list = (ListView) MainActivity.mainActivity.findViewById(R.id.unitIndex_list);
+        unitIndex_list = (ListView) MainActivity.instance.findViewById(R.id.unitIndex_list);
         unitIndex_list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         unitIndex_list.setSelector(android.R.color.darker_gray);
         unitIndex_list.setVisibility(INVISIBLE);
@@ -266,7 +262,7 @@ public class OC_DiagnosticsConsole extends OBSectionController
                 final List<String> resultsForQuestion = entriesForEntry;
                 if (resultsForQuestion == null) return;
                 //
-                ArrayAdapter remedialUnit_arrayAdapter = new ArrayAdapter<String>(MainActivity.mainActivity, android.R.layout.simple_list_item_1, resultsForQuestion)
+                ArrayAdapter remedialUnit_arrayAdapter = new ArrayAdapter<String>(MainActivity.instance, android.R.layout.simple_list_item_1, resultsForQuestion)
                 {
                     @Override
                     public View getView(int position, View convertView, ViewGroup parent)
@@ -287,7 +283,7 @@ public class OC_DiagnosticsConsole extends OBSectionController
             }
         });
         //
-        remedialUnits_list = (ListView) MainActivity.mainActivity.findViewById(R.id.remedialUnits_list);
+        remedialUnits_list = (ListView) MainActivity.instance.findViewById(R.id.remedialUnits_list);
         remedialUnits_list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         remedialUnits_list.setSelector(android.R.color.darker_gray);
         remedialUnits_list.setVisibility(INVISIBLE);

@@ -8,7 +8,6 @@ import org.onebillion.onecourse.mainui.MainActivity;
 import org.onebillion.onecourse.utils.OBAlarmManager;
 
 import java.util.Calendar;
-import java.util.Currency;
 
 /**
  * OBAlarmReceiver
@@ -26,9 +25,9 @@ public class OBAlarmReceiver extends BroadcastReceiver
     public void onReceive (Context context, Intent intent)
     {
         MainActivity.log("Alarm triggered!");
-        if (MainActivity.mainActivity != null)
+        if (MainActivity.instance != null)
         {
-            MainActivity.mainActivity.onAlarmReceived(intent);
+            MainActivity.instance.onAlarmReceived(intent);
         }
         long starttime = intent.getLongExtra(EXTRA_ALARMTIME, 0);
         long interval = intent.getLongExtra(EXTRA_INTERVAL, 0);

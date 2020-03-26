@@ -2,18 +2,14 @@ package org.onebillion.onecourse.mainui.oc_onsetandrime;
 
 import android.graphics.Color;
 import android.graphics.PointF;
-import android.graphics.RectF;
 
 import org.onebillion.onecourse.controls.*;
 import org.onebillion.onecourse.utils.OBAnim;
 import org.onebillion.onecourse.utils.OBAnimationGroup;
 import org.onebillion.onecourse.utils.OB_Maths;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by alan on 27/12/17.
@@ -53,7 +49,7 @@ public class OC_OnsetAndRime extends OC_Onset
         destpt.y = (completeLabel.position().y);
         //moveObjects(Arrays.asList(dragLabel,thePointer),destpt,-1,OBAnim.ANIM_EASE_IN_EASE_OUT,null);
 
-        List anims = AnimsForMoveToPoint(Arrays.asList(dragLabel, thePointer), destpt);
+        List anims = animsForMoveToPointAbstractList(Arrays.asList(dragLabel, thePointer), destpt);
         OBAnim turnAnim = OBAnim.rotationAnim((float) Math.toRadians(-10), thePointer);
         anims.add(turnAnim);
         OBAnimationGroup.runAnims(anims, 0.6, true, OBAnim.ANIM_EASE_IN_EASE_OUT, null);

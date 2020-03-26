@@ -62,7 +62,7 @@ public class OCM_TestEvent extends OC_SectionController
                     {
                         setStatus(STATUS_BUSY);
                         targ.setFillColor(OBUtils.highlightedColour(targ.fillColor()));
-                        OCM_FatController fatController = (OCM_FatController) MainActivity.mainActivity.fatController;
+                        OCM_FatController fatController = (OCM_FatController) MainActivity.instance.fatController;
 
                         if (targ == objectDict.get("button_correct"))
                         {

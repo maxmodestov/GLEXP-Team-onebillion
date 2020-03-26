@@ -85,7 +85,7 @@ public class OC_Hw1 extends OC_Hw
                 waitForSecs(0.3f);
             }
 
-            MainActivity.mainActivity.fatController.completeEvent(this);
+            MainActivity.instance.fatController.completeEvent(this);
         }
         catch (Exception exception)
         {

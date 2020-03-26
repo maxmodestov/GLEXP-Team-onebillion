@@ -1536,7 +1536,7 @@ public class OBControl
 
     private void blur (Bitmap bt, float radius)
     {
-        RenderScript rs = RenderScript.create(MainActivity.mainActivity);
+        RenderScript rs = RenderScript.create(MainActivity.instance);
 
         float thisrad = radius > 25f?25f:radius;
         float remainrad = radius - thisrad;

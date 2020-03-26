@@ -64,7 +64,7 @@ public class OCM_LockScreen extends OC_Menu implements OCM_FatReceiver
 
     public void prepare()
     {
-        fatController = (OCM_FatController) MainActivity.mainActivity.fatController;
+        fatController = (OCM_FatController) MainActivity.instance.fatController;
         fatController.menu = this;
 
         setStatus(STATUS_BUSY);

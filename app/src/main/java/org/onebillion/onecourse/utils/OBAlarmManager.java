@@ -19,16 +19,16 @@ public class OBAlarmManager
 
     public static PendingIntent scheduleRepeatingAlarm(long triggerAtMillis, long intervalMillis, int requestCode)
     {
-        if (MainActivity.mainActivity != null)
+        if (MainActivity.instance != null)
         {
-            Intent alarmIntent = new Intent(MainActivity.mainActivity, OBAlarmReceiver.class);
+            Intent alarmIntent = new Intent(MainActivity.instance, OBAlarmReceiver.class);
 
             alarmIntent.putExtra(OBAlarmReceiver.EXTRA_ALARMTIME, triggerAtMillis);
             alarmIntent.putExtra(OBAlarmReceiver.EXTRA_INTERVAL, intervalMillis);
             alarmIntent.putExtra(OBAlarmReceiver.EXTRA_REQUESTCODE, requestCode);
 
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.mainActivity, requestCode, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-            AlarmManager alarmManager = (AlarmManager) MainActivity.mainActivity.getSystemService(Context.ALARM_SERVICE);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.instance, requestCode, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+            AlarmManager alarmManager = (AlarmManager) MainActivity.instance.getSystemService(Context.ALARM_SERVICE);
             cancelAlarm(pendingIntent);
 
             alarmManager.setExact(AlarmManager.RTC, triggerAtMillis, pendingIntent);
@@ -41,7 +41,7 @@ public class OBAlarmManager
     {
         try
         {
-         AlarmManager alarmManager = (AlarmManager)MainActivity.mainActivity.getSystemService(Context.ALARM_SERVICE);
+         AlarmManager alarmManager = (AlarmManager)MainActivity.instance.getSystemService(Context.ALARM_SERVICE);
          alarmManager.cancel(pendingIntent);
         }
         catch (Exception e)

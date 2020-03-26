@@ -126,9 +126,9 @@ public class OC_PlayZoneMenu extends OC_Menu
 
     public void prepare()
     {
-        if (OCM_FatController.class.isInstance(MainActivity.mainActivity.fatController))
+        if (OCM_FatController.class.isInstance(MainActivity.instance.fatController))
         {
-            fatController = (OCM_FatController) MainActivity.mainActivity.fatController;
+            fatController = (OCM_FatController) MainActivity.instance.fatController;
         }
         else
         {

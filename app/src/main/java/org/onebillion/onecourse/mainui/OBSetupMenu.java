@@ -35,9 +35,6 @@ import org.onebillion.onecourse.utils.OBPreferenceManager;
 import org.onebillion.onecourse.utils.OBSystemsManager;
 import org.onebillion.onecourse.utils.OBUtils;
 
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.SocketTimeoutException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -45,8 +42,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Date;
 
-import org.apache.commons.net.ntp.NTPUDPClient;
-import org.apache.commons.net.ntp.TimeInfo;
 import org.onebillion.onecourse.utils.OB_Maths;
 import org.onebillion.onecourse.utils.OCM_FatController;
 import org.onebillion.onecourse.utils.TimeProvider;
@@ -102,7 +97,7 @@ public class OBSetupMenu extends OC_SectionController implements TimePickerDialo
         MainActivity.log("OBSetupMenu:prepare");
         //
         // check all permissions at startup
-        boolean permission1 = MainActivity.mainActivity.isAllPermissionGranted();
+        boolean permission1 = MainActivity.instance.isAllPermissionGranted();
         //
         loadFingers();
         //
@@ -196,82 +191,6 @@ public class OBSetupMenu extends OC_SectionController implements TimePickerDialo
             return;
         }
         //
-        OBUtils.runOnOtherThread(new OBUtils.RunLambda()
-        {
-            @Override
-            public void run () throws Exception
-            {
-                NTPUDPClient client = new NTPUDPClient();
-                client.setDefaultTimeout(1000);
-                //
-                try
-                {
-                    client.open();
-                    InetAddress hostAddr = InetAddress.getByName(timeServerURL);
-                    //
-                    TimeInfo info = client.getTime(hostAddr);
-                    info.computeDetails();
-                    client.close();
-                    //
-                    serverDate = new Date(info.getMessage().getReceiveTimeStamp().getTime());
-                    //
-                    homeScreen_refreshDate();
-                }
-                catch (SocketException e)
-                {
-                    e.printStackTrace();
-                    //
-                    MainActivity.log("OBSetupMenu:unable to reach wifi. Attempting to connect to time server wifi in settings.plist");
-                    OBUtils.runOnOtherThread(new OBUtils.RunLambda()
-                    {
-                        @Override
-                        public void run () throws Exception
-                        {
-                            OBConnectionManager.sharedManager.connectToNetwork_connectToWifi(wifiSSID, wifiPassword, new OBUtils.RunLambdaWithSuccess()
-                            {
-                                @Override
-                                public void run (boolean success) throws Exception
-                                {
-                                    if (success)
-                                    {
-                                        getServerTime();
-                                    }
-                                }
-                            });
-                        }
-                    });
-                    //
-                    // dont continue any further until we have connected to the correct wifi
-                    return;
-                }
-                catch (SocketTimeoutException e)
-                {
-                    MainActivity.log("OBSetupMenu:getServerTime: time out occurred");
-                    serverDate = null;
-                    homeScreen_refreshDate();
-                }
-                catch (Exception e)
-                {
-                    MainActivity.log("OBSetupMenu:getServerTime:exception caught");
-                    e.printStackTrace();
-                    //
-                    serverDate = null;
-                    homeScreen_refreshDate();
-                }
-                //
-                if (!getAborting())
-                {
-                    OBUtils.runOnOtherThreadDelayed(clockRefreshInterval, new OBUtils.RunLambda()
-                    {
-                        @Override
-                        public void run () throws Exception
-                        {
-                            getServerTime();
-                        }
-                    });
-                }
-            }
-        });
     }
 
 
@@ -751,7 +670,7 @@ public class OBSetupMenu extends OC_SectionController implements TimePickerDialo
                                 {
                                     Intent i = new Intent("android.intent.action.ACTION_REQUEST_SHUTDOWN");
                                     i.putExtra("android.intent.extra.KEY_CONFIRM", false);
-                                    MainActivity.mainActivity.startActivity(i);
+                                    MainActivity.instance.startActivity(i);
                                 } catch (Exception e)
                                 {
                                     MainActivity.log("OBSetupMenu:loadFinalScreen:exception caught while trying to shutdown device. Exiting App");
@@ -773,7 +692,7 @@ public class OBSetupMenu extends OC_SectionController implements TimePickerDialo
         //
         try
         {
-            OCM_FatController fatController = (OCM_FatController)MainActivity.mainActivity.fatController;
+            OCM_FatController fatController = (OCM_FatController)MainActivity.instance.fatController;
             //
             db = new DBSQL(false);
             //
@@ -811,12 +730,12 @@ public class OBSetupMenu extends OC_SectionController implements TimePickerDialo
             currentCalendar.setTime(startDate);
         }
         final Calendar calendar = currentCalendar;
-        DatePickerDialog d = new DatePickerDialog(MainActivity.mainActivity, listener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        DatePickerDialog d = new DatePickerDialog(MainActivity.instance, listener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         //
         d.setCancelable(false);
         d.setCanceledOnTouchOutside(false);
         //
-        LinearLayout linearLayout = new LinearLayout(MainActivity.mainActivity.getApplicationContext());
+        LinearLayout linearLayout = new LinearLayout(MainActivity.instance.getApplicationContext());
         d.requestWindowFeature(Window.FEATURE_NO_TITLE);
         d.getWindow().clearFlags(Window.FEATURE_ACTION_BAR);
         d.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
@@ -848,7 +767,7 @@ public class OBSetupMenu extends OC_SectionController implements TimePickerDialo
     {
         final DatePickerDialog.OnDateSetListener dateListener = (DatePickerDialog.OnDateSetListener) listener;
         final Calendar calendar = Calendar.getInstance();
-        TimePickerDialog d = new TimePickerDialog(MainActivity.mainActivity, listener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), DateFormat.is24HourFormat(MainActivity.mainActivity));
+        TimePickerDialog d = new TimePickerDialog(MainActivity.instance, listener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), DateFormat.is24HourFormat(MainActivity.instance));
         //
         d.setCancelable(false);
         d.setCanceledOnTouchOutside(false);
@@ -869,7 +788,7 @@ public class OBSetupMenu extends OC_SectionController implements TimePickerDialo
             }
         });
         //
-        LinearLayout linearLayout = new LinearLayout(MainActivity.mainActivity.getApplicationContext());
+        LinearLayout linearLayout = new LinearLayout(MainActivity.instance.getApplicationContext());
         d.requestWindowFeature(Window.FEATURE_NO_TITLE);
         d.setCustomTitle(linearLayout);
         //

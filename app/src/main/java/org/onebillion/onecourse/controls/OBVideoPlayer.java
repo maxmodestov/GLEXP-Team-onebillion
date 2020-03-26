@@ -6,7 +6,6 @@ import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.media.MediaPlayer;
 
-import android.media.PlaybackParams;
 import android.opengl.GLES20;
 import android.util.Log;
 import android.util.Size;
@@ -25,10 +24,6 @@ import org.onebillion.onecourse.mainui.OC_SectionController;
 import org.onebillion.onecourse.utils.OBConfigManager;
 import org.onebillion.onecourse.utils.OBUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -78,7 +73,7 @@ public class OBVideoPlayer extends OBControl
         this.mirrored = mirrored;
         if (mirrored)
             setScaleX(-1);
-        textureId = MainActivity.mainActivity.renderer.textureObjectId(2);
+        textureId = MainActivity.instance.renderer.textureObjectId(2);
         rebuildTexture();
         playerLock = new ReentrantLock();
         playAfterPrepare = _playAfterPrepare;

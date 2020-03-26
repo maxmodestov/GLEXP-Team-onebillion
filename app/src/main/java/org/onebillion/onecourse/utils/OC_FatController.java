@@ -791,7 +791,7 @@ public class OC_FatController extends OBFatController
                     {
                         if (OBConfigManager.sharedManager.isDebugEnabled())
                         {
-                            Toast.makeText(MainActivity.mainActivity, unit.target + " hasn't been converted to Android yet.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.instance, unit.target + " hasn't been converted to Android yet.", Toast.LENGTH_LONG).show();
                             OBConfigManager.sharedManager.updateConfigPaths(lastAppCode, false);
                         }
                     }
@@ -831,7 +831,7 @@ public class OC_FatController extends OBFatController
                     {
                         if (OBConfigManager.sharedManager.isDebugEnabled())
                         {
-                            Toast.makeText(MainActivity.mainActivity, unit.target + " hasn't been converted to Android yet.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.instance, unit.target + " hasn't been converted to Android yet.", Toast.LENGTH_LONG).show();
                             OBConfigManager.sharedManager.updateConfigPaths(lastAppCode, false);
                         }
                     }

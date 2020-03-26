@@ -5,24 +5,17 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.util.ArrayMap;
-import android.view.View;
 
 import org.onebillion.onecourse.controls.*;
 import org.onebillion.onecourse.mainui.MainActivity;
-import org.onebillion.onecourse.mainui.OBMainViewController;
-import org.onebillion.onecourse.mainui.OC_SectionController;
 import org.onebillion.onecourse.utils.OBAnim;
 import org.onebillion.onecourse.utils.OBAnimationGroup;
-import org.onebillion.onecourse.utils.OBAudioManager;
-import org.onebillion.onecourse.utils.OBAudioRecorder;
 import org.onebillion.onecourse.utils.OBFont;
 import org.onebillion.onecourse.utils.OBPhoneme;
 import org.onebillion.onecourse.utils.OBUtils;
 import org.onebillion.onecourse.utils.OBWord;
-import org.onebillion.onecourse.utils.OB_Maths;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -196,7 +189,7 @@ public class OC_WordAudioRec extends OC_AudioRecSection
         {
             waitForSecs(0.3f);
             playAudioQueued(OBUtils.insertAudioInterval(audio,300),true);
-            MainActivity.mainActivity.fatController.completeEvent(this);
+            MainActivity.instance.fatController.completeEvent(this);
         }
         catch(Exception exception)
         {

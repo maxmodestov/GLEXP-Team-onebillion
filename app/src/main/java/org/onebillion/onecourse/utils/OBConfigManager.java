@@ -1,9 +1,6 @@
 package org.onebillion.onecourse.utils;
 
-import android.renderscript.ScriptGroup;
-
 import org.onebillion.onecourse.BuildConfig;
-import org.onebillion.onecourse.R;
 import org.onebillion.onecourse.mainui.MainActivity;
 
 import java.io.File;
@@ -164,7 +161,7 @@ public class OBConfigManager
 
     void loadSFXVolumesPLIST () throws Exception
     {
-        InputStream pis = MainActivity.mainActivity.getAssets().open("sfxvols.plist");
+        InputStream pis = MainActivity.instance.getAssets().open("sfxvols.plist");
         OBXMLManager xmlManager = new OBXMLManager();
         Map<String, String> smap = (Map<String, String>) xmlManager.parsePlist(pis);
         for (String k : smap.keySet())
@@ -176,7 +173,7 @@ public class OBConfigManager
     public void loadConfigPLIST () throws Exception
     {
         String configPath = BuildConfig.SETTINGS_FILE;
-        InputStream fileInputStream = MainActivity.mainActivity.getAssets().open(configPath);
+        InputStream fileInputStream = MainActivity.instance.getAssets().open(configPath);
         OBXMLManager xmlManager = new OBXMLManager();
         //
         internalConfig = (Map<String, Object>) xmlManager.parsePlist(fileInputStream);

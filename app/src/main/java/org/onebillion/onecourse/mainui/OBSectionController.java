@@ -1471,7 +1471,7 @@ public class OBSectionController extends OBViewController
         OBAnimationGroup.runAnims(anims, secs, wait, OBAnim.ANIM_EASE_IN_EASE_OUT, this);
     }
 
-    public List AnimsForMoveToPoint(List<OBControl> objs,PointF pos)
+    public List animsForMoveToPointAbstractList(List<OBControl> objs, PointF pos)
     {
         OBControl obj = objs.get(0);
         PointF currPos = obj.position();
@@ -1489,7 +1489,7 @@ public class OBSectionController extends OBViewController
 
     public void movePointerToPointWithObject(OBControl control,PointF pt,float angle,float secs,boolean wait)
     {
-        List<OBAnim> anims = AnimsForMoveToPoint(Arrays.asList(thePointer),pt);
+        List<OBAnim> anims = animsForMoveToPointAbstractList(Arrays.asList(thePointer),pt);
         OBAnim moveObject = OBAnim.moveAnim(pt,control);
         anims.add(moveObject);
         OBAnim turnAnim = OBAnim.rotationAnim((float) Math.toRadians(angle),thePointer);
@@ -1518,7 +1518,7 @@ public class OBSectionController extends OBViewController
                 lockScreen();
                 if (thePointer == null)
                 {
-                    OBGroup arm = MainActivity.mainActivity.armPointer();
+                    OBGroup arm = MainActivity.instance.armPointer();
                     arm.setZPosition(POINTER_ZPOS);
                     float graphicScale = OBConfigManager.sharedManager.getGraphicScale();
                     arm.scaleX = arm.scaleY = graphicScale;
@@ -1835,7 +1835,7 @@ public class OBSectionController extends OBViewController
     {
         if(sectionSfxVolumes == null)
         {
-            Map<String, Float> sfxVolumes = MainActivity.mainActivity.sfxVolumes;
+            Map<String, Float> sfxVolumes = MainActivity.instance.sfxVolumes;
             sectionSfxVolumes = new HashMap<>(OBConfigManager.sharedManager.getSfxVolumes());
             Map<String, Float> d = (Map<String, Float>) audioScenes.get("__sfxvols");
             if (d != null)
@@ -1845,7 +1845,7 @@ public class OBSectionController extends OBViewController
         Float f = null;
         if ((f = sectionSfxVolumes.get(sfxName)) != null)
             vol = f;
-        return MainActivity.mainActivity.sfxMasterVolume * vol;
+        return MainActivity.instance.sfxMasterVolume * vol;
     }
 
     public void playAudio (String fileName)
@@ -2127,7 +2127,7 @@ public class OBSectionController extends OBViewController
 
         if (_replayAudio != null)
         {
-            MainActivity.mainActivity.fatController.onReplayAudioButtonPressed();
+            MainActivity.instance.fatController.onReplayAudioButtonPressed();
             //
             setStatus(status());
             new AsyncTask<Void, Void, Void>()
@@ -2210,10 +2210,10 @@ public class OBSectionController extends OBViewController
 
     public void checkSuspendLock()
     {
-        if (MainActivity.mainActivity.suspendLock.isLocked())
+        if (MainActivity.instance.suspendLock.isLocked())
         {
-            MainActivity.mainActivity.suspendLock.lock();
-            MainActivity.mainActivity.suspendLock.unlock();
+            MainActivity.instance.suspendLock.lock();
+            MainActivity.instance.suspendLock.unlock();
         }
     }
 
@@ -2359,7 +2359,7 @@ public class OBSectionController extends OBViewController
 
     public int buttonFlagsWithFatController()
     {
-        return this.buttonFlags() & MainActivity.mainActivity.fatController.buttonFlags();
+        return this.buttonFlags() & MainActivity.instance.fatController.buttonFlags();
     }
 
     public Path convertPathFromControl (Path p, OBControl c)
@@ -2514,7 +2514,7 @@ public class OBSectionController extends OBViewController
         OBControl c = new OBControl();
         c.setBounds(0,0,8,8);
         c.setFillColor(Color.BLACK);
-        glBindTexture(GL_TEXTURE_2D, MainActivity.mainActivity.renderer.textureObjectId(id));
+        glBindTexture(GL_TEXTURE_2D, MainActivity.instance.renderer.textureObjectId(id));
         texImage2D(GL_TEXTURE_2D,0,c.drawn(),0);
     }
 

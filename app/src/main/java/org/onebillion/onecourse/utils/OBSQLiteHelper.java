@@ -8,10 +8,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
-import android.text.format.DateFormat;
 
-import org.apache.commons.io.comparator.SizeFileComparator;
-import org.onebillion.onecourse.R;
 import org.onebillion.onecourse.mainui.MainActivity;
 
 import java.io.BufferedReader;
@@ -52,13 +49,13 @@ public class OBSQLiteHelper extends SQLiteOpenHelper
     }
 
     public static void createHelper() {
-        sqlHelper = new OBSQLiteHelper(MainActivity.mainActivity);
+        sqlHelper = new OBSQLiteHelper(MainActivity.instance);
     }
 
     @Override
     public void onCreate (SQLiteDatabase database)
     {
-        InputStream inputStream = cont.getResources().openRawResource(MainActivity.mainActivity.fatController.databaseResource());
+        InputStream inputStream = cont.getResources().openRawResource(MainActivity.instance.fatController.databaseResource());
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         String line;
@@ -155,7 +152,7 @@ public class OBSQLiteHelper extends SQLiteOpenHelper
                 checkResult = foreignKeyCheck(db);
                 if (checkResult != null)
                 {
-                    MainActivity.mainActivity.log("OBSQLiteHelper Foreign key check FAILED: " + DatabaseUtils.dumpCursorToString(checkResult));
+                    MainActivity.instance.log("OBSQLiteHelper Foreign key check FAILED: " + DatabaseUtils.dumpCursorToString(checkResult));
                     checkResult.close();
                     isConsistent = false;
                 } else
@@ -233,7 +230,7 @@ public class OBSQLiteHelper extends SQLiteOpenHelper
     {
         if (OBConfigManager.sharedManager.isDebugEnabled())
         {
-            final AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.mainActivity).create();
+            final AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.instance).create();
             alertDialog.setTitle("Database Restore");
             alertDialog.setMessage("Debug Mode is ON." + System.getProperty("line.separator") + "Do you wish to restore the database to its last known good state?");
             alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO", new DialogInterface.OnClickListener()
@@ -261,77 +258,7 @@ public class OBSQLiteHelper extends SQLiteOpenHelper
 
     public String backupDatabase ()
     {
-        try
-        {
-            File sd = new File(Environment.getExternalStorageDirectory(), "//onebillion//databases//");
-            sd.mkdirs();
-            try
-            {
-                File[] fileList = sd.listFiles();
-                if(fileList != null)
-                {
-                    if(fileList.length >= DATABASE_MAX_BACKUP_COUNT)
-                    {
-                        //DELETE all files except for 3 largest
-                        Arrays.sort(fileList, SizeFileComparator.SIZE_COMPARATOR);
-                        for(int i=0; i<fileList.length-3; i++)
-                        {
-                            File file = fileList[i];
-                            if(file.isFile())
-                                file.delete();
-                        }
-                        MainActivity.log("Database backup folder clean up done");
-                    }
-                }
-            }
-            catch (Exception e)
-            {
 
-
-            }
-            //
-            File data = Environment.getDataDirectory();
-
-            if (sd.canWrite())
-            {
-                DateFormat df = new android.text.format.DateFormat();
-                String date = df.format("yyyy_MM_dd_hh_mm_ss", new java.util.Date()).toString();
-                //
-                String currentDBPath = "//data//" + MainActivity.mainActivity.getApplicationContext().getPackageName() + "//databases//" + DATABASE_NAME;
-                //
-                try
-                {
-                    File currentDB = new File(data, currentDBPath);
-                    File backupDB = new File(sd, String.format("%s_%s.db", OBSystemsManager.sharedManager.device_getUUID(), date));
-                    //
-                    FileChannel src = new FileInputStream(currentDB).getChannel();
-                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
-                    //
-                    dst.transferFrom(src, 0, src.size());
-                    src.close();
-                    dst.close();
-                    //
-                    MainActivity.log("Database backup successful!. New database backup " + backupDB.getName());
-//                Toast toast = Toast.makeText(MainActivity.mainActivity.getApplicationContext(), "Database backup successful!", Toast.LENGTH_SHORT);
-//                toast.setDuration(Toast.LENGTH_SHORT);
-//                toast.show();
-                    return backupDB.getAbsolutePath();
-                }
-                catch (Exception e)
-                {
-                    MainActivity.log("OBSQLiteHelper.backupDatabase. database hasn't been created yet. Nothing to do here");
-                    return null;
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            MainActivity.log("Database backup failed!");
-//            Toast toast = Toast.makeText(MainActivity.mainActivity.getApplicationContext(), "Database backup failed!", Toast.LENGTH_SHORT);
-//            toast.setDuration(Toast.LENGTH_SHORT);
-//            toast.show();
-        }
         return null;
     }
 
@@ -351,7 +278,7 @@ public class OBSQLiteHelper extends SQLiteOpenHelper
         {
             for (File backupDB : backupFiles)
             {
-                String currentDBPath = "//data//" + MainActivity.mainActivity.getApplicationContext().getPackageName() + "//databases//" + DATABASE_NAME;
+                String currentDBPath = "//data//" + MainActivity.instance.getApplicationContext().getPackageName() + "//databases//" + DATABASE_NAME;
                 File currentDB = new File(data, currentDBPath);
                 if (currentDB.exists())
                 {
@@ -380,7 +307,7 @@ public class OBSQLiteHelper extends SQLiteOpenHelper
             {
                 for (File backupDB : backupFiles)
                 {
-                    String currentDBPath = "//data//" + MainActivity.mainActivity.getApplicationContext().getPackageName() + "//databases//" + DATABASE_NAME;
+                    String currentDBPath = "//data//" + MainActivity.instance.getApplicationContext().getPackageName() + "//databases//" + DATABASE_NAME;
                     File currentDB = new File(data, currentDBPath);
 
                     FileChannel src = new FileInputStream(backupDB).getChannel();

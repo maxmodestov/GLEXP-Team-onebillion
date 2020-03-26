@@ -1028,11 +1028,11 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
         //
         timeoutHandler = new Handler();
 
-        MainActivity.mainActivity.ready = true;
+        MainActivity.instance.ready = true;
 //        runNextMenu();
         if (BuildConfig.CHILD_APP) {
             Log.d("MYTEST", "proceedStartingUp CHILD_APP handleIntent");
-            AdultAppAdapter.handleIntent(MainActivity.mainActivity.getIntent());
+            AdultAppAdapter.handleIntent(MainActivity.instance.getIntent());
         }
         else if (BuildConfig.SELECT_SYLLABUS) {
             if (runAsUnitList)
@@ -1142,7 +1142,7 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
     }
 
     private void showSelectStartupActivityDialog(final DialogInterface.OnClickListener childMenu, final DialogInterface.OnClickListener simpleListMenu) {
-        final AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.mainActivity);
+        final AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.instance);
         alert.setTitle("Select Startup Activity");
         alert.setPositiveButton("Proceed", childMenu);
         alert.setNeutralButton("All Units List", simpleListMenu);
@@ -1785,7 +1785,7 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
                     {
                         if (OBConfigManager.sharedManager.isDebugEnabled())
                         {
-                            Toast.makeText(MainActivity.mainActivity, unit.target + " hasn't been converted to Android yet.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.instance, unit.target + " hasn't been converted to Android yet.", Toast.LENGTH_LONG).show();
                             OBConfigManager.sharedManager.updateConfigPaths(lastAppCode, false, lang);
                         }
                     }
@@ -1794,7 +1794,7 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
                 {
                     if (OBConfigManager.sharedManager.isDebugEnabled())
                     {
-                        Toast.makeText(MainActivity.mainActivity, unit.target + " failed to open the unit.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.instance, unit.target + " failed to open the unit.", Toast.LENGTH_LONG).show();
                         OBConfigManager.sharedManager.updateConfigPaths(lastAppCode, false, lang);
                     }
                     Logger logger = Logger.getAnonymousLogger();
@@ -1847,7 +1847,7 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
                     {
                         if (OBConfigManager.sharedManager.isDebugEnabled())
                         {
-                            Toast.makeText(MainActivity.mainActivity, unit.target + " hasn't been converted to Android yet.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.instance, unit.target + " hasn't been converted to Android yet.", Toast.LENGTH_LONG).show();
                         }
                         OBConfigManager.sharedManager.updateConfigPaths(lastAppCode, false, lang);
 
@@ -1860,7 +1860,7 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
                 {
                     if (OBConfigManager.sharedManager.isDebugEnabled())
                     {
-                        Toast.makeText(MainActivity.mainActivity, unit.target + " failed to open.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.instance, unit.target + " failed to open.", Toast.LENGTH_LONG).show();
                     }
                     Logger logger = Logger.getAnonymousLogger();
                     logger.log(Level.SEVERE, "Error in runOnMainThread", ex);
@@ -2627,7 +2627,7 @@ public class OCM_FatController extends OBFatController implements OBSystemsManag
     public void deleteDBProgressAndReboot()
     {
         DBSQL.deleteDB();
-        MainActivity.mainActivity.restartApplication();
+        MainActivity.instance.restartApplication();
     }
 
     /*

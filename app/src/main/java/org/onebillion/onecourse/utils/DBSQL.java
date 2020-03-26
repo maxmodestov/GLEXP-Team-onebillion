@@ -3,7 +3,6 @@ package org.onebillion.onecourse.utils;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.provider.SyncStateContract;
 import android.util.Log;
 
 import org.onebillion.onecourse.mainui.MainActivity;
@@ -118,12 +117,12 @@ public class DBSQL
     }
 
     public static void deleteDB() {
-        MainActivity.mainActivity.getApplicationContext().deleteDatabase(OBSQLiteHelper.DATABASE_NAME);
+        MainActivity.instance.getApplicationContext().deleteDatabase(OBSQLiteHelper.DATABASE_NAME);
     }
 
     public static void recreateDB() {
         Log.d("DBSQL", "recreateDB - START");
-        MainActivity.mainActivity.getApplicationContext().deleteDatabase(OBSQLiteHelper.DATABASE_NAME);
+        MainActivity.instance.getApplicationContext().deleteDatabase(OBSQLiteHelper.DATABASE_NAME);
 
         OBSQLiteHelper.createHelper();
         OBSQLiteHelper helper = OBSQLiteHelper.getSqlHelper();

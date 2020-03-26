@@ -4,14 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.opengl.GLSurfaceView;
-import android.os.SystemClock;
 import android.util.ArrayMap;
 
 import org.onebillion.onecourse.mainui.MainActivity;
 import org.onebillion.onecourse.utils.DBObject;
 import org.onebillion.onecourse.utils.DBSQL;
-import org.onebillion.onecourse.utils.MlUnit;
-import org.onebillion.onecourse.utils.OBUtils;
 import org.onebillion.onecourse.utils.TimeProvider;
 
 import java.io.File;
@@ -43,7 +40,7 @@ public class OC_PlayZoneAsset extends DBObject
 
     public static List<String> assetsNamesForNewFile(int type)
     {
-        File dir = MainActivity.mainActivity.getDir(ASSET_FOLDER, Context.MODE_PRIVATE);
+        File dir = MainActivity.instance.getDir(ASSET_FOLDER, Context.MODE_PRIVATE);
 
         String dateString = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
 
@@ -70,7 +67,7 @@ public class OC_PlayZoneAsset extends DBObject
 
     public static String pathToAsset(String fileName)
     {
-        File dir = MainActivity.mainActivity.getDir(ASSET_FOLDER, Context.MODE_PRIVATE);
+        File dir = MainActivity.instance.getDir(ASSET_FOLDER, Context.MODE_PRIVATE);
         return dir.getAbsolutePath() + "/" +fileName;
     }
 

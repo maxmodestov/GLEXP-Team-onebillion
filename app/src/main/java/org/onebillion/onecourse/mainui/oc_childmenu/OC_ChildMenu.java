@@ -111,7 +111,7 @@ public class OC_ChildMenu extends OC_Menu implements OC_FatReceiver
 
         coloursDict = OBMisc.loadEventColours(this);
 
-        fatController = (OC_FatController) MainActivity.mainActivity.fatController;
+        fatController = (OC_FatController) MainActivity.instance.fatController;
         fatController.menu = this;
 
         presenter = OBPresenter.characterWithGroup((OBGroup) objectDict.get("presenter"));
@@ -310,7 +310,7 @@ public class OC_ChildMenu extends OC_Menu implements OC_FatReceiver
     {
         if(fatController.currentPathComplete())
         {
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.mainActivity);
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.instance);
             builder.setMessage("You have reached the end of the current version of onecourse.\n" +
                     "\n" +
                     "More learning units will be added by August 2017.")

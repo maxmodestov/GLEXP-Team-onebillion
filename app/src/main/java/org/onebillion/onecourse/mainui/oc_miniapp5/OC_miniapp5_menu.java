@@ -119,7 +119,7 @@ public class OC_miniapp5_menu extends OC_Menu implements OC_FatReceiver
 
         lastCommand = 0;
         currentLevel = 1;
-        fatController = (OC_FatController)MainActivity.mainActivity.fatController;
+        fatController = (OC_FatController)MainActivity.instance.fatController;
         fatController.menu = this ;
         startIndex = fatController.getLastUnitIndex()-1;
         currentAudio="1";

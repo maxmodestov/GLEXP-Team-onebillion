@@ -4,9 +4,7 @@ import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.text.TextUtils;
-import android.util.Log;
 
-import org.onebillion.onecourse.controls.OBControl;
 import org.onebillion.onecourse.controls.OBPath;
 import org.onebillion.onecourse.mainui.MainActivity;
 
@@ -16,7 +14,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -29,7 +26,7 @@ import static android.app.ProgressDialog.STYLE_HORIZONTAL;
  * Created by pedroloureiro on 07/03/2018.
  */
 
-public class OBUnZip extends AsyncTask<Void, Integer, Integer>
+public class OBUnZip extends AsyncTask
 {
     private String _location;
     //
@@ -83,7 +80,8 @@ public class OBUnZip extends AsyncTask<Void, Integer, Integer>
     }
 
 
-    protected Integer doInBackground(Void... voids)
+    @Override
+    protected Object doInBackground(Object... voids)
     {
         per = 0;
         try
@@ -154,7 +152,7 @@ public class OBUnZip extends AsyncTask<Void, Integer, Integer>
     {
         if (_useProgressDialog)
         {
-            _progressDialog = new ProgressDialog(MainActivity.mainActivity);
+            _progressDialog = new ProgressDialog(MainActivity.instance);
             _progressDialog.setMessage("Decompressing assets. Please wait...");
             _progressDialog.setProgressStyle(STYLE_HORIZONTAL);
             _progressDialog.setProgress(0);
@@ -183,7 +181,7 @@ public class OBUnZip extends AsyncTask<Void, Integer, Integer>
 
 
     @Override
-    protected void onPostExecute(Integer integer)
+    protected void onPostExecute(Object integer)
     {
         if (_useProgressDialog)
         {
@@ -216,7 +214,7 @@ public class OBUnZip extends AsyncTask<Void, Integer, Integer>
 
 
     @Override
-    protected void onProgressUpdate(Integer... values)
+    protected void onProgressUpdate(Object... values)
     {
         if (_useProgressDialog)
         {

@@ -20,8 +20,8 @@ public class WeekPickerPopup {
 
     static void showDialog(final OnCloseListener listener) {
 
-        final AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.mainActivity);
-        final EditText input = new EditText(MainActivity.mainActivity);
+        final AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.instance);
+        final EditText input = new EditText(MainActivity.instance);
         input.setText("" + max(1, TimeProvider.getCurrentDayNumber() / 7));
         input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         alert.setView(input);

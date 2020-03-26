@@ -9,7 +9,7 @@ public class SyllabusPickerPopup {
 
     static void showDialog(final OnClickListener teacher, final OnCloseListener listener) {
 
-        final AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.mainActivity);
+        final AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.instance);
         alert.setTitle("Choose Syllabus");
         alert.setCancelable(false);
         alert.setPositiveButton("PP1", new DialogInterface.OnClickListener() {

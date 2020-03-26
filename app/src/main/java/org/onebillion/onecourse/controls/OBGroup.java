@@ -41,7 +41,7 @@ public class OBGroup extends OBControl
         sortedAttachedControlsValid = false;
     }
 
-    public OBGroup (List<OBControl> _members, RectF f)
+    public OBGroup (List<OBControl> membersInput, RectF f)
     {
         this();
         frame = new RectF(f.left, f.top, f.right, f.bottom);
@@ -49,7 +49,7 @@ public class OBGroup extends OBControl
         settings = new HashMap<String, Object>();
         settings.put("attrs", new HashMap<String, String>());
         //
-        for (OBControl c : _members)
+        for (OBControl c : membersInput)
         {
             PointF pos = OB_Maths.OffsetPoint(c.position, -f.left, -f.top);
             c.setPosition(pos);
@@ -64,17 +64,17 @@ public class OBGroup extends OBControl
         buildObjectDict();
     }
 
-    public OBGroup (List<OBControl> _members)
+    public OBGroup (List<OBControl> membersInput)
     {
-        this(_members, OBGroup.frameUnion(_members));
+        this(membersInput, OBGroup.frameUnion(membersInput));
     }
 
-    public static RectF frameUnion (List<OBControl> _members)
+    public static RectF frameUnion (List<OBControl> membersInput)
     {
-        if (_members.size() == 0)
+        if (membersInput.size() == 0)
             return new RectF();
-        RectF r = new RectF(_members.get(0).frame());
-        for (OBControl c : _members)
+        RectF r = new RectF(membersInput.get(0).frame());
+        for (OBControl c : membersInput)
             r.union(c.frame());
         return r;
     }
@@ -1053,7 +1053,7 @@ public class OBGroup extends OBControl
         }
     }
 
-    
+
     public void setRasterScale (float rs)
     {
         super.setRasterScale(rs);

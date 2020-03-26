@@ -103,7 +103,7 @@ public class OC_PlayZoneVideo extends OC_SectionController
         {
             cameraManager.onPause();
             videoRecorder.onPause();
-            videoPlayer.cleanUp(MainActivity.mainActivity.renderer);
+            videoPlayer.cleanUp(MainActivity.instance.renderer);
             OBUtils.deleteEmptyFilesInFolder("pzvideo", this);
         } catch(Exception e)
         {
@@ -221,7 +221,7 @@ public class OC_PlayZoneVideo extends OC_SectionController
                 dst.compress(Bitmap.CompressFormat.JPEG, 90, out);
                 out.close();
 
-                OCM_FatController fatController = (OCM_FatController)MainActivity.mainActivity.fatController;
+                OCM_FatController fatController = (OCM_FatController)MainActivity.instance.fatController;
                 Map<String,String> map = new ArrayMap<>();
                 map.put("video", videoFileName);
                 map.put("mirrored",String.valueOf(videoOrientationFront));

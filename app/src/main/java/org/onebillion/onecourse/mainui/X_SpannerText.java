@@ -3,15 +3,10 @@ package org.onebillion.onecourse.mainui;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.Typeface;
-import android.renderscript.Type;
 import android.view.View;
 
-import org.onebillion.onecourse.R;
 import org.onebillion.onecourse.controls.OBControl;
 import org.onebillion.onecourse.controls.OBLabel;
-import org.onebillion.onecourse.controls.OBTextLayer;
-import org.onebillion.onecourse.glstuff.OBRenderer;
-import org.onebillion.onecourse.glstuff.PixelShaderProgram;
 import org.onebillion.onecourse.utils.OBUtils;
 
 import java.util.ArrayList;
@@ -37,9 +32,9 @@ public class X_SpannerText extends OC_SectionController
         doVisual(currentEvent());
         setStatus(STATUS_AWAITING_CLICK);
         //
-        Typeface font1 = Typeface.createFromAsset(MainActivity.mainActivity.getAssets(), "onebillionreader-Regular_old2.otf");
-        Typeface font2 = Typeface.createFromAsset(MainActivity.mainActivity.getAssets(), "onebillionreader-Regular.otf");
-        Typeface font3 = Typeface.createFromAsset(MainActivity.mainActivity.getAssets(), "onebillionreader-Regular_new.otf");
+        Typeface font1 = Typeface.createFromAsset(MainActivity.instance.getAssets(), "onebillionreader-Regular_old2.otf");
+        Typeface font2 = Typeface.createFromAsset(MainActivity.instance.getAssets(), "onebillionreader-Regular.otf");
+        Typeface font3 = Typeface.createFromAsset(MainActivity.instance.getAssets(), "onebillionreader-Regular_new.otf");
         //
         labels = new ArrayList<>();
         int spacingY = 400;

@@ -8,13 +8,11 @@ import org.onebillion.onecourse.mainui.MainActivity;
 import org.onebillion.onecourse.utils.OBAnim;
 import org.onebillion.onecourse.utils.OBAnimationGroup;
 import org.onebillion.onecourse.utils.OBPhoneme;
-import org.onebillion.onecourse.utils.OBReadingWord;
 import org.onebillion.onecourse.utils.OBUtils;
 import org.onebillion.onecourse.utils.OB_Maths;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -179,7 +177,7 @@ public class OC_IdenticalOnset extends OC_Onset
                 waitForSecs(0.25f);
             }
             waitForSecs(0.8f);
-            MainActivity.mainActivity.fatController.completeEvent(this);
+            MainActivity.instance.fatController.completeEvent(this);
         }
         catch(Exception exception)
         {
@@ -216,7 +214,7 @@ public class OC_IdenticalOnset extends OC_Onset
         destpt.x = (completeLabel.right() -(dragLabel.width() / 2));
         destpt.y = (completeLabel.position() .y);
 
-        List anims = AnimsForMoveToPoint(Arrays.asList(dragLabel, thePointer), destpt);
+        List anims = animsForMoveToPointAbstractList(Arrays.asList(dragLabel, thePointer), destpt);
         OBAnim turnAnim = OBAnim.rotationAnim((float) Math.toRadians(-10), thePointer);
         anims.add(turnAnim);
         OBAnimationGroup.runAnims(anims, 0.6, true, OBAnim.ANIM_EASE_IN_EASE_OUT, null);

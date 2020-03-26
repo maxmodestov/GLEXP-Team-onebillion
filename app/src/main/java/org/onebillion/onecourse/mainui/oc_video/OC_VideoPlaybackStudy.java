@@ -179,7 +179,7 @@ public class OC_VideoPlaybackStudy extends OC_SectionController
         super.cleanUp();
         //
         videoPlayer.stop();
-        videoPlayer.cleanUp(MainActivity.mainActivity.renderer);
+        videoPlayer.cleanUp(MainActivity.instance.renderer);
     }
 
     public void setSceneXX(String scene)

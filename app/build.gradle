@@ -4,7 +4,7 @@ repositories {
 //    jcenter()
 }
 
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
@@ -25,7 +25,6 @@ android {
     buildToolsVersion '27.0.3'
     defaultConfig {
         multiDexEnabled true
-        applicationId 'org.onebillion.onecourse'
         minSdkVersion 22
         targetSdkVersion 23
         versionCode 1
@@ -56,7 +55,7 @@ android {
 
     }
     dependencies {
-        implementation fileTree(dir: 'libs', include: ['*.jar'])
+//        implementation fileTree(dir: 'libs', include: ['*.jar'])
         testImplementation 'junit:junit:4.12'
         implementation 'com.android.support:appcompat-v7:23.1.1'
     }
@@ -76,56 +75,7 @@ android {
     flavorDimensions "ob"
 
     productFlavors {
-        sw_community_ {
-            applicationId 'org.onebillion.onecourse.child'
-            versionCode 1
-            versionName '1.0'
-            resValue "string", "app_name", "onecourse - Child"
-            buildConfigField 'String', 'SETTINGS_FILE', '"settings_community_sw.plist"'
-            buildConfigField 'boolean', 'SELECT_SYLLABUS', 'true'
-            buildConfigField 'boolean', 'CHILD_APP', 'false'
-            manifestPlaceholders = [
-                    appIcon: "@mipmap/icon_child"
-            ]
-        }
-        enGB_community_ {
-            applicationId 'org.onebillion.onecourse.child.en_GB'
-            versionCode 1
-            versionName '1.0'
-            resValue "string", "app_name", "onecourse - enGB"
-            buildConfigField 'String', 'SETTINGS_FILE', '"settings_community_enGB.plist"'
-            buildConfigField 'boolean', 'SELECT_SYLLABUS', 'true'
-            buildConfigField 'boolean', 'CHILD_APP', 'false'
-            manifestPlaceholders = [
-                    appIcon: "@mipmap/child_en_gb"
-            ]
-        }
-        sw_community_full_ {
-            applicationId 'org.onebillion.onecourse.child.full'
-            versionCode 1
-            versionName '1.0'
-            resValue "string", "app_name", "onecourse - Child Full"
-            buildConfigField 'String', 'SETTINGS_FILE', '"settings_community_sw-full.plist"'
-            buildConfigField 'boolean', 'SELECT_SYLLABUS', 'false'
-            buildConfigField 'boolean', 'CHILD_APP', 'false'
-            manifestPlaceholders = [
-                    appIcon: "@mipmap/icon_child"
-            ]
-        }
-        enGB_community_full_ {
-            applicationId 'org.onebillion.onecourse.child.en_GB.full'
-            versionCode 1
-            versionName '1.0'
-            resValue "string", "app_name", "onecourse - enGB Full"
-            buildConfigField 'String', 'SETTINGS_FILE', '"settings_community_enGB-full.plist"'
-            buildConfigField 'boolean', 'SELECT_SYLLABUS', 'false'
-            buildConfigField 'boolean', 'CHILD_APP', 'false'
-            manifestPlaceholders = [
-                    appIcon: "@mipmap/child_en_gb"
-            ]
-        }
         enGB_community_childApp_ {
-            applicationId 'org.onebillion.onecourse.child.en_GB.full'
             versionCode 1
             versionName '1.0'
             resValue "string", "app_name", "onecourse - enGB Full"
@@ -156,8 +106,8 @@ android {
 
 
 dependencies {
-    implementation files('libs/commons-io-2.5.jar')
-    implementation files('libs/commons-net-3.6.jar')
+//    compileOnly files('libs/commons-io-2.5.jar')
+//    implementation files('libs/commons-net-3.6.jar')
 
     implementation 'com.android.support:multidex:1.0.0'
     implementation 'com.parse:parse-android:1.15.8'

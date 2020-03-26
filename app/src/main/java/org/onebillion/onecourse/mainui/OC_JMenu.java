@@ -7,9 +7,7 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import org.onebillion.onecourse.controls.OBControl;
 import org.onebillion.onecourse.controls.OBGroup;
@@ -176,7 +174,7 @@ public class OC_JMenu extends OC_Menu
         if (showingMessage)
             return;
         showingMessage = true;
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.mainActivity);
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.instance);
         builder.setMessage("This is a demo of onebillion’s onecourse app for reading, writing and numeracy. " +
                 "You can try a selection of learning units from all ten levels of onecourse, and see videos of children learning.\n" +
                 "\n" +
@@ -247,7 +245,7 @@ public class OC_JMenu extends OC_Menu
 
     public void videoinit()
     {
-        OBRenderer rn = MainActivity.mainActivity.renderer;
+        OBRenderer rn = MainActivity.instance.renderer;
 
         while (rn.colourProgram == null)
             try
