@@ -1952,20 +1952,20 @@ public class OBSystemsManager implements TimePickerDialog.OnTimeSetListener, Dat
 
     public static void runShellCommand(String cmd)
     {
-        DataOutputStream os;
-        try
-        {
-            Process process = Runtime.getRuntime().exec("su");
-            os = new DataOutputStream(process.getOutputStream());
-            os.writeBytes(cmd + "\n");
-            os.writeBytes("exit\n");
-            os.flush();
-            os.close();
-        } catch (Exception e)
-        {
-            MainActivity.log("OBSystemsManager.runShellCommand.exception caught: " + e.getMessage());
-            e.printStackTrace();
-        }
+//        DataOutputStream os;
+//        try
+//        {
+//            Process process = Runtime.getRuntime().exec("su");
+//            os = new DataOutputStream(process.getOutputStream());
+//            os.writeBytes(cmd + "\n");
+//            os.writeBytes("exit\n");
+//            os.flush();
+//            os.close();
+//        } catch (Exception e)
+//        {
+//            MainActivity.log("OBSystemsManager.runShellCommand.exception caught: " + e.getMessage());
+//            e.printStackTrace();
+//        }
     }
 
 
